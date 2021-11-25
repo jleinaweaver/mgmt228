@@ -1,0 +1,187 @@
+---
+output:
+  beamer_presentation:
+    theme: "CambridgeUS"
+    colortheme: "dolphin"
+    fonttheme: "structurebold"
+fontsize: 14pt
+classoption: "aspectratio=169"
+header-includes:
+- \usepackage{caption}
+- \captionsetup[figure]{labelformat=empty}
+- \captionsetup[table]{labelformat=empty}
+---
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+## Render the pdf
+##rmarkdown::render(input = "./14_15-Analyzing_Sales_Data.Rmd", output_file = "./14_15-Analyzing_Sales_Data.pdf")
+
+##fontsizes for tables: ‘"tiny"’, ‘"scriptsize"’, ‘"footnotesize"’, ‘"small"’, ‘"normalsize"’, ‘"large"’, ‘"Large"’, ‘"LARGE"’, ‘"huge"’, ‘"Huge"’
+
+library(tidyverse)
+library(readxl)
+library(stargazer)
+##library(kableExtra)
+library(modelr)
+
+knitr::opts_chunk$set(echo = FALSE,
+                      eval = TRUE,
+                      error = FALSE,
+                      message = FALSE,
+                      warning = FALSE,
+                      comment = NA)
+
+#############################################################
+## Stargazer code
+
+## Regular Table
+##stargazer(summary = FALSE, type = "latex", header = FALSE, rownames = FALSE, float = FALSE)
+
+## Regression Results
+##stargazer(res1, type = "latex", digits = 2, omit.stat = "rsq", header = FALSE, font.size = "footnotesize", star.cutoffs = .05, notes = "*p < 0.05", notes.append = FALSE, dep.var.caption = "", float = FALSE)
+
+##covariate.labels = c("Mother's Education")
+##dep.var.labels = "Earnings (2021)"
+
+#############################################################
+## Figures
+
+## ```{r, fig.align = 'center', fig.asp=0.618, out.height = '90%', fig.width = 5}
+
+##knitr::include_graphics()
+
+#############################################################
+## Side-by-side columns
+
+## ::: columns
+## :::: column
+## Content in left column
+## ::::
+## :::: column
+## Content in right column
+## ::::
+## :::
+
+## Build bullets one-by-one
+##\begin{enumerate}[<+->]
+
+```
+
+
+# Today's Agenda
+
+\begin{LARGE}
+
+Weeks 14 and 15: The Final Project
+
+\begin{itemize}
+\item Data is now available on Moodle
+\end{itemize}
+\end{LARGE}
+
+\vspace{.5in}
+
+\begin{center}
+Justin Leinaweaver (Spring 2022)
+\end{center}
+
+
+
+# The Final Report
+\begin{center}
+```{r, results = "asis"}
+d <- read_excel("../../Data/00-Final_Project/Simulated_Sales_Data/Final_Project_Data_SP21.xlsx") %>%
+    mutate(
+        Male = if_else(Gender == "Male", 1, 0),
+        Spring = if_else(Quarter == "Spring", 1, 0),
+        Summer = if_else(Quarter == "Summer", 1, 0),
+        Fall = if_else(Quarter == "Fall", 1, 0),
+        Winter = if_else(Quarter == "Winter", 1, 0),
+        North = if_else(Region == "North", 1, 0),
+        South = if_else(Region == "South", 1, 0),
+        East = if_else(Region == "East", 1, 0),
+        West = if_else(Region == "West", 1, 0)
+    )
+
+d %>%
+    select(Salesperson:Gender) %>%
+    filter(Year == 2016, Time == 1) %>%
+    slice(c(seq(1,20,3))) %>%
+    mutate_if(is.numeric, round, 2) %>%
+    arrange(Year, Time) %>%
+    stargazer(summary = FALSE, header = FALSE, float = FALSE, rownames = FALSE, font.size = "small")    
+```
+\end{center}
+
+\vspace{.2in}
+
+\begin{center}
+\begin{Large}
+Quarterly sales data for 16 salespeople at our hypothetical company
+\end{Large}
+\end{center}
+
+
+
+# The Final Report
+\begin{center}
+```{r, results = "asis"}
+d %>%
+    select(Salesperson:Region) %>%
+    slice(1:7) %>%
+    mutate_if(is.numeric, round, 2) %>%
+    arrange(Year, Time) %>%
+    stargazer(summary = FALSE, header = FALSE, float = FALSE, rownames = FALSE, font.size = "small")
+```
+\end{center}
+
+\begin{center}
+\begin{Large}
+Each salesperson has 20 observations
+
+(Sales across 4 quarters x 5 years)
+\end{Large}
+\end{center}
+
+
+
+# The Final Report
+\begin{center}
+```{r, results = "asis"}
+d %>%
+    select(Salesperson, Gender:Age) %>%
+    distinct %>%
+    slice(1:7) %>%
+    mutate_if(is.numeric, round, 2) %>%
+    stargazer(summary = FALSE, header = FALSE, float = FALSE, rownames = FALSE, font.size = "small")
+```
+
+\begin{Large}
+Dataset provides basic demographic info for each salesperson
+\end{Large}
+\end{center}
+
+
+# The Final Report: Three Sections
+
+\begin{LARGE}
+
+\begin{itemize}
+
+\item Each section requires an argument
+\begin{itemize}
+\begin{large}
+\item Introduction, Body and Conclusion
+\end{large}
+\end{itemize}
+
+\item Every claim requires evidence
+\begin{itemize}
+\begin{large}
+\item Descriptive statistics, visualizations, tables, etc.
+\end{large}
+\end{itemize}
+
+\item Assignment details on Moodle
+\end{itemize}
+\end{LARGE}

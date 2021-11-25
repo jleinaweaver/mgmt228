@@ -1,0 +1,201 @@
+---
+output:
+  beamer_presentation:
+    theme: "CambridgeUS"
+    colortheme: "dolphin"
+    fonttheme: "structurebold"
+fontsize: 14pt
+classoption: "aspectratio=169"
+header-includes:
+- \usepackage{caption}
+- \captionsetup[figure]{labelformat=empty}
+- \captionsetup[table]{labelformat=empty}
+---
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+## Render the pdf
+##rmarkdown::render(input = "./10-Dataset2_Simple_OLS.Rmd", output_file = "./10-Dataset2_Simple_OLS.pdf")
+
+##fontsizes for tables: ‘"tiny"’, ‘"scriptsize"’, ‘"footnotesize"’, ‘"small"’, ‘"normalsize"’, ‘"large"’, ‘"Large"’, ‘"LARGE"’, ‘"huge"’, ‘"Huge"’
+
+library(tidyverse)
+library(readxl)
+library(stargazer)
+##library(kableExtra)
+library(modelr)
+
+knitr::opts_chunk$set(echo = FALSE,
+                      eval = TRUE,
+                      error = FALSE,
+                      message = FALSE,
+                      warning = FALSE,
+                      comment = NA)
+
+#############################################################
+## Stargazer code
+
+## Regular Table
+##stargazer(summary = FALSE, type = "latex", header = FALSE, rownames = FALSE, float = FALSE)
+
+## Regression Results
+##stargazer(res1, type = "latex", digits = 2, omit.stat = "rsq", header = FALSE, font.size = "footnotesize", star.cutoffs = .05, notes = "*p < 0.05", notes.append = FALSE, dep.var.caption = "", float = FALSE)
+
+##covariate.labels = c("Mother's Education")
+##dep.var.labels = "Earnings (2021)"
+
+#############################################################
+## Figures
+
+## ```{r, fig.align = 'center', fig.asp=0.618, out.height = '90%', fig.width = 5}
+
+##knitr::include_graphics()
+
+#############################################################
+## Side-by-side columns
+
+## ::: columns
+## :::: column
+## Content in left column
+## ::::
+## :::: column
+## Content in right column
+## ::::
+## :::
+
+## Build bullets one-by-one
+##\begin{enumerate}[<+->]
+
+```
+
+
+# Today's Agenda
+
+\vspace{.2in}
+
+\begin{Large}
+\textbf{Dataset 2}
+
+\vspace{.15in}
+
+Multiple OLS Assignment Due Sunday
+
+\end{Large}
+
+\vspace{.5in}
+
+\begin{center}
+Justin Leinaweaver (Spring 2022)
+\end{center}
+
+
+
+# Dataset 2: Visualization Assignment
+
+\begin{large}
+
+\textbf{The Motivating Problem}
+
+\begin{itemize}
+\item Why do some countries attract greater levels of investment than others?
+\end{itemize}
+
+\vspace{.2in}
+
+\textbf{Operationalizing the Outcome}
+
+\begin{itemize}
+\item Foreign direct investment, net inflows (BoP, current US\$)
+\end{itemize}
+
+\end{large}
+
+
+
+# Assignment Due Sunday
+
+\begin{center}
+\begin{huge}
+Details on Moodle under the "Assignments" tab
+\end{huge}
+\end{center}
+
+
+# Required Report Structure
+\begin{Large}
+1. Introduction
+
+2. Body
+
+3. Conclusion
+
+4. Bibliography
+
+\end{Large}
+
+
+
+# Required Report Structure
+
+1. Introduction
+\begin{itemize}
+\item What is the question?
+\item Why should we care?
+\item Thesis statement
+\end{itemize}
+
+2. Body
+
+3. Conclusion
+
+4. Bibliography
+
+
+
+# Required Report Structure
+
+1. Introduction
+
+2. Body
+\begin{itemize}
+\item Each premise gets its own paragraph(s)
+\item Each premise REQUIRES evidence
+\end{itemize}
+
+3. Conclusion
+
+4. Bibliography
+
+
+
+# Required Report Structure
+
+1. Introduction
+
+2. Body
+
+3. Conclusion
+\begin{itemize}
+\item What did you find?
+\item How confident are you in the results?
+\end{itemize}
+
+4. Bibliography
+
+
+
+# Required Report Structure
+
+1. Introduction
+
+2. Body
+
+3. Conclusion
+
+4. Bibliography
+\begin{itemize}
+\item List the source of all external arguments and data used
+\end{itemize}
+
+
+
+

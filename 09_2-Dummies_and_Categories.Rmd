@@ -1,0 +1,733 @@
+---
+output:
+  beamer_presentation:
+    theme: "CambridgeUS"
+    colortheme: "dolphin"
+    fonttheme: "structurebold"
+fontsize: 14pt
+classoption: "aspectratio=169"
+header-includes:
+- \usepackage{caption}
+- \captionsetup[figure]{labelformat=empty}
+- \captionsetup[table]{labelformat=empty}
+---
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+## Render the pdf
+##rmarkdown::render(input = "./09_2-Dummies_and_Categories.Rmd", output_file = "./09_2-Dummies_and_Categories.pdf")
+
+##fontsizes for tables: ‘"tiny"’, ‘"scriptsize"’, ‘"footnotesize"’, ‘"small"’, ‘"normalsize"’, ‘"large"’, ‘"Large"’, ‘"LARGE"’, ‘"huge"’, ‘"Huge"’
+
+library(tidyverse)
+library(readxl)
+library(stargazer)
+##library(kableExtra)
+library(modelr)
+
+knitr::opts_chunk$set(echo = FALSE,
+                      eval = TRUE,
+                      error = FALSE,
+                      message = FALSE,
+                      warning = FALSE,
+                      comment = NA)
+
+#############################################################
+## Stargazer code
+
+## Regular Table
+##stargazer(summary = FALSE, type = "latex", header = FALSE, rownames = FALSE, float = FALSE)
+
+## Regression Results
+##stargazer(res1, type = "latex", digits = 2, omit.stat = "rsq", header = FALSE, font.size = "footnotesize", star.cutoffs = .05, notes = "*p < 0.05", notes.append = FALSE, dep.var.caption = "", float = FALSE)
+
+##covariate.labels = c("Mother's Education")
+##dep.var.labels = "Earnings (2021)"
+
+#############################################################
+## Figures
+
+## ```{r, fig.align = 'center', fig.asp=0.618, out.width = '100%', fig.width = 7}
+
+##knitr::include_graphics()
+
+#############################################################
+## Side-by-side columns
+
+## ::: columns
+## :::: column
+## Content in left column
+## ::::
+## :::: column
+## Content in right column
+## ::::
+## :::
+
+## Build bullets one-by-one
+##\begin{enumerate}[<+->]
+
+```
+
+
+# Today's Agenda
+
+\begin{large}
+
+Extending the OLS Regression
+
+\begin{enumerate}
+
+\item Dummy predictors
+\item Categorical predictors
+
+\end{enumerate}
+
+\vspace{.25in}
+
+Dataset: Ross (1990)
+
+\end{large}
+
+\vspace{.25in}
+
+\begin{center}
+Justin Leinaweaver (Spring 2022)
+\end{center}
+
+
+
+# 
+```{r, fig.align = 'center', fig.asp=0.618, out.width = '100%', fig.width = 7}
+knitr::include_graphics("./Images/09_2-Ross_Dataset.png")
+```
+
+
+# Dichotomous Variables (e.g. Dummies)
+
+```{r, fig.align = 'center', fig.asp=0.618, out.width = '100%', fig.width = 7}
+knitr::include_graphics("./Images/09_2-Ross2.png")
+```
+
+
+# Dichotomous Variables (e.g. Dummies)
+
+\begin{Large}
+
+\textbf{Is their evidence of a gender difference in earned income?}
+
+1. Calculate the mean income for each gender
+
+\begin{itemize}
+
+\item Men = ?
+
+\item Women = ?
+
+\end{itemize}
+
+\end{Large}
+
+
+
+# Dichotomous Variables (e.g. Dummies)
+
+```{r, include = FALSE}
+d <- read_excel("../../Data/Dataset-3-Ross_1990/ICPSR_Ross_Survey_1990.xlsx", na = c("NA"), guess_max = 10000) %>%
+    mutate(
+        earnk2021 = earnk * 2.0266
+    )
+```
+
+\begin{Large}
+
+\textbf{Is their evidence of a gender difference in earned income?}
+
+1. Calculate the mean income for each gender
+
+\begin{itemize}
+
+\item Men = `r str_c('\\$', round(mean(d$earnk2021[d$male == 1]), 1), 'k')`
+
+\item Women = `r str_c('\\$', round(mean(d$earnk2021[d$male == 0]), 1), 'k')`
+
+\end{itemize}
+
+\end{Large}
+
+
+
+# Dichotomous Variables (e.g. Dummies)
+
+\vspace{.25in}
+
+\begin{Large}
+
+\textbf{Is their evidence of a gender difference in earned income?}
+
+2. Fit an OLS regression of income on gender
+
+\end{Large}
+
+
+
+# Dichotomous Variables (e.g. Dummies)
+
+::: columns
+:::: column
+
+\begin{Large}
+
+\vspace{.75in}
+
+\begin{itemize}
+
+\item Men = `r str_c('\\$', round(mean(d$earnk2021[d$male == 1]), 1), 'k')`
+
+\vspace{.25in}
+
+\item Women = `r str_c('\\$', round(mean(d$earnk2021[d$male == 0]), 1), 'k')`
+
+\end{itemize}
+
+\end{Large}
+
+::::
+:::: column
+
+```{r, results = "asis"}
+# Simple regression
+res1 <- d %>% lm(data = ., earnk2021 ~ male)
+
+stargazer(res1, digits = 2, omit.stat = "rsq", star.cutoffs = .05, notes = "*p<0.05", notes.append = FALSE, dep.var.caption = "", dep.var.labels = "Income (Thousands USD)", covariate.labels = "Male", header = FALSE, float = FALSE, font.size = "scriptsize")
+```
+
+::::
+:::
+
+
+
+# 
+::: columns
+:::: column
+
+\begin{Large}
+
+\vspace{.5in}
+
+\begin{itemize}
+
+\item Men = `r str_c('\\$', round(mean(d$earnk2021[d$male == 1]), 1), 'k')`
+
+\vspace{.25in}
+
+\item Women = `r str_c('\\$', round(mean(d$earnk2021[d$male == 0]), 1), 'k')`
+
+\end{itemize}
+
+\end{Large}
+
+::::
+:::: column
+
+```{r, results = "asis"}
+# Simple regression
+res1 <- d %>% lm(data = ., earnk2021 ~ male)
+
+## Save coefficients
+x1 <- round(coef(res1), 2)
+
+## Save predictions
+preds_male <- x1[1] + x1[2]*1
+preds_female <- x1[1] + x1[2]*0
+error1 <- round(summary(res1)$sigma, 2)
+## low1 <- preds1 - 2*error1
+## high1 <- preds1 + 2*error1
+
+
+stargazer(res1, digits = 2, omit.stat = "rsq", star.cutoffs = .05, notes = "*p<0.05", notes.append = FALSE, dep.var.caption = "", dep.var.labels = "Income (Thousands USD)", covariate.labels = "Male", header = FALSE, float = FALSE, font.size = "scriptsize")
+```
+
+::::
+:::
+
+Income = `r x1[1]` + `r x1[2]` x (Male)
+
+\begin{itemize}
+\item P(Male = 1) = `r x1[1]` + `r x1[2]` x 1 = `r preds_male`
+\item P(Male = 0) = `r x1[1]` + `r x1[2]` x 0 =  `r preds_female`
+\end{itemize}
+
+
+
+# Gender Differences in Income?
+::: columns
+:::: column
+```{r, fig.align = 'center', fig.asp=1, out.height = '80%', fig.width = 4}
+# Visualize as two histograms with mean lines
+new1 <- tribble(
+  ~male, ~earnk2021,
+  "Male", preds_male,
+  "Female", preds_female
+)
+
+d %>%
+  mutate(
+    male = if_else(male == 1, "Male", "Female")
+  ) %>%
+  ggplot(aes(x = earnk2021)) +
+  geom_histogram(bins = 25, color = "white") +
+  facet_wrap(~ male, ncol = 1, scales = "free_y") +
+  theme_bw() +
+  labs(x = "Yearly Income", y = "") +
+  geom_vline(data = new1, aes(xintercept = earnk2021), size = 1.2, color = c("blue", "red"))
+```
+::::
+
+:::: column
+```{r, results = "asis"}
+stargazer(res1, digits = 2, omit.stat = "rsq", star.cutoffs = .05, notes = "*p<0.05", notes.append = FALSE, dep.var.caption = "", dep.var.labels = "Income (Thousands USD)", covariate.labels = "Male", header = FALSE, float = FALSE, font.size = "footnotesize")
+```
+::::
+:::
+
+
+
+
+# Gender Differences in Income?
+::: columns
+:::: column
+\vspace{.2in}
+
+```{r, fig.align = 'center', fig.asp=.8, out.width = '90%', fig.width = 4}
+# Build up to dummy + numeric
+res2 <- d %>% lm(data = ., earnk2021 ~ education)
+
+## Visualize
+d %>%
+  ggplot(aes(x = education, y = earnk2021)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  theme_bw() +
+  labs(x = "Education", y = "Income (2021 USD)")
+```
+::::
+
+:::: column
+```{r, results = "asis"}
+stargazer(res2, digits = 2, omit.stat = "rsq", star.cutoffs = .05, notes = "*p<0.05", notes.append = FALSE, dep.var.caption = "", dep.var.labels = "Income (Thousands USD)", covariate.labels = "Education", header = FALSE, float = FALSE, font.size = "footnotesize")
+```
+::::
+:::
+
+
+
+# Dummy Variables in OLS Regressions
+
+\begin{center}
+
+\begin{LARGE}
+
+Regress earnings (2021) on education and gender
+
+\end{LARGE}
+
+\end{center}
+
+
+
+
+# 
+\begin{center}
+```{r, results = "asis"}
+# Build up to dummy + numeric
+res3 <- d %>% lm(data = ., earnk2021 ~ education + male)
+
+## Save coef
+x3 <- round(coef(res3), 2)
+
+stargazer(res2, res3, digits = 2, omit.stat = "rsq", star.cutoffs = .05, notes = "*p<0.05", notes.append = FALSE, dep.var.caption = "", dep.var.labels = "Income (Thousands USD)", covariate.labels = c("Education", "Male"), header = FALSE, float = FALSE, font.size = "footnotesize")
+```
+\end{center}
+
+
+
+# Dummy Variables in OLS Regressions
+::: columns
+:::: column
+\vspace{.2in}
+
+```{r, results = "asis"}
+stargazer(res3, digits = 2, omit.stat = "rsq", star.cutoffs = .05, notes = "*p<0.05", notes.append = FALSE, dep.var.caption = "", dep.var.labels = "Income (2021 USD)", covariate.labels = c("Education", "Male"), header = FALSE, float = FALSE, font.size = "scriptsize")
+```
+::::
+
+:::: column
+
+\vspace{.15in}
+
+```{r, results = "asis"}
+education1 <- c(1, 5, 10, 15)
+male1 <- c("", "", "", "")
+female1 <- c("", "", "", "")
+
+tibble(
+    Education = education1,
+    Male = male1,
+    Female = female1
+) %>%
+    stargazer(summary = FALSE, rownames = FALSE, digits = 2, header = FALSE, float = FALSE, font.size = "large")
+```
+::::
+:::
+
+
+
+# 
+::: columns
+:::: column
+```{r, results = "asis"}
+stargazer(res3, digits = 2, omit.stat = "rsq", star.cutoffs = .05, notes = "*p<0.05", notes.append = FALSE, dep.var.caption = "", dep.var.labels = "Income (2021 USD)", covariate.labels = c("Education", "Male"), header = FALSE, float = FALSE, font.size = "scriptsize")
+```
+::::
+
+:::: column
+
+```{r, results = "asis"}
+education1 <- c(1, 5, 10, 15)
+male1 <- c("", "", "", "")
+female1 <- c("", "", "", "")
+
+tibble(
+    Education = education1,
+    Male = male1,
+    Female = female1
+) %>%
+    stargazer(summary = FALSE, rownames = FALSE, digits = 2, header = FALSE, float = FALSE, font.size = "large")
+```
+::::
+:::
+
+\begin{large}
+
+\begin{center}
+\vspace{.25in}
+
+Income = `r as.numeric(x3[1])` + `r as.numeric(x3[2])` x Education + `r as.numeric(x3[3])` x Male
+
+\end{center}
+
+\end{large}
+
+
+
+
+# 
+::: columns
+:::: column
+```{r, results = "asis"}
+stargazer(res3, digits = 2, omit.stat = "rsq", star.cutoffs = .05, notes = "*p<0.05", notes.append = FALSE, dep.var.caption = "", dep.var.labels = "Income (2021 USD)", covariate.labels = c("Education", "Male"), header = FALSE, float = FALSE, font.size = "scriptsize")
+```
+::::
+
+:::: column
+
+```{r, results = "asis"}
+education1 <- c(1, 5, 10, 15)
+male1 <- c("", "", "", "")
+female1 <- c("", "", "", "")
+
+tibble(
+    Education = education1,
+    Male = as.numeric(x3[1] + x3[2]*Education + x3[3]*1),
+    Female = as.numeric(x3[1] + x3[2]*Education + x3[3]*0)
+) %>%
+    stargazer(summary = FALSE, rownames = FALSE, digits = 2, header = FALSE, float = FALSE, font.size = "large")
+```
+::::
+:::
+
+\begin{large}
+
+\begin{center}
+\vspace{.25in}
+
+Income = `r as.numeric(x3[1])` + `r as.numeric(x3[2])` x Education + `r as.numeric(x3[3])` x Male
+
+\end{center}
+
+\end{large}
+
+
+
+# Dummy Variables in OLS Regressions
+
+::: columns
+:::: column
+```{r, results = "asis"}
+stargazer(res3, digits = 2, omit.stat = "rsq", star.cutoffs = .05, notes = "*p<0.05", notes.append = FALSE, dep.var.caption = "", dep.var.labels = "Income (2021 USD)", covariate.labels = c("Education", "Male"), header = FALSE, float = FALSE, font.size = "scriptsize")
+```
+::::
+
+:::: column
+
+```{r, fig.align = 'center', fig.asp=.85, out.height = '75%', fig.width = 5}
+new1 <- tibble(
+  education = rep(0:18, 2),
+  male = c(rep(1, 19), rep(0, 19))
+) %>%
+  add_predictions(res3, var = "pred1")
+
+d %>%
+  ggplot(aes(x = education, y = earnk2021)) +
+  geom_point() +
+  geom_line(data = new1, aes(x = education, y = pred1, color = factor(male)), size = 1.2) +
+  #geom_smooth(method = "lm", se = FALSE) +
+  theme_bw() +
+  labs(x = "Education", y = "Income (2021 USD)") +
+  guides(color = FALSE) +
+  scale_color_manual(values = c("red", "blue")) +
+  #coord_cartesian(ylim = c(0, 100), xlim = c(0, 20)) +
+  annotate("text", x = 2, y = 40, label = "Male", color = "darkblue", size = 4.5) +
+  annotate("text", x = 5, y = -35, label = "Female", color = "darkred", size = 4.5)
+```
+::::
+:::
+
+
+
+# Dummy Variables in OLS Regressions
+
+\begin{Large}
+
+\begin{enumerate}
+\item Point estimates produce the group means (with a significance test), and
+
+\vspace{.15in}
+
+\item The coefficient on the dummy moves the intercept, not the slope
+\end{enumerate}
+
+\end{Large}
+
+
+
+# Categorical Variables
+
+```{r, fig.align = 'center', fig.asp=0.618, out.width = '100%', fig.width = 7}
+knitr::include_graphics("./Images/09_2-Ross3.png")
+```
+
+
+
+# Categorical Variables
+
+\begin{center}
+
+```{r, results = "asis"}
+# Group means
+d %>%
+  group_by(ethnicity) %>%
+  summarize(
+    Income = str_c('$', round(mean(earnk2021), 2), 'k')
+  ) %>%
+    rename(Ethnicity = ethnicity) %>%
+  stargazer(summary = FALSE, rownames = FALSE, digits = 2, header = FALSE, float = FALSE, font.size = "large")
+```
+
+\end{center}
+
+
+
+# 
+```{r, fig.align = 'center', fig.asp=0.618, out.width = '100%', fig.width = 7}
+knitr::include_graphics("./Images/09_2-Categorical1.png")
+```
+
+# 
+```{r, fig.align = 'center', fig.asp=0.618, out.width = '100%', fig.width = 7}
+knitr::include_graphics("./Images/09_2-Categorical2.png")
+```
+
+# 
+```{r, fig.align = 'center', fig.asp=0.618, out.width = '100%', fig.width = 7}
+knitr::include_graphics("./Images/09_2-Categorical3.png")
+```
+
+# 
+::: columns
+:::: column
+
+\vspace{.5in}
+
+\begin{center}
+```{r, results = "asis"}
+# Group means
+d %>%
+  group_by(ethnicity) %>%
+  summarize(
+    Income = str_c('$', round(mean(earnk2021), 2), 'k')
+  ) %>%
+    rename(Ethnicity = ethnicity) %>%
+  stargazer(summary = FALSE, rownames = FALSE, digits = 2, header = FALSE, float = FALSE)
+```
+\end{center}
+::::
+
+:::: column
+```{r, results = "asis"}
+# Simple regression
+res3 <- d %>% 
+  mutate(
+    ethnicity = fct_relevel(ethnicity, ref = "White")
+  ) %>%
+  lm(data = ., earnk2021 ~ ethnicity)
+
+stargazer(res3, digits = 2, omit.stat = "rsq", star.cutoffs = .05, notes = "*p<0.05", notes.append = FALSE, dep.var.caption = "", dep.var.labels = "Income (2021)", covariate.labels = c("Ethnicity: Black", "Ethnicity: Hispanic", "Ethnicity: Other"), rownames = FALSE, header = FALSE, float = FALSE, font.size = "scriptsize")
+```
+::::
+:::
+
+
+
+# 
+::: columns
+:::: column
+
+\vspace{.5in}
+
+\begin{center}
+```{r, results = "asis"}
+# Group means
+d %>%
+  group_by(ethnicity) %>%
+  summarize(
+    Income = str_c('$', round(mean(earnk2021), 2), 'k')
+  ) %>%
+    rename(Ethnicity = ethnicity) %>%
+  stargazer(summary = FALSE, rownames = FALSE, digits = 2, header = FALSE, float = FALSE)
+```
+\end{center}
+::::
+
+:::: column
+```{r, results = "asis"}
+# Simple regression
+res4 <- d %>% 
+  mutate(
+    ethnicity = fct_relevel(ethnicity, ref = "White")
+  ) %>%
+    lm(data = ., earnk2021 ~ ethnicity)
+
+## Save coefficients
+x4 <- round(coef(res4), 2)
+
+stargazer(res4, digits = 2, omit.stat = c("rsq", "f"), star.cutoffs = .05, notes = "*p<0.05", notes.append = FALSE, dep.var.caption = "", dep.var.labels = "Income (2021)", covariate.labels = c("Ethnicity: Black", "Ethnicity: Hispanic", "Ethnicity: Other"), rownames = FALSE, header = FALSE, float = FALSE, font.size = "scriptsize")
+```
+::::
+:::
+
+\vspace{.2in}
+
+\begin{center}
+
+Income = `r x4[1]` + `r x4[2]`(Black) + `r x4[3]`(Hispanic) + `r x4[4]`(Other)
+
+\end{center}
+
+
+
+# Categorical Variables in OLS Regressions
+
+\begin{center}
+
+\begin{LARGE}
+
+Regress earnings (2021) on education and the ethnicity dummies
+
+\end{LARGE}
+
+\end{center}
+
+
+
+# 
+\begin{center}
+```{r, results = "asis"}
+res5 <- d %>% 
+  mutate(
+    ethnicity = fct_relevel(ethnicity, ref = "White")
+  ) %>%
+  lm(data = ., earnk2021 ~ ethnicity + education)
+
+stargazer(res2, res4, res5, digits = 2, omit.stat = c("rsq"), star.cutoffs = .05, notes = "*p<0.05", notes.append = FALSE, dep.var.caption = "", dep.var.labels = "Income (2021)", covariate.labels = c("Education", "Ethnicity: Black", "Ethnicity: Hispanic", "Ethnicity: Other"), rownames = FALSE, header = FALSE, float = FALSE, font.size = "scriptsize")
+```
+\end{center}
+
+
+
+# 
+::: columns
+:::: column
+
+\vspace{.5in}
+
+```{r, fig.align = 'center', fig.asp=.8, out.height = '80%', fig.width = 4}
+# Visualize
+new2 <- tibble(
+  education = rep(1:18, 4),
+  ethnicity = c(rep("White", 18), rep("Black", 18), rep("Hispanic", 18), rep("Other", 18))
+) %>%
+  add_predictions(res5)
+
+d %>%
+  ggplot(aes(x = education, y = earnk2021)) +
+  geom_point() +
+  geom_line(data = new2, aes(x = education, y = pred, color = ethnicity), size = 1.2) +
+  theme_bw() +
+  labs(x = "Education", y = "Income (Thousands USD)", color = "Ethnicity")# +
+  #coord_cartesian(ylim = c(0, 50))
+
+```
+::::
+:::: column
+\begin{center}
+```{r, results = "asis"}
+stargazer(res5, digits = 2, omit.stat = c("rsq"), star.cutoffs = .05, notes = "*p<0.05", notes.append = FALSE, dep.var.caption = "", dep.var.labels = "Income (2021)", covariate.labels = c("Education", "Ethnicity: Black", "Ethnicity: Hispanic", "Ethnicity: Other"), rownames = FALSE, header = FALSE, float = FALSE, font.size = "scriptsize")
+```
+\end{center}
+::::
+:::
+
+
+
+# 
+::: columns
+:::: column
+
+\vspace{.5in}
+
+```{r, fig.align = 'center', fig.asp=.8, out.height = '80%', fig.width = 4}
+# Visualize
+new2 <- tibble(
+  education = rep(1:18, 4),
+  ethnicity = c(rep("White", 18), rep("Black", 18), rep("Hispanic", 18), rep("Other", 18))
+) %>%
+  add_predictions(res5)
+
+d %>%
+  ggplot(aes(x = education, y = earnk2021)) +
+  geom_point() +
+  geom_line(data = new2, aes(x = education, y = pred, color = ethnicity), size = 1.2) +
+  theme_bw() +
+  labs(x = "Education", y = "Income (Thousands USD)", color = "Ethnicity") +
+  coord_cartesian(ylim = c(0, 100))
+
+```
+::::
+:::: column
+\begin{center}
+```{r, results = "asis"}
+stargazer(res5, digits = 2, omit.stat = c("rsq"), star.cutoffs = .05, notes = "*p<0.05", notes.append = FALSE, dep.var.caption = "", dep.var.labels = "Income (2021)", covariate.labels = c("Education", "Ethnicity: Black", "Ethnicity: Hispanic", "Ethnicity: Other"), rownames = FALSE, header = FALSE, float = FALSE, font.size = "scriptsize")
+```
+\end{center}
+::::
+:::
