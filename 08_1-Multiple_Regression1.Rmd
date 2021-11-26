@@ -116,7 +116,7 @@ $Y = \alpha + \beta_1 X_1 + \beta_2 X_2 + ... + \beta_k X_k$
 
 
 # 
-```{r, fig.align = 'center', fig.asp=0.618, out.height = '100%', fig.width = 7}
+```{r, fig.align = 'center', fig.asp=0.618, out.width = '70%', fig.width = 7}
 knitr::include_graphics("./Images/08_1-Regression_Table_Format.png")
 ```
 

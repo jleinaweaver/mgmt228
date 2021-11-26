@@ -139,7 +139,7 @@ Optional: ...that has proved useful in your life?
 
 
 #
-```{r, fig.align = 'center', fig.asp=0.618, out.height = '95%', fig.width = 5}
+```{r, fig.align = 'center', fig.asp=0.618, out.width = '95%', fig.width = 5}
 knitr::include_graphics("./Images/01_1-scaffolding.png")
 ```
 
@@ -159,7 +159,7 @@ By the end of the semester you will be able to:
 
 
 # Backup your files to the cloud!
-```{r, fig.align = 'center', fig.asp=0.618, out.height = '80%', fig.width = 5}
+```{r, fig.align = 'center', fig.asp=0.618, out.width = '80%', fig.width = 5}
 knitr::include_graphics("./Images/01_1-cloud.png")
 ```
 
@@ -199,7 +199,7 @@ tibble(
 
 # Excused absence coming up?
 
-```{r, fig.align = 'center', fig.asp=0.618, out.height = '60%', fig.width = 5}
+```{r, fig.align = 'center', fig.asp=0.618, out.width = '50%', fig.width = 5}
 knitr::include_graphics("./Images/01_1-responsibility.png")
 ```
 
@@ -212,13 +212,13 @@ It is your responsibility to notify me and to complete a make-up assignment.
 
 
 # 
-```{r, fig.align = 'center', fig.asp=0.618, out.height = '95%', fig.width = 5}
+```{r, fig.align = 'center', fig.asp=0.618, out.width = '95%', fig.width = 5}
 knitr::include_graphics("./Images/01_1-wilecoyote.jpg")
 ```
 
 
 # 
-```{r, fig.align = 'center', fig.asp=0.618, out.height = '95%', fig.width = 5}
+```{r, fig.align = 'center', fig.asp=0.618, out.width = '60%', fig.width = 5}
 knitr::include_graphics("./Images/01_1-the_office.jpg")
 ```
 
@@ -242,7 +242,7 @@ knitr::include_graphics("./Images/01_1-the_office.jpg")
 \end{center}
 ::::
 :::: column
-```{r, fig.align = 'center', fig.asp=0.618, out.height = '90%', fig.width = 5}
+```{r, fig.align = 'center', fig.asp=0.618, out.width = '90%', fig.width = 5}
 knitr::include_graphics("./Images/01_1-mbta_map1.png")
 ```
 ::::
@@ -251,13 +251,13 @@ knitr::include_graphics("./Images/01_1-mbta_map1.png")
 
 
 # 
-```{r, fig.align = 'center', fig.asp=0.618, out.height = '90%', fig.width = 5}
+```{r, fig.align = 'center', fig.asp=0.618, out.width = '90%', fig.width = 5}
 knitr::include_graphics("./Images/01_1-MBTA_map2.png")
 ```
 
 
 # 
-```{r, fig.align = 'center', fig.asp=0.618, out.height = '95%', fig.width = 5}
+```{r, fig.align = 'center', fig.asp=0.618, out.width = '95%', fig.width = 5}
 knitr::include_graphics("./Images/01_1-MBTA_map3.png")
 ```
 

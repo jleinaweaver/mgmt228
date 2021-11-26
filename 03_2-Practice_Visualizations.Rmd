@@ -197,7 +197,7 @@ d %>%
 
 
 # 
-```{r, fig.align = 'center', out.height = '90%'}
+```{r, fig.align = 'center', out.width = '90%'}
 knitr::include_graphics("./Images/03_2-Knaflic.png")
 ```
 
@@ -223,7 +223,7 @@ knitr::include_graphics("./Images/03_2-Knaflic.png")
 \end{column}
 \begin{column}{0.6\textwidth}
 \vspace{.2in}
-```{r, fig.align = 'center', out.height = '75%'}
+```{r, fig.align = 'center', out.width = '75%'}
 knitr::include_graphics("./Images/03_2-bad_plot.png")
 ```
 \end{column}
@@ -266,13 +266,13 @@ d_other %>%
 
 
 #
-```{r, out.height = '95%', fig.align = 'center'}
+```{r, out.width = '95%', fig.align = 'center'}
 knitr::include_graphics("./Images/03_2-ross1990.png")
 ```
 
 
 # Inflation, consumer prices
-```{r, out.height = '60%', fig.align = 'center'}
+```{r, out.width = '80%', fig.align = 'center'}
 ## Inflation, consumer prices for the United States (FPCPITOTLZGUSA)
 ## https://fred.stlouisfed.org/series/FPCPITOTLZGUSA
 

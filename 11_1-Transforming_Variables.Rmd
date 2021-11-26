@@ -366,7 +366,7 @@ Below the line = `r sum(resid12$resid < 0)` (`r round(sum(resid12$resid < 0)/50*
 
 # Transformation 2: Natural Logarithms
 
-```{r, fig.align = 'center', fig.asp=0.5, out.height = '90%', fig.width = 7}
+```{r, fig.align = 'center', fig.asp=0.5, out.width = '90%', fig.width = 7}
 ## Plot GDP vs Log GDP
 d %>%
   pivot_longer(cols = c(gdp_billions, log_gdp), names_to = "Version", values_to = "Values") %>%
@@ -384,7 +384,7 @@ d %>%
 
 # Transformation 2: Natural Logarithms
 
-```{r, fig.align = 'center', fig.asp=0.5, out.height = '90%', fig.width = 7}
+```{r, fig.align = 'center', fig.asp=0.5, out.width = '90%', fig.width = 7}
 ## Plot GDP vs Log GDP (add mean line)
 new1 <- tibble(
   Version = c("GDP (Billions USD)", "log of GDP (USD)"),
@@ -409,7 +409,7 @@ d %>%
 
 # Transformation 2: Natural Logarithms
 
-```{r, fig.align = 'center', fig.asp=0.5, out.height = '90%', fig.width = 7}
+```{r, fig.align = 'center', fig.asp=0.5, out.width = '90%', fig.width = 7}
 ## Plot GDP vs Log GDP, add highlights to show how log stretches out differences at the low end
 d %>%
   mutate(
@@ -432,7 +432,7 @@ d %>%
 
 # Transformation 2: Natural Logarithms
 
-```{r, fig.align = 'center', fig.asp=0.5, out.height = '90%', fig.width = 7}
+```{r, fig.align = 'center', fig.asp=0.5, out.width = '90%', fig.width = 7}
 ## Plot GDP vs Log GDP, add highlights to show how log condenses differences at the high end
 d %>%
   mutate(
@@ -455,7 +455,7 @@ d %>%
 
 # Transformation 2: Natural Logarithms
 
-```{r, fig.align = 'center', fig.asp=0.5, out.height = '85%', fig.width = 6}
+```{r, fig.align = 'center', fig.asp=0.5, out.width = '85%', fig.width = 6}
 ## Visualize the natural log scale
 tibble(
   x = 1:20, #1e3,
@@ -472,7 +472,7 @@ tibble(
 
 # Transformation 2: Natural Logarithms
 
-```{r, fig.align = 'center', fig.asp=0.5, out.height = '85%', fig.width = 6}
+```{r, fig.align = 'center', fig.asp=0.5, out.width = '85%', fig.width = 6}
 ## Visualize the natural log scale
 tibble(
   x = 1:1e4,
@@ -529,7 +529,7 @@ GDP for State X = \$5,000 or 8.5 (ln)
 
 
 # 
-```{r, fig.align = 'center', fig.asp=0.618, out.height = '70%', fig.width = 5}
+```{r, fig.align = 'center', fig.asp=0.618, out.width = '65%', fig.width = 5}
 p1 <- d %>%
   ggplot(aes(x = log_gdp)) +
   geom_histogram(bins = 15, fill = "darkgrey", color = "white") +
@@ -555,7 +555,7 @@ p1 +
 # 
 ::: columns
 :::: column
-```{r, fig.align = 'center', fig.asp=0.618, out.height = '60%', fig.width = 5}
+```{r, fig.align = 'center', fig.asp=0.618, out.width = '90%', fig.width = 5}
 p1 +
     geom_vline(xintercept = c(24, 25), color = "red", size = 1.3)
 ```

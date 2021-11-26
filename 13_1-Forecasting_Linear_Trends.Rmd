@@ -114,7 +114,7 @@ plot(decompose(x1))
 # Assignment for Today
 ::: columns
 :::: column
-```{r, fig.align = 'center', fig.asp=0.85, out.height = '75%', fig.width = 4}
+```{r, fig.align = 'center', fig.asp=0.85, out.width = '95%', fig.width = 4}
 d <- read_excel("../../Data/Dataset-1/Dataset1-All_Years.xlsx") %>% 
   filter(abbrev == "MO") %>%
   select(State, year, homeowner_rate)
@@ -200,14 +200,14 @@ tab1 %>%
 \end{center}
 
 
-#
-```{r, fig.align = 'center', fig.asp=0.618, out.height = '100%', fig.width = 6}
+# {.plain}
+```{r, fig.align = 'center', fig.asp=0.618, out.height = '100%', fig.width = 9}
 d10 %>%
   pivot_longer(cols = Naive:Exp_smoothing20, names_to = "Variables", values_to = "Values") %>%
   ggplot(aes(x = year)) +
   geom_line(aes(y = homeowner_rate)) +
   geom_line(aes(y = Values, color = Variables), size = 1.3) +
-  theme_minimal() +
+  theme_bw() +
   facet_wrap(~ Variables) +
   labs(x = "", y = "Homeownership (Rate)") +
   guides(color = FALSE) +
@@ -219,7 +219,7 @@ d10 %>%
 #
 \begin{columns}
 \begin{column}{0.7\textwidth}
-```{r, fig.align = 'center', out.height = '90%'}
+```{r, fig.align = 'center', out.width = '85%'}
 knitr::include_graphics("./Images/12_2-Four_types_trend.png")
 ```
 \end{column}
@@ -237,7 +237,7 @@ The Components of Time Series Data
 
 
 #
-```{r, fig.align = 'center', fig.asp=0.618, out.height = '100%', fig.width = 6}
+```{r, fig.align = 'center', fig.asp=0.618, out.width = '90%', fig.width = 6}
 # Visualize
 d %>%
   ggplot(aes(x = year, y = homeowner_rate)) +
@@ -250,7 +250,7 @@ d %>%
 
 
 #
-```{r, fig.align = 'center', fig.asp=0.618, out.height = '100%', fig.width = 6}
+```{r, fig.align = 'center', fig.asp=0.618, out.width = '90%', fig.width = 6}
 # Visualize
 d %>%
   ggplot(aes(x = year, y = homeowner_rate)) +
@@ -278,13 +278,13 @@ Regress homeownership rate on the time period
 
 
 # Create Time Period Variable
-```{r, fig.align = 'center', fig.asp=0.618, out.height = '77%', fig.width = 5}
+```{r, fig.align = 'center', fig.asp=0.618, out.width = '77%', fig.width = 5}
 knitr::include_graphics("./Images/13_1-time_period.png")
 ```
 
 
 # 
-```{r, fig.align = 'center', fig.asp=0.618, out.height = '77%', fig.width = 5}
+```{r, fig.align = 'center', fig.asp=0.618, out.width = '77%', fig.width = 5}
 knitr::include_graphics("./Images/13_1-MSE_2.png")
 ```
 
@@ -332,7 +332,7 @@ stargazer(res1, type = "latex", digits = 2, omit.stat = "rsq", header = FALSE, s
 \end{center}
 ::::
 :::: column
-```{r, fig.align = 'center', fig.asp=0.618, out.height = '50%', fig.width = 5}
+```{r, fig.align = 'center', fig.asp=0.618, out.width = '75%', fig.width = 5}
 d %>%
     mutate(
         time = 1:24
@@ -463,7 +463,7 @@ Compare our results to two model transformations:
 
 
 # 
-```{r, fig.align = 'center', out.height = '100%'}
+```{r, fig.align = 'center', out.width = '80%'}
 knitr::include_graphics("./Images/13_1-time-period2.png")
 ```
 
@@ -546,7 +546,7 @@ tab1 %>%
 #
 ::: columns
 :::: column
-```{r, fig.align = 'center', out.height = '72%'}
+```{r, fig.align = 'center', out.width = '95%'}
 knitr::include_graphics("./Images/13_1-Residual_output.png")
 ```
 ::::
@@ -620,7 +620,7 @@ d %>%
 # 
 ::: columns
 :::: column
-```{r, fig.align = 'center', fig.asp=0.85, out.height = '75%', fig.width = 4}
+```{r, fig.align = 'center', fig.asp=0.85, out.width = '95%', fig.width = 4}
 d <- read_excel("../../Data/Dataset-1/Dataset1-All_Years.xlsx") %>% 
   filter(abbrev == "MO") %>%
   select(State, year, unemployment)

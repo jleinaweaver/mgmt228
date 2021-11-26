@@ -53,27 +53,14 @@ Justin Leinaweaver (Spring 2022)
 
 
 # Dataset 1\: The Motivating Problem
-
-\begin{columns}
-\begin{column}{0.25\textwidth}
-```{r, fig.align = 'center', out.height = '82%'}
-knitr::include_graphics("./Images/02_2-QA_Process.png")
-```
-\end{column}
-\begin{column}{0.7\textwidth}
-
-\begin{large}
-\vspace{.25in}
+\Large
+\center
 
 What drives economic investment in US states? 
 
 \vspace{.5in}
 
 Why do some states attract greater investment by companies and individuals than others?
-\end{large}
-
-\end{column}
-\end{columns}
 
 
 
@@ -104,7 +91,7 @@ Measures of Variability
 
 \end{column}
 \begin{column}{0.4\textwidth}
-```{r, fig.align = 'center', fig.asp=0.618, out.height = '90%', fig.width = 5}
+```{r, fig.align = 'center', fig.asp=0.618, out.width = '90%', fig.width = 5}
 knitr::include_graphics("./Images/03_1-types1.png")
 ```
 \end{column}

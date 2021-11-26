@@ -32,53 +32,6 @@ knitr::opts_chunk$set(echo = FALSE,
                       warning = FALSE,
                       comment = NA)
 
-#############################################################
-## Stargazer code
-
-## Regular Table
-##stargazer(summary = FALSE, type = "latex", header = FALSE, rownames = FALSE, float = FALSE)
-
-## Regression Results
-##stargazer(res1, type = "latex", digits = 2, omit.stat = "rsq", header = FALSE, font.size = "footnotesize", star.cutoffs = .05, notes = "*p < 0.05", notes.append = FALSE, dep.var.caption = "", float = FALSE)
-
-##covariate.labels = c("Mother's Education")
-##dep.var.labels = "Earnings (2021)"
-
-#############################################################
-## Figures
-
-## ```{r, fig.align = 'center', fig.asp=0.618, out.height = '90%', fig.width = 5}
-
-##```{r, fig.align = 'center', out.height = '90%'}
-##knitr::include_graphics()
-##```
-
-#############################################################
-## Side-by-side columns
-
-## ::: columns
-## :::: column
-## Content in left column
-## ::::
-## :::: column
-## Content in right column
-## ::::
-## :::
-
-##\begin{columns}
-##\begin{column}{0.3\textwidth}
-##
-##
-##\end{column}
-##\begin{column}{0.7\textwidth}
-##
-##
-##\end{column}
-##\end{columns}
-
-## Build bullets one-by-one
-##\begin{enumerate}[<+->]
-
 ```
 
 
@@ -193,7 +146,7 @@ stargazer(res1, res2, res3, star.cutoffs = .05, notes = "*p < 0.05", notes.appen
 \end{column}
 
 \begin{column}{.5\textwidth}
-```{r, fig.align = 'center', out.height = '100%', fig.width = 4.5}
+```{r, fig.align = 'center', out.width = '100%', fig.width = 4.5}
 d %>%
   select(earnk2021, height, age, education) %>%
   pivot_longer(cols = height:education, names_to = "Predictor", values_to = "Values") %>%
@@ -488,7 +441,7 @@ new1 %>%
 
 
 #
-```{r, fig.align = 'center', out.height = '95%'}
+```{r, fig.align = 'center', out.width = '95%'}
 knitr::include_graphics("./Images/05_2-residxpred.png")
 ```
 
@@ -507,19 +460,19 @@ new1 %>%
 
 
 #
-```{r, fig.align = 'center', out.height = '90%'}
+```{r, fig.align = 'center', out.width = '90%'}
 knitr::include_graphics("./Images/05_2-heteroskedasticity.png")
 ```
 
 
 #
-```{r, fig.align = 'center', out.height = '95%'}
+```{r, fig.align = 'center', out.width = '95%'}
 knitr::include_graphics("./Images/05_2-nonlinear.png")
 ```
 
 
 # 
-```{r, fig.align = 'center', fig.asp=0.618, out.height = '95%', fig.width = 5}
+```{r, fig.align = 'center', fig.asp=0.618, out.width = '95%', fig.width = 5}
 d %>%
   add_residuals(res1) %>%
   add_predictions(res1) %>%
@@ -533,7 +486,7 @@ d %>%
 
 
 # 
-```{r, fig.align = 'center', fig.asp=0.618, out.height = '95%', fig.width = 5}
+```{r, fig.align = 'center', fig.asp=0.618, out.width = '95%', fig.width = 5}
 d %>%
   add_residuals(res2) %>%
   add_predictions(res2) %>%
@@ -546,7 +499,7 @@ d %>%
 
 
 # 
-```{r, fig.align = 'center', fig.asp=0.618, out.height = '95%', fig.width = 5}
+```{r, fig.align = 'center', fig.asp=0.618, out.width = '95%', fig.width = 5}
 d %>%
   add_residuals(res3) %>%
   add_predictions(res3) %>%

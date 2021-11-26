@@ -96,7 +96,7 @@ Justin Leinaweaver (Spring 2022)
 # 
 ::: columns
 :::: column
-```{r, fig.align = 'center', out.height = '90%'}
+```{r, fig.align = 'center', out.width = '100%'}
 knitr::include_graphics("./Images/12_2-Four_types_trend.png")
 ```
 ::::
@@ -165,7 +165,7 @@ plot(decompose(x1)$random, xlab = "", ylab = "", main = "Random Variation")
 
 
 #
-```{r, fig.align = 'center', fig.asp=0.55, out.height = '100%', fig.width = 6}
+```{r, fig.align = 'center', fig.asp=0.55, out.width = '90%', fig.width = 6}
 # Exploring GDP Rate of change in Missouri
 d <- read_excel("../../Data/Dataset-1/Dataset1-All_Years.xlsx") %>% 
   filter(abbrev == "MO") %>%
@@ -202,13 +202,13 @@ Set forecast to the last observation
 
 
 # Forecast 1: Naive Forecast
-```{r, fig.align = 'center', out.height = '80%'}
+```{r, fig.align = 'center', out.width = '80%'}
 knitr::include_graphics("./Images/12_2-naive_table.png")
 ```
 
 
 # 
-```{r, fig.align = 'center', fig.asp=0.55, out.height = '100%', fig.width = 6}
+```{r, fig.align = 'center', fig.asp=0.55, out.width = '100%', fig.width = 6}
 ## Calculate naive forecast and mse
 d2 <- d %>%
   add_row(State = "Missouri", year = 2021, GDP_Rate = NA) %>% 
@@ -263,7 +263,7 @@ MSE = $\frac{\Sigma (Error)^2}{n}$
 \end{center}
 \end{Large}
 
-```{r, fig.align = 'center', out.height = '50%'}
+```{r, fig.align = 'center', out.width = '85%'}
 knitr::include_graphics("./Images/12_2-mse-table.png")
 ```
 \begin{Large}
@@ -274,7 +274,7 @@ MSE = AVERAGE(D3:D4)
 
 
 # 
-```{r, fig.align = 'center', fig.asp=0.55, out.height = '100%', fig.width = 6}
+```{r, fig.align = 'center', fig.asp=0.55, out.width = '100%', fig.width = 6}
 # Calculate naive forecast and mse
 d2 %>%
   pivot_longer(cols = c(GDP_Rate, Naive), names_to = "Variables", values_to = "Values") %>%
@@ -292,19 +292,19 @@ d2 %>%
 
 
 #
-```{r, fig.align = 'center', out.height = '100%'}
+```{r, fig.align = 'center', out.width = '90%'}
 knitr::include_graphics("./Images/12_2-MA_Formula.png")
 ```
 
 
 #
-```{r, fig.align = 'center', out.height = '100%'}
+```{r, fig.align = 'center', out.width = '90%'}
 knitr::include_graphics("./Images/12_2-MA_Table.png")
 ```
 
 
 # 
-```{r, fig.align = 'center', fig.asp=0.55, out.height = '100%', fig.width = 6}
+```{r, fig.align = 'center', fig.asp=0.55, out.width = '100%', fig.width = 6}
 # Calculate MA3 forecast and mse
 d2 <- d %>%
   add_row(State = "Missouri", year = 2021, GDP_Rate = NA) %>% 
@@ -360,13 +360,13 @@ Forecast$_t$ = $\frac{(\text{Actual}_{t-1} \text{ x 3 + Actual}_{t-2} \text{ x 2
 
 
 #
-```{r, fig.align = 'center', out.height = '100%'}
+```{r, fig.align = 'center', out.width = '100%'}
 knitr::include_graphics("./Images/12_2-WMA3-table.png")
 ```
 
 
 #
-```{r, fig.align = 'center', fig.asp=0.55, out.height = '100%', fig.width = 6}
+```{r, fig.align = 'center', fig.asp=0.55, out.width = '100%', fig.width = 6}
 # Calculate Weighted MA3 forecast and mse
 d2 <- d %>%
   add_row(State = "Missouri", year = 2021, GDP_Rate = NA) %>% 
@@ -396,24 +396,24 @@ d2 %>%
 
 
 #
-```{r, fig.align = 'center', out.height = '100%'}
+```{r, fig.align = 'center', out.width = '100%'}
 knitr::include_graphics("./Images/12_2-ExpSmth.png")
 ```
 
 #
-```{r, fig.align = 'center', out.height = '100%'}
+```{r, fig.align = 'center', out.width = '100%'}
 knitr::include_graphics("./Images/12_2-ExpSmth2.png")
 ```
 
 
 #
-```{r, fig.align = 'center', out.height = '100%'}
+```{r, fig.align = 'center', out.width = '100%'}
 knitr::include_graphics("./Images/12_2-ExpSmth3.png")
 ```
 
 
 #
-```{r, fig.align = 'center', fig.asp=0.55, out.height = '100%', fig.width = 6}
+```{r, fig.align = 'center', fig.asp=0.55, out.width = '100%', fig.width = 6}
 # Calculate exponential smoothing (.2) forecast and mse
 d2 <- d %>%
   add_row(State = "Missouri", year = 2021, GDP_Rate = NA)
@@ -452,7 +452,7 @@ d3 %>%
 
 
 #
-```{r, fig.align = 'center', fig.asp=0.55, out.height = '100%', fig.width = 6}
+```{r, fig.align = 'center', fig.asp=0.55, out.width = '96%', fig.width = 9}
 # All predictions
 # Calculate forecasts
 d10 <- d %>%
@@ -474,7 +474,7 @@ d10 %>%
   ggplot(aes(x = year)) +
   geom_line(aes(y = GDP_Rate)) +
   geom_line(aes(y = Values, color = Variables), size = 1.3) +
-  theme_minimal() +
+  theme_bw() +
   facet_wrap(~ Variables) +
   scale_y_continuous(labels = scales::percent_format(), limits = c(-.025,.07)) +
   labs(x = "", y = "GDP (Rate)") +

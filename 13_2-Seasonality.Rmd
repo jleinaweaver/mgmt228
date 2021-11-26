@@ -138,7 +138,7 @@ d %>%
 "Seasonality is a characteristic of a time series in which the data experiences regular and predictable changes that recur every calendar year" (Investopedia 2020).
 \end{large}
 
-```{r, fig.align = 'center', fig.asp=0.618, out.height = '75%', fig.width = 6}
+```{r, fig.align = 'center', fig.asp=0.618, out.width = '60%', fig.width = 6}
 # highlight seasons
 d %>%
   ggplot(aes(x = date, y = advance_retail_sales)) +
@@ -176,7 +176,7 @@ d %>%
 "Seasonality is a characteristic of a time series in which the data experiences regular and predictable changes that recur every calendar year" (Investopedia 2020).
 \end{large}
 
-```{r, fig.align = 'center', fig.asp=0.618, out.height = '75%', fig.width = 6}
+```{r, fig.align = 'center', fig.asp=0.618, out.width = '60%', fig.width = 6}
 library(forecast)
 
 # Overlap the seasonality
@@ -194,7 +194,7 @@ ggseasonplot(x1, year.labels = TRUE) +
 
 \vspace{.2in}
 
-```{r, fig.align = 'center', fig.asp=0.618, out.height = '85%', fig.width = 5}
+```{r, fig.align = 'center', fig.asp=0.618, out.width = '90%', fig.width = 5}
 ## Fit random variation models
 d2 <- d %>%
     select(-advance_retail_sales_adj) %>%
@@ -425,25 +425,25 @@ d3 %>%
 
 
 #
-```{r, fig.align = 'center', out.height = '80%'}
+```{r, fig.align = 'center', out.width = '95%'}
 knitr::include_graphics("./Images/13_2-seasons1.png")
 ```
 
 
 #
-```{r, fig.align = 'center', out.height = '80%'}
+```{r, fig.align = 'center', out.width = '95%'}
 knitr::include_graphics("./Images/13_2-seasons2.png")
 ```
 
 
 #
-```{r, fig.align = 'center', out.height = '80%'}
+```{r, fig.align = 'center', out.width = '95%'}
 knitr::include_graphics("./Images/13_2-seasons3.png")
 ```
 
 
 #
-```{r, fig.align = 'center', out.height = '80%'}
+```{r, fig.align = 'center', out.width = '95%'}
 knitr::include_graphics("./Images/13_2-seasons4.png")
 ```
 
@@ -579,7 +579,7 @@ d3 %>%
 
 
 #
-```{r, fig.align = 'center', out.height = '70%'}
+```{r, fig.align = 'center', out.width = '95%'}
 knitr::include_graphics("./Images/13_2-months1.png")
 ```
 
