@@ -310,18 +310,10 @@ knitr::include_graphics("./Images/02_1-demo1.png")
 ```
 
 
-
 # {.plain}
 ```{r, fig.align = 'center', out.width = '100%'}
 knitr::include_graphics("./Images/02_1-demo2.png")
 ```
-
-
-
-
-
-
-
 
 
 
@@ -374,4 +366,23 @@ Predictors to Analyze (5): Min wage, unemployment, population, homeowner rate an
 |Maximum|= MAX|
 |25th Percentile|= QUARTILE.EXC (quart = 1)|
 |75th Percentile|= QUARTILE.EXC (quart = 3)|
+
+
+
+# For Thursday
+
+Predictors to Analyze (5): Min wage, unemployment, population, homeowner rate and manufacturing
+
+|      |         |
+|:-----|:-------:|
+|Mean|= AVERAGE|
+|Median|= MEDIAN|
+|Standard deviation|= STDEV.S|
+|Minimum|= MIN|
+|Maximum|= MAX|
+|25th Percentile|= QUARTILE.EXC (quart = 1)|
+|75th Percentile|= QUARTILE.EXC (quart = 3)|
+
+
+
 
