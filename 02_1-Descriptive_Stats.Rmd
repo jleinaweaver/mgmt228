@@ -121,6 +121,13 @@ What drives economic investment in US states?
 
 
 
+# Dataset 1: The Economies of the US States
+
+```{r, fig.align = 'center', out.width = '95%'}
+knitr::include_graphics("./Images/02_1-dataset1_snapshot.png")
+```
+
+
 #
 \begin{Large}
 \textbf{"Three Rules of Tidy Data"}
@@ -136,6 +143,13 @@ Source: Wickham (2018) R for Data Science. O'Reilly.
 
 
 
+# Dataset 1: The Economies of the US States
+
+```{r, fig.align = 'center', out.width = '95%'}
+knitr::include_graphics("./Images/02_1-dataset1_snapshot.png")
+```
+
+
 # Dataset 1\: The Motivating Problem
 \center
 
@@ -145,6 +159,78 @@ What drives economic investment in US states?
 \vspace{.5in}
 
 Why do some states attract greater investment by companies and individuals than others?
+
+
+
+# Dataset 1: The Economies of the US States
+
+```{r, fig.align = 'center', out.width = '95%'}
+knitr::include_graphics("./Images/02_1-Three_Versions_GDP.png")
+```
+
+
+#
+\scriptsize
+```{r}
+options(width = 100)
+set.seed(543)
+d <- round(runif(529, 100, 250), 0)
+d
+```
+
+
+#
+::: columns
+:::: column
+
+\scriptsize
+```{r}
+options(width = 50)
+d
+```
+
+::::
+:::: column
+
+\LARGE
+
+\vspace{.5in}
+
++ The middle?
+
+\vspace{.5in}
+
++ The range?
+
+\vspace{.5in}
+
++ The variation?
+
+::::
+:::
+
+
+
+# Defining Statistics: Level 1
+
+\Large
+\center
+
+Statistics is a set of tools we use to summarize data
+
+\vspace{.25in}
+ 
+Summarize: "give a brief statement of the main points of (something)" (Oxford Dictionary).
+
+
+
+# Defining Statistics: Level 2
+
+\Large
+\center
+
+"The practice or science of collecting and analyzing numerical data in large quantities, **especially for the purpose of inferring proportions in a whole from those in a representative sample**" (Oxford Dictionary).
+
 
 
 
@@ -215,6 +301,28 @@ Measures of Variability
 
 \end{column}
 \end{columns}
+
+
+
+# {.plain}
+```{r, fig.align = 'center', out.width = '100%'}
+knitr::include_graphics("./Images/02_1-demo1.png")
+```
+
+
+
+# {.plain}
+```{r, fig.align = 'center', out.width = '100%'}
+knitr::include_graphics("./Images/02_1-demo2.png")
+```
+
+
+
+
+
+
+
+
 
 
 
