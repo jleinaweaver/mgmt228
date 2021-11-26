@@ -10,6 +10,7 @@ header-includes:
 - \usepackage{caption}
 - \captionsetup[figure]{labelformat=empty}
 - \captionsetup[table]{labelformat=empty}
+- \setbeamertemplate{page number in head/foot}[]{}
 ---
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
@@ -143,7 +144,7 @@ knitr::include_graphics("./Images/06_2-alpha.png")
 # 
 ```{r, fig.align = 'center', fig.asp=0.618, out.width = '92%', fig.width = 7}
 ## Input data
-d <- read_excel("../../Data/Dataset-4-Stock_Data/Selected_Stock_Data_2020.xlsx") %>%
+d <- read_excel("../../Data/Dataset-4-Stock_Data/2021-Spring/Selected_Stock_Data_2020.xlsx") %>%
   mutate(
     date = lubridate::ymd(date)
   )

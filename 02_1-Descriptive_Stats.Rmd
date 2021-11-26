@@ -10,6 +10,7 @@ header-includes:
 - \usepackage{caption}
 - \captionsetup[figure]{labelformat=empty}
 - \captionsetup[table]{labelformat=empty}
+- \setbeamertemplate{page number in head/foot}[]{}
 ---
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
@@ -351,22 +352,6 @@ knitr::include_graphics("./Images/02_1-demo2.png")
 
 \end{column}
 \end{columns}
-
-
-# For Thursday
-
-Predictors to Analyze (5): Min wage, unemployment, population, homeowner rate and manufacturing
-
-|      |         |
-|:-----|:-------:|
-|Mean|= AVERAGE|
-|Median|= MEDIAN|
-|Standard deviation|= STDEV.S|
-|Minimum|= MIN|
-|Maximum|= MAX|
-|25th Percentile|= QUARTILE.EXC (quart = 1)|
-|75th Percentile|= QUARTILE.EXC (quart = 3)|
-
 
 
 # For Thursday

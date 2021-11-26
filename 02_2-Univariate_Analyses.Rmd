@@ -10,6 +10,7 @@ header-includes:
 - \usepackage{caption}
 - \captionsetup[figure]{labelformat=empty}
 - \captionsetup[table]{labelformat=empty}
+- \setbeamertemplate{page number in head/foot}[]{}
 ---
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
@@ -59,65 +60,27 @@ Justin Leinaweaver (Spring 2022)
 
 
 # Dataset 1\: The Motivating Problem
+\center
 
-\begin{columns}
-\begin{column}{0.25\textwidth}
-```{r, fig.align = 'center', out.width = '82%'}
-knitr::include_graphics("./Images/02_2-QA_Process.png")
-```
-\end{column}
-\begin{column}{0.7\textwidth}
-
-\begin{large}
-\vspace{.25in}
-
+\Large
 What drives economic investment in US states? 
 
 \vspace{.5in}
 
 Why do some states attract greater investment by companies and individuals than others?
-\end{large}
-
-\end{column}
-\end{columns}
 
 
 
 
 # Dataset 1\: Let's Develop a Model
-
-\begin{columns}
-\begin{column}{0.25\textwidth}
-```{r, fig.align = 'center', out.width = '82%'}
-knitr::include_graphics("./Images/02_2-QA_Process.png")
-```
-\end{column}
-\begin{column}{0.7\textwidth}
-
-\vspace{.2in}
-
-\begin{large}
+\Large
 
 1. Literature Review
 
-\vspace{.25in}
-
 2. Exploratory Data Analysis
-
-\vspace{.25in}
-
-\begin{itemize}
-\item Descriptive Statistics
-	
-\vspace{.25in}
-
-\item Univariate Visualizations
-\end{itemize}
-
-\end{large}
-
-\end{column}
-\end{columns}
+    + \large Descriptive Statistics
+    
+    + \large Univariate Visualizations
 
 
 
@@ -203,9 +166,7 @@ knitr::include_graphics("./Images/02_2-moodle_resources.png")
 
 # Univariate Visualizations
 
-
 ::: columns
-
 :::: column
 **Numerical / Continuous Data**
 
@@ -216,7 +177,6 @@ knitr::include_graphics("./Images/02_2-Box_type.png")
 ```
 
 ::::
-
 :::: column
 
 **Categorical / Discrete Data**
@@ -225,12 +185,11 @@ knitr::include_graphics("./Images/02_2-Box_type.png")
 knitr::include_graphics("./Images/02_2-Bar_type.png")
 ```
 ::::
-
 :::
 
 
 
-# 2. Univariate Visualizations of GDP
+# Univariate Visualizations of GDP
 
 \begin{center}
 
@@ -334,7 +293,7 @@ p1 +
 ```
 
 
-# 2. Univariate Visualizations of GDP
+# Univariate Visualizations of GDP
 
 \begin{center}
 
@@ -353,14 +312,14 @@ Use \textbf{Excel} to draw a boxplot of \textbf{GDP}.
 
 
 
-# 2. Univariate Visualizations of GDP
+# Univariate Visualizations of GDP
 ```{r, fig.align = 'center', out.width = '82%'}
 knitr::include_graphics("./Images/02_2-Excel_gdp_box.png")
 ```
 
 
 
-# 2. Univariate Visualizations of GDP
+# Univariate Visualizations of GDP
 ::: columns
 
 :::: column
@@ -386,7 +345,7 @@ d %>%
 :::
 
 
-# 2. Univariate Visualizations of GDP
+# Univariate Visualizations of GDP
 
 \begin{center}
 
@@ -418,7 +377,7 @@ knitr::include_graphics("./Images/02_2-Box_type.png")
 ```{r, fig.align = 'center', fig.asp=0.618, out.height = '100%', fig.width = 7}
 ## Build box plot in steps
 ## Highlight the lines
-p1 +
+p2 <- p1 +
   ggtitle("Quartiles: One quarter of the data lies between each line (percentiles)") +
   annotate("segment", y = median(d$gdp_millions), yend = median(d$gdp_millions), x = -1.2, xend = .5, size = 1) +
   annotate("segment", y = min(d$gdp_millions), yend = min(d$gdp_millions), x = -1.2, xend = .5, size = 1) +
@@ -430,7 +389,10 @@ p1 +
   annotate("text", y = quantile(d$gdp_millions, probs = .5), x = .75, label = "50th", angle = 90) +
   annotate("text", y = quantile(d$gdp_millions, probs = .25), x = .75, label = "25th", angle = 90) +
   annotate("text", y = min(d$gdp_millions)-10000, x = .75, label = "0th", angle = 90)
+
+p2
 ```
+
 
 
 # Univariate Analyses
@@ -485,7 +447,7 @@ d %>%
 
 
 
-# 3. Univariate Visualizations of GDP Rate
+# Univariate Visualizations of GDP Rate
 
 \begin{center}
 
@@ -518,7 +480,7 @@ knitr::include_graphics("./Images/02_2-Box_type.png")
 
 
 
-# 3. Univariate Visualizations of GDP Rate
+# Univariate Visualizations of GDP Rate
 
 \begin{center}
 
@@ -555,7 +517,7 @@ Use \textbf{Excel} to check your histogram of \textbf{GDP rate}
 
 
 
-# 3. Univariate Visualizations of GDP Rate
+# Univariate Visualizations of GDP Rate
 ```{r, fig.align = 'center', fig.asp=0.618, out.height = '90%', fig.width = 5}
 ## Excel creates bins between min and max value, not related to zero
 ## Break the range into six bins
@@ -615,7 +577,7 @@ d %>%
 
 
 
-# 4. Univariate Viz of GDP Categories
+# Univariate Viz of GDP Categories
 
 ::: columns
 
@@ -648,7 +610,7 @@ knitr::include_graphics("./Images/02_2-Bar_type.png")
 
 
 
-# 4. Univariate Viz of GDP Categories
+# Univariate Viz of GDP Categories
 
 ::: columns
 

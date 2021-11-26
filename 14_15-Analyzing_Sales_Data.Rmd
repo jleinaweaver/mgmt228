@@ -10,6 +10,7 @@ header-includes:
 - \usepackage{caption}
 - \captionsetup[figure]{labelformat=empty}
 - \captionsetup[table]{labelformat=empty}
+- \setbeamertemplate{page number in head/foot}[]{}
 ---
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
@@ -90,7 +91,7 @@ Justin Leinaweaver (Spring 2022)
 # The Final Report
 \begin{center}
 ```{r, results = "asis"}
-d <- read_excel("../../Data/00-Final_Project/Simulated_Sales_Data/Final_Project_Data_SP21.xlsx") %>%
+d <- read_excel("../../Data/00-Final_Project/Final_Project_Data_SP22.xlsx") %>%
     mutate(
         Male = if_else(Gender == "Male", 1, 0),
         Spring = if_else(Quarter == "Spring", 1, 0),
