@@ -465,7 +465,7 @@ tibble(
   geom_line() +
   theme_minimal() +
   labs(x = "X", y = "Natural Log of X") #+
-  scale_x_continuous(breaks = 1:20)
+  #scale_x_continuous(breaks = 1:20)
 ```
 
 

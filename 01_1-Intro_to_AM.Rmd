@@ -325,3 +325,18 @@ knitr::include_graphics("./Images/01_1-Drury.jpg")
 \item What explains why some individuals make more money than others?
 \end{itemize}
 \end{Large}
+
+
+
+# For Thursday
+\center
+\Large
+
+**If you were starting a new business in the US where specifically would you do it?**
+
+\vspace{.25in}
+
+Come to class ready to **make an argument** and provide a piece of **evidence** to support it. 
+
+
+

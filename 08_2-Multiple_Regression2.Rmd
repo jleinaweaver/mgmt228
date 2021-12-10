@@ -381,7 +381,7 @@ d %>%
 
 \vspace{.2in}
 
-```{r, out.height = '33%'}
+```{r, out.width='90%'}
 ## Correlations table won't output
 ##cor1 <- cor(d[, c("age", "education", "exercise", "height")], use = "pairwise")
 
