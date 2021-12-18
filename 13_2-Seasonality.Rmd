@@ -36,48 +36,6 @@ knitr::opts_chunk$set(echo = FALSE,
 #############################################################
 ## Stargazer code
 
-## Regular Table
-##stargazer(summary = FALSE, type = "latex", header = FALSE, rownames = FALSE, float = FALSE)
-
-## Regression Results
-##stargazer(res1, type = "latex", digits = 2, omit.stat = "rsq", header = FALSE, font.size = "footnotesize", star.cutoffs = .05, notes = "*p < 0.05", notes.append = FALSE, dep.var.caption = "", float = FALSE)
-
-##covariate.labels = c("Mother's Education")
-##dep.var.labels = "Earnings (2021)"
-
-#############################################################
-## Figures
-
-## ```{r, fig.align = 'center', fig.asp=0.618, out.height = '90%', fig.width = 5}
-
-##knitr::include_graphics()
-
-#############################################################
-## Side-by-side columns
-
-## ::: columns
-## :::: column
-## Content in left column
-## ::::
-## :::: column
-## Content in right column
-## ::::
-## :::
-
-##\begin{columns}
-##\begin{column}{0.3\textwidth}
-##
-##
-##\end{column}
-##\begin{column}{0.7\textwidth}
-##
-##
-##\end{column}
-##\end{columns}
-
-## Build bullets one-by-one
-##\begin{enumerate}[<+->]
-
 ```
 
 
