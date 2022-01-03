@@ -32,40 +32,6 @@ knitr::opts_chunk$set(echo = FALSE,
 
 #############################################################
 ## Stargazer code
-
-## Regular Table
-##stargazer(summary = FALSE, type = "latex", header = FALSE, rownames = FALSE, float = FALSE)
-
-## Regression Results
-##stargazer(res1, type = "latex", digits = 2, omit.stat = "rsq", header = FALSE, font.size = "footnotesize", star.cutoffs = .05, notes = "*p < 0.05", notes.append = FALSE, dep.var.caption = "", float = FALSE)
-
-##covariate.labels = c("Mother's Education")
-##dep.var.labels = "Earnings (2021)"
-
-#############################################################
-## Figures
-
-## ```{r, fig.align = 'center', fig.asp=0.618, out.width = '100%', fig.width = 7}
-
-##knitr::include_graphics()
-
-#############################################################
-## Side-by-side columns
-
-## ::: columns
-
-## :::: column
-## Content in left column
-
-## ::::
-
-## :::: column
-## Content in right column
-
-## ::::
-
-## :::
-
 ```
 
 
@@ -144,14 +110,14 @@ knitr::include_graphics("./Images/06_2-alpha.png")
 # 
 ```{r, fig.align = 'center', fig.asp=0.618, out.width = '92%', fig.width = 7}
 ## Input data
-d <- read_excel("../../Data/Dataset-4-Stock_Data/2021-Spring/Selected_Stock_Data_2020.xlsx") %>%
+d <- read_excel("../../Data/Dataset-4-Stock_Data/Stock_Data_2021.xlsx") %>%
   mutate(
     date = lubridate::ymd(date)
   )
 
 ## Convert adjusted closing prices to rate
 d2 <- d %>%
-  pivot_longer(cols = SP500:BIG, names_to = "symbol", values_to = "adjusted") %>%
+  pivot_longer(cols = SP500:YETI, names_to = "symbol", values_to = "adjusted") %>%
   group_by(symbol) %>%
   mutate(
     Rate = (adjusted / lag(adjusted, n = 1)) - 1
@@ -166,13 +132,15 @@ d2 %>%
   geom_line() +
   theme_minimal() +
   labs(x = "", y = "Daily Returns (%)", title = "S&P 500") +
-  geom_hline(yintercept = 0, color = "red")
+  geom_hline(yintercept = 0, color = "red") +
+  coord_cartesian(ylim = c(-.03, .03)) +
+  scale_y_continuous(labels = scales::percent_format())
 ```
 
 
 # Analyzing the Stock Market with OLS
 
-1. Calculate the rate of return for the stock you are analyzing (e.g. BIG) AND the market (e.g S&P 500)
+1. Calculate the rate of return for the stock you are analyzing (e.g. WMT) AND the market (e.g S&P 500)
 
      + = (Current / Last) - 1
 	 
@@ -188,7 +156,7 @@ d2 %>%
 
 Market: S\&P 500
 
-Analyze: Walmart, Disney, Zoom and Big Lots
+Analyze: Walmart, Zoom, Six Flags and Yeti
 
 \end{large}
 
@@ -209,10 +177,10 @@ Analyze: Walmart, Disney, Zoom and Big Lots
 \begin{center}
 ```{r, results = "asis"}
 #### Regressions
-res1 <- d2 %>% lm(data = ., ZM ~ SP500)
-res2 <- d2 %>% lm(data = ., WMT ~ SP500)
-res3 <- d2 %>% lm(data = ., DIS ~ SP500)
-res4 <- d2 %>% lm(data = ., BIG ~ SP500)
+res1 <- d2 %>% lm(data = ., WMT ~ SP500)
+res2 <- d2 %>% lm(data = ., ZM ~ SP500)
+res3 <- d2 %>% lm(data = ., SIX ~ SP500)
+res4 <- d2 %>% lm(data = ., YETI ~ SP500)
 
 stargazer(res1, res2, res3, res4, digits = 2, type = "latex", omit.stat = "rsq", star.cutoffs = .05, notes = "*p<0.05", notes.append = FALSE, dep.var.caption = "", float = FALSE, header = FALSE, font.size = 'footnotesize')
 ```
@@ -223,14 +191,15 @@ stargazer(res1, res2, res3, res4, digits = 2, type = "latex", omit.stat = "rsq",
 # 
 ```{r, fig.align = 'center', fig.asp=0.618, out.width = '90%', fig.width = 7}
 d2 %>%
-  pivot_longer(cols = WMT:BIG, names_to = "Stocks", values_to = "Returns") %>%
+  pivot_longer(cols = WMT:YETI, names_to = "Stocks", values_to = "Returns") %>%
   ggplot(aes(x = date, y = SP500)) +
   geom_line(color = "black") +
   geom_line(aes(y = Returns, color = Stocks)) +
   facet_wrap(~ Stocks, ncol = 2) +
   theme_bw() +
   labs(x = "", y = "Stock Daily Returns (%)") +
-  guides(color = FALSE)
+  guides(color = "none") +
+  scale_y_continuous(labels = scales::percent_format())
 ```
 
 
@@ -246,25 +215,25 @@ d3 <- d2 %>%
   mutate(
     invest_sp500 = 100,
     invest_wmt = 100,
-    invest_dis = 100,
     invest_zm = 100,
-    invest_big = 100
+    invest_six = 100,
+    invest_yeti = 100
   )
 
-for (i in 2:252) {
+for (i in 2:251) {
   
   d3$invest_sp500[i] <- d3$invest_sp500[i-1] * (1 + d3$SP500[i])
   d3$invest_wmt[i] <- d3$invest_wmt[i-1] * (1 + d3$WMT[i])
-  d3$invest_dis[i] <- d3$invest_dis[i-1] * (1 + d3$DIS[i])
   d3$invest_zm[i] <- d3$invest_zm[i-1] * (1 + d3$ZM[i])
-  d3$invest_big[i] <- d3$invest_big[i-1] * (1 + d3$BIG[i])
+  d3$invest_six[i] <- d3$invest_six[i-1] * (1 + d3$SIX[i])
+  d3$invest_yeti[i] <- d3$invest_yeti[i-1] * (1 + d3$YETI[i])
 
 }
 
 d3 %>%
   select(starts_with("invest")) %>%
     tail(n = 1) %>%
-    pivot_longer(cols = invest_sp500:invest_big, names_to = "Stock", values_to = "Amount") %>%
+    pivot_longer(cols = invest_sp500:invest_yeti, names_to = "Stock", values_to = "Amount") %>%
     mutate(
         Amount = str_c('$', round(Amount, 2))
     ) %>%
