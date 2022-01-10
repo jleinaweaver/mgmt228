@@ -2,7 +2,7 @@ Data, slides and errata for my class at Drury University (MGMT 228: Analytical M
 
 01_1-Intro_to_AM.pdf
 
-01_2-Lets_start_a_business.pdf
+01_2-Lets_start_a_business.html
 
 02_1-Descriptive_Stats.pdf
 
