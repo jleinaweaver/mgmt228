@@ -332,11 +332,11 @@ knitr::include_graphics("./Images/01_1-Drury.jpg")
 \center
 \Large
 
-**If you were starting a new business in the US where specifically would you do it?**
+Come to class ready to make an argument (**supported by at least one piece of high quality evidence**)
 
 \vspace{.25in}
 
-Come to class ready to **make an argument** and provide a piece of **evidence** to support it. 
+If you were starting a new business in the US **what** would it be, **where** specifically would you do it and what **criteria** did you use to decide?
 
 
 

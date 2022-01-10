@@ -37,9 +37,9 @@ knitr::opts_chunk$set(echo = FALSE,
 # Today's Agenda
 
 \begin{Large}
-Introduce Dataset 1
+What drives economic investment in US states?
 \begin{itemize}
-\item Brainstorm models
+\item Introduce Dataset 1
 \item Begin univariate analyses
 \end{itemize}
 
@@ -116,8 +116,9 @@ What drives economic investment in US states?
 \textbf{What are the important causal mechanisms that explain business investment in states?}
 
 \begin{enumerate}
-\item The Young Entrepreneur Council. (2017, Nov 1). 9 Things to Remember Before Relocating Your Business. \textit{Small Business Trends}. 
-\item Gonzales, C., Kerlin, M., Schaf, R., and Tucker-Ray, S. (2019). How state and local governments win at attracting companies. McKinsey \& Company.
+\item A focus group of educated, engaged and dynamic undergraduates interested in business
+
+\item Girsch-Bock, Mary. (2021, Jan 19). Top 10 Best States to Start Your Small Business in 2021. *The Blueprint by The Motley Fool*.
 \end{enumerate}
 
 
@@ -167,6 +168,13 @@ Why do some states attract greater investment by companies and individuals than 
 
 ```{r, fig.align = 'center', out.width = '95%'}
 knitr::include_graphics("./Images/02_1-Three_Versions_GDP.png")
+```
+
+
+# Dataset 1: The Economies of the US States
+
+```{r, fig.align = 'center', out.width = '95%'}
+knitr::include_graphics("./Images/02_1-dataset1_snapshot.png")
 ```
 
 
