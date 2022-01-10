@@ -1,26 +1,26 @@
 ---
 output:
-  beamer_presentation:
-    theme: "CambridgeUS"
-    colortheme: "dolphin"
-    fonttheme: "structurebold"
-fontsize: 14pt
-classoption: "aspectratio=169"
-header-includes:
-- \usepackage{caption}
-- \captionsetup[figure]{labelformat=empty}
-- \captionsetup[table]{labelformat=empty}
-- \setbeamertemplate{page number in head/foot}[]{}
+  xaringan::moon_reader:
+    css: ["default", "extra.css"]
+    lib_dir: libs
+    seal: false
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9'
 ---
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
-## rmarkdown::render(input = "./01_2-The_QA_Process.Rmd", output_file = "./01_2-The_QA_Process.pdf")
+##xaringan::inf_mr()
+## For offline work: https://bookdown.org/yihui/rmarkdown/some-tips.html#working-offline
+## Images not appearing? Put images folder inside the libs folder as that is the main data directory
 
 library(tidyverse)
 library(readxl)
 library(stargazer)
 ##library(kableExtra)
-library(modelr)
+##library(modelr)
 
 knitr::opts_chunk$set(echo = FALSE,
                       eval = TRUE,
@@ -28,39 +28,244 @@ knitr::opts_chunk$set(echo = FALSE,
                       message = FALSE,
                       warning = FALSE,
                       comment = NA)
-
 ```
 
+class: slideblue
 
-# Today's Agenda
-\center
-\large
-Come to class ready to make an argument and provide a piece of evidence to support it. 
+.size70[**Today's Agenda**]
 
-If you were starting a new business in the US where specifically would you do it?
+.size40[
+Come to class ready to make an argument (**with evidence**):
 
-\vspace{.5in}
+If you were starting a new business in the US **what** would it be, **where** would you do it, and **why** those choices?
+]
 
-\begin{center}
-Justin Leinaweaver (Spring 2022)
-\end{center}
+<br>
+
+.center[.size40[
+  Justin Leinaweaver (Spring 2022)
+]]
+
+???
+
+## Prep for Class
+1. Check evidence submissions
+2. Upload business attractiveness data to Moodle AND include URL to webpage with methodology on it
+
+<br>
+
+Welcome back!
+
+DID EVERYBODY SUBMIT THEIR EVIDENCE?
+
+WITH A COUPLE DAYS TO REFLECT, ANY QUESTIONS ON THE SYLLABUS?
+
+EVERYBODY CLEAR ON HOW TO EARN THEIR PARTICIPATION POINT IN EVERY CLASS?
 
 
+
+---
+
+background-image: url('libs/Images/01-2-holding-up-returns.jpeg')
+background-size: 100%
+background-position: top
+class: bottom, center
+
+.size55[.content-box-blue[**What are analytical methods?**]]
+
+???
+
+My job in this class is to help you develop concrete, applied skills in data analytics that will help you make better management decisions.
+
+At times this semester our work will feel very formulaic as we learn technical skills using Excel.
+
+And at other times you are going to feel a bit lost at sea, because calculating an average is easy, but figuring out what that value means for who you should hire, where you should build a new factory or what kind of business you should start is WAY harder.
+
+So, today we warm into our work with the assignment I set for you.
+
+
+
+---
+
+background-image: url('libs/Images/01-2-how-to-start-a-business-featured-web-final.jpg')
+background-size: 100%
+background-position: center
+class: middle
+
+???
+
+I asked each of you to come to class ready to make and support an argument with evidence.
+
+--
+
+.pull-right[
+.size50[
+.content-box-blue[
+1. **What** would it be?
+
+2. **Where** would you locate it?
+
+3. What **criteria** used?
+]]]
+
+???
+
+QUESTIONS ON THE THREE PROMPTS?
+
+*Notes on Board*: 1) What? (Type of business), 2) Where? (Location), 3) Why? (Important criteria)
+
+Let's hear your answers!
+
+<br>
+
+WHAT DO WE LEARN FROM COMPARING AND CONTRASTING THESE RESPONSES AND LISTS?
+
+<br>
+
+YOU ARE A BUNCH OF VALUABLE YOUNG MINDS, ISN'T IT USEFUL TO KNOW HOW YOU THINK ABOUT ENTREPRENEURSHIP? WHY OR WHY NOT?
+
+- PERCEIVED GROWTH INDUSTRIES?
+
+- PERCEIVED GROWTH LOCATIONS?
+
+- MOST IMPORTANT CRITERIA?
+
+<br>
+
+WHEN WE LOOK ACROSS ALL OF THESE ANSWERS, IS THERE A MODEL HERE?
+
++ Some simplified way we can describe how you, as a group, think about starting a new business?
+
+
+
+---
+
+background-image: url('libs/Images/01-2-motley_fool_1.png')
+background-size: 90%
+background-position: top
+class: bottom, center, slideblue
+
+.size50[Open the Week 1 data (on Moodle) and use the information on the web page to analyze the methodology.]
+
+<br>
+
+???
+
+Talk to the people around you.
+
+Make sure everyone can open the data, the web page and is digging into whatever it is we're looking at.
+
+Get ready to report back to me on what you find!
+
+<br>
+
+## Notes
+
+[Girsch-Bock, Mary. (2021, Jan 19). "Top 10 Best States to Start Your Small Business in 2021." The Blueprint by The Motley Fool.](https://www.fool.com/the-blueprint/top-10-best-states-to-start-your-small-business/)
+
+
+---
+
+background-image: url('libs/Images/01-2-MF_Data.png')
+background-size: 100%
+background-position: center
+class: slideblue
+
+???
+
+EVERYBODY COMFORTABLE OPENING AND VIEWING DATA IN EXCEL?
+
+WHAT IS THE STRUCTURE OF THIS DATA? 
+
++ (Rows as observations, Columns as variables)
+
+<br>
+
+Let's evaluate the variables chosen by this analyst.
+
+AT A CONCEPTUAL LEVEL, ARE THESE THE SEVEN MOST IMPORTANT FACTORS FOR ALL PROSPECTIVE NEW BUSINESSES? WHY OR WHY NOT?
+
+<br>
+
+Now let's evaluate the measurement of each.
+
+IS EACH PULLED FROM A HIGH QUALITY SOURCE? WHY OR WHY NOT?
+
+WHAT ARE THE PROS AND CONS OF TRANSFORMING EACH MEASURE TO A 1-10 SCALE?
+
++ ANY IDEA WHY THEY DO THIS?
+
+(Easier to combine, prevents weighting problems of scale)
+
+<br>
+
+HOW DOES MISSOURI DO ON THESE VARIABLES?
+
+DOES THIS TELL US ANYTHING USEFUL ABOUT MISSOURI'S COMPETITIVENESS WITH OTHER STATES? WHY OR WHY NOT?
+
+<br>
+
+Take a couple of minutes to go through the data.
+
+Find us interesting observations!
+
+ANYTHING IN TERMS OF MEASURES OR THE CONDITION OF STATES STAND OUT FOR YOU? WHY?
+
+<br>
+
+BOTTOM LINE, HOW USEFUL IS THIS AS A MODEL FOR STARTING A NEW BUSINESS IN THE US?
+
++ WHAT IS MISSING? 
+
++ ANY OF THESE VARIABLES YOU WOULD DELETE FOR YOUR SPECIFIC BUSINESS TYPE?
+
+<br>
+
+## Notes if needed
+- The Young Entrepreneur Council. (2017, Nov 1). 9 Things to Remember Before Relocating Your Business. *Small Business Trends*. 
+
+- Gonzales, C., Kerlin, M., Schaf, R., & Tucker-Ray, S. (2019). How state and local governments win at attracting companies (p. 7). McKinsey & Company. 
+
+
+
+---
+
+background-image: url('libs/Images/background-blue_triangles.jpg')
+background-size: 100%
+background-position: center
+
+class: middle
 
 # Our Plan This Semester
 
-\begin{large}
+.size40[
+Build models to answer questions with data
 
-\textbf{Build models to answer questions with data}
++ What drives economic investment in US states? 
 
-\begin{itemize}
++ Why do some countries attract greater levels of international investment than others?
 
-\item What drives economic investment in US states? 
++ What explains why some individuals make more money than others?
+]
 
-\item Why do some countries attract greater levels of international investment than others?
+???
 
-\item What explains why some individuals make more money than others?
+Everything we've been doing today represents the kind of work we'll be doing all semester at a fundamental level.
 
-\end{itemize}
+We will attack questions like these on the slide using data and increasingly more involved analytical methods.
 
-\end{large}
+However, let's never lose sight of the point of all this.
+
+We want to be data driven decision-makers and we never want other people to be able to take advantage of our ignorance about the data!
+
+QUESTIONS?
+
+<br>
+
+Everybody open the syllabus and check out what you have to do for Tuesday.
+
+WHAT DO YOU HAVE TO DO?
+
+- ANY QUESTIONS ON THE ASSIGNMENT?
+
+

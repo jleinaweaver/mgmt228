@@ -1,0 +1,731 @@
+---
+output:
+  beamer_presentation:
+    theme: "CambridgeUS"
+    colortheme: "dolphin"
+    fonttheme: "structurebold"
+fontsize: 14pt
+classoption: "aspectratio=169"
+header-includes:
+- \usepackage{caption}
+- \captionsetup[figure]{labelformat=empty}
+- \captionsetup[table]{labelformat=empty}
+- \setbeamertemplate{page number in head/foot}[]{}
+---
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+## rmarkdown::render(input = "./02_2-Univariate_Analyses.Rmd", output_file = "./02_2-Univariate_Analyses.pdf")
+
+##fontsizes for tables: ‘"tiny"’, ‘"scriptsize"’, ‘"footnotesize"’, ‘"small"’, ‘"normalsize"’, ‘"large"’, ‘"Large"’, ‘"LARGE"’, ‘"huge"’, ‘"Huge"’
+
+library(tidyverse)
+library(readxl)
+library(stargazer)
+##library(kableExtra)
+##library(modelr)
+
+knitr::opts_chunk$set(echo = FALSE,
+                      eval = TRUE,
+                      error = FALSE,
+                      message = FALSE,
+                      warning = FALSE,
+                      comment = NA)
+```
+
+
+# Today's Agenda
+
+\begin{Large}
+
+Exploring Dataset 1
+
+\end{Large}
+
+\vspace{.1in}
+
+\begin{large}
+1. Review the descriptive statistics
+
+\vspace{.25in}
+
+2. Build univariate visualizations
+\end{large}
+
+\vspace{.5in}
+
+\begin{center}
+Justin Leinaweaver (Spring 2022)
+\end{center}
+
+
+
+# Dataset 1\: The Motivating Problem
+\center
+
+\Large
+What drives economic investment in US states? 
+
+\vspace{.5in}
+
+Why do some states attract greater investment by companies and individuals than others?
+
+
+
+
+# Dataset 1\: Let's Develop a Model
+\Large
+
+1. Literature Review
+
+2. Exploratory Data Analysis
+    + \large Descriptive Statistics
+    
+    + \large Univariate Visualizations
+
+
+
+
+# Dataset 1\: Descriptive Statistics
+
+Predictors to Analyze (5): Min wage, unemployment, population, homeowner rate and manufacturing
+
+|      |         |
+|:-----|:-------:|
+|Mean|= AVERAGE|
+|Median|= MEDIAN|
+|Standard deviation|= STDEV.S|
+|Minimum|= MIN|
+|Maximum|= MAX|
+|25th Percentile|= QUARTILE.EXC (quart = 1)|
+|75th Percentile|= QUARTILE.EXC (quart = 3)|
+
+
+
+# Dataset 1\: Descriptive Statistics
+
+\begin{center}
+```{r, results = "asis"}
+d <- read_excel("../../Data/Dataset-1/Dataset1-2020_Only.xlsx", na = "NA") %>%
+  mutate(
+    gdp_category = factor(gdp_category, levels = c("Under $100 billion", "Under $1 trillion", "Above $1 trillion")),
+    pop_category = factor(pop_category, levels = c("Under 5 million", "Under 10 million", "Above 10 million")),
+    manufacturing_category = factor(manufacturing_category, levels = c("Under 100k", "Under 300k", "Above 300k")),
+    income_tax2 = if_else(income_tax == 1, "Income Tax", "No Income Tax")
+  )
+
+tab1 <- d %>%
+    pivot_longer(cols = c(min_wage, unemployment, population_thousands, homeowner_rate, manufacturing_thousands), names_to = "Variable", values_to = "Value") %>%
+    group_by(Variable) %>%
+  summarize(
+    mean = round(mean(Value, na.rm = TRUE), 1),
+    sd = round(sd(Value, na.rm = TRUE), 1),
+    Minimum = round(min(Value, na.rm = TRUE), 1),
+    pct25 = as.numeric(round(quantile(Value, na.rm = TRUE, probs = .25)), 1),
+    median = round(median(Value, na.rm = TRUE), 1),
+    pct75 = as.numeric(round(quantile(Value, na.rm = TRUE, probs = .75), 1)),
+    Maximum = round(max(Value, na.rm = TRUE), 1)
+  )
+    
+
+tab1 %>%
+    select(Variable, mean, sd) %>%
+    stargazer(type = "latex", summary = FALSE, rownames = FALSE, float = FALSE, font.size = 'footnotesize')
+
+tab1 %>%
+    select(Variable, Minimum:Maximum) %>%
+    stargazer(type = "latex", summary = FALSE, rownames = FALSE, float = FALSE, font.size = 'footnotesize')
+```
+\end{center}
+
+
+
+# 
+\begin{center}
+```{r, results = "asis"}
+tab1 %>%
+    stargazer(type = "latex", summary = FALSE, rownames = FALSE, float = FALSE, font.size = 'scriptsize')
+```
+\end{center}
+
+\vspace{.2in}
+
+1. Identify the **THREE** predictors with the **LEAST** variation across the states.
+
+\vspace{.2in}
+
+2. Identify the **THREE** predictors with the **MOST** variation across the states.
+
+
+
+# Resources on Moodle
+
+```{r, fig.align = 'center', out.width = '95%'}
+knitr::include_graphics("./Images/02_2-moodle_resources.png")
+```
+
+
+# Univariate Visualizations
+
+::: columns
+:::: column
+**Numerical / Continuous Data**
+
+```{r, fig.align = 'center', out.width = '80%'}
+knitr::include_graphics("./Images/02_2-Histogram_type.png")
+
+knitr::include_graphics("./Images/02_2-Box_type.png")
+```
+
+::::
+:::: column
+
+**Categorical / Discrete Data**
+
+```{r, fig.align = 'center', out.width = '80%'}
+knitr::include_graphics("./Images/02_2-Bar_type.png")
+```
+::::
+:::
+
+
+
+# Univariate Visualizations of GDP
+
+\begin{center}
+
+\textbf{Numerical / Continuous Data}
+
+```{r, fig.align = 'center', out.width = '40%'}
+knitr::include_graphics("./Images/02_2-Box_type.png")
+```
+\begin{Large}
+
+Use \textbf{ONLY} the descriptive statistics for \textbf{GDP} to draw a boxplot \textbf{by hand}.
+
+\end{Large}
+
+\end{center}
+
+
+
+# 
+```{r, fig.align = 'center', fig.asp=0.618, out.height = '100%', fig.width = 7}
+## Build box plot in steps
+p1 <- d %>%
+  ggplot(aes(y = gdp_millions)) +
+  theme_minimal() +
+  labs(y = "GDP (millions USD)", x = "") +
+  coord_flip(ylim = c(0, 3e6), xlim = c(-1,1)) +
+  scale_y_continuous(breaks = seq(0,3e6,5e5)) +
+  scale_x_continuous(breaks =  NULL)
+
+## Set range
+p1 +
+  ggtitle("Set the X-Axis Range")
+```
+
+
+# 
+```{r, fig.align = 'center', fig.asp=0.618, out.height = '100%', fig.width = 7}
+## Build box plot in steps
+## Draw in median 
+p1 +
+  ggtitle("Mark the median (50th percentile)") +
+  annotate("segment", y = median(d$gdp_millions), yend = median(d$gdp_millions), x = -1.2, xend = .5, size = 1.2, color = "red")
+```
+
+
+# 
+```{r, fig.align = 'center', fig.asp=0.618, out.height = '100%', fig.width = 7}
+## Build box plot in steps
+## Add the minimum and maximum
+p1 +
+  ggtitle("Add the minimum and maximum values") +
+  annotate("segment", y = median(d$gdp_millions), yend = median(d$gdp_millions), x = -1.2, xend = .5, size = 1) +
+  annotate("segment", y = min(d$gdp_millions), yend = min(d$gdp_millions), x = -1.2, xend = .5, size = 1, color = "red") +
+  annotate("segment", y = max(d$gdp_millions), yend = max(d$gdp_millions), x = -1.2, xend = .5, size = 1, color = "red")
+```
+
+
+# 
+```{r, fig.align = 'center', fig.asp=0.618, out.height = '100%', fig.width = 7}
+## Build box plot in steps
+## Add 25th and 75th percentiles
+p1 +
+  ggtitle("Add the 25th and 75th percentiles") +
+  annotate("segment", y = median(d$gdp_millions), yend = median(d$gdp_millions), x = -1.2, xend = .5, size = 1) +
+  annotate("segment", y = min(d$gdp_millions), yend = min(d$gdp_millions), x = -1.2, xend = .5, size = 1) +
+  annotate("segment", y = max(d$gdp_millions), yend = max(d$gdp_millions), x = -1.2, xend = .5, size = 1) +
+  annotate("segment", y = quantile(d$gdp_millions, probs = .25), yend = quantile(d$gdp_millions, probs = .25), x = -1.2, xend = .5, size = 1, color = "red") +
+  annotate("segment", y = quantile(d$gdp_millions, probs = .75), yend = quantile(d$gdp_millions, probs = .75), x = -1.2, xend = .5, size = 1, color = "red") 
+```
+
+
+# 
+```{r, fig.align = 'center', fig.asp=0.618, out.height = '100%', fig.width = 7}
+## Build box plot in steps
+## Add boxes
+p1 +
+  ggtitle("Replace IQR with a box") +
+  annotate("segment", y = min(d$gdp_millions), yend = min(d$gdp_millions), x = -1.2, xend = .5, size = 1) +
+  annotate("segment", y = max(d$gdp_millions), yend = max(d$gdp_millions), x = -1.2, xend = .5, size = 1) +
+  annotate("segment", y = quantile(d$gdp_millions, probs = .25), yend = quantile(d$gdp_millions, probs = .25), x = -.6, xend = .5, size = .5) +
+  annotate("segment", y = quantile(d$gdp_millions, probs = .75), yend = quantile(d$gdp_millions, probs = .75), x = -.6, xend = .5, size = .5) +
+  annotate("segment", y = quantile(d$gdp_millions, probs = .25), yend = quantile(d$gdp_millions, probs = .75), x = -.6, xend = -.6, size = .5) +
+  annotate("segment", y = quantile(d$gdp_millions, probs = .25), yend = quantile(d$gdp_millions, probs = .75), x = .5, xend = .5, size = .5) +
+    annotate("segment", y = quantile(d$gdp_millions, probs = .5), yend = quantile(d$gdp_millions, probs = .5), x = -.6, xend = .5, size = 1)
+```
+
+
+# 
+```{r, fig.align = 'center', fig.asp=0.618, out.height = '100%', fig.width = 7}
+## Build box plot in steps
+## Replace min/max with whiskers
+p1 +
+  ggtitle("Replace min and max with whiskers", subtitle = "*Technically the whiskers should only extend 1.5x the IQR") +
+  annotate("segment", y = quantile(d$gdp_millions, probs = .25), yend = quantile(d$gdp_millions, probs = .25), x = -.6, xend = .5, size = .5) +
+  annotate("segment", y = quantile(d$gdp_millions, probs = .75), yend = quantile(d$gdp_millions, probs = .75), x = -.6, xend = .5, size = .5) +
+  annotate("segment", y = quantile(d$gdp_millions, probs = .25), yend = quantile(d$gdp_millions, probs = .75), x = -.6, xend = -.6, size = .5) +
+  annotate("segment", y = quantile(d$gdp_millions, probs = .25), yend = quantile(d$gdp_millions, probs = .75), x = .5, xend = .5, size = .5) +
+  annotate("segment", y = quantile(d$gdp_millions, probs = .5), yend = quantile(d$gdp_millions, probs = .5), x = -.6, xend = .5, size = 1) +
+  annotate("segment", y = min(d$gdp_millions), yend = quantile(d$gdp_millions, probs = .25), x = 0, xend = 0, size = .5) +
+    annotate("segment", y = max(d$gdp_millions), yend = quantile(d$gdp_millions, probs = .75), x = 0, xend = 0, size = .5)
+```
+
+
+# Univariate Visualizations of GDP
+
+\begin{center}
+
+\textbf{Numerical / Continuous Data}
+
+```{r, fig.align = 'center', out.width = '40%'}
+knitr::include_graphics("./Images/02_2-Box_type.png")
+```
+\begin{Large}
+
+Use \textbf{Excel} to draw a boxplot of \textbf{GDP}.
+
+\end{Large}
+
+\end{center}
+
+
+
+# Univariate Visualizations of GDP
+```{r, fig.align = 'center', out.width = '82%'}
+knitr::include_graphics("./Images/02_2-Excel_gdp_box.png")
+```
+
+
+
+# Univariate Visualizations of GDP
+::: columns
+
+:::: column
+```{r, fig.align = 'center', out.width = '90%'}
+knitr::include_graphics("./Images/02_2-Excel_gdp_box_only.png")
+```
+
+::::
+
+:::: column
+```{r, fig.align = 'center', fig.asp=0.618, out.width = '100%', fig.width = 5}
+d %>%
+  ggplot(aes(y = gdp_millions)) +
+  geom_boxplot(fill = "peachpuff") +
+  theme_bw() +
+  labs(y = "GDP (millions USD)", x = "") +
+  coord_flip(ylim = c(0, 3.5e6), xlim = c(-1,1)) +
+  scale_x_continuous(breaks =  NULL) +
+    scale_y_continuous(breaks = seq(0,3e6,5e5))
+```
+::::
+
+:::
+
+
+# Univariate Visualizations of GDP
+
+\begin{center}
+
+\textbf{Numerical / Continuous Data}
+
+\end{center}
+
+::: columns
+
+:::: column
+```{r, fig.align = 'center', out.width = '95%'}
+knitr::include_graphics("./Images/02_2-Histogram_type.png")
+```
+
+::::
+
+:::: column
+```{r, fig.align = 'center', out.width = '95%'}
+knitr::include_graphics("./Images/02_2-Box_type.png")
+```
+
+::::
+
+:::
+
+
+
+# 
+```{r, fig.align = 'center', fig.asp=0.618, out.height = '100%', fig.width = 7}
+## Build box plot in steps
+## Highlight the lines
+p2 <- p1 +
+  ggtitle("Quartiles: One quarter of the data lies between each line (percentiles)") +
+  annotate("segment", y = median(d$gdp_millions), yend = median(d$gdp_millions), x = -1.2, xend = .5, size = 1) +
+  annotate("segment", y = min(d$gdp_millions), yend = min(d$gdp_millions), x = -1.2, xend = .5, size = 1) +
+  annotate("segment", y = max(d$gdp_millions), yend = max(d$gdp_millions), x = -1.2, xend = .5, size = 1) +
+  annotate("segment", y = quantile(d$gdp_millions, probs = .25), yend = quantile(d$gdp_millions, probs = .25), x = -1.2, xend = .5, size = 1) +
+  annotate("segment", y = quantile(d$gdp_millions, probs = .75), yend = quantile(d$gdp_millions, probs = .75), x = -1.2, xend = .5, size = 1) +
+  annotate("text", y = max(d$gdp_millions), x = .75, label = "100th", angle = 90) +
+  annotate("text", y = quantile(d$gdp_millions, probs = .75), x = .75, label = "75th", angle = 90) +
+  annotate("text", y = quantile(d$gdp_millions, probs = .5), x = .75, label = "50th", angle = 90) +
+  annotate("text", y = quantile(d$gdp_millions, probs = .25), x = .75, label = "25th", angle = 90) +
+  annotate("text", y = min(d$gdp_millions)-10000, x = .75, label = "0th", angle = 90)
+
+p2
+```
+
+
+
+# Univariate Analyses
+
+\begin{columns}
+\begin{column}{.4\textwidth}
+
+\begin{center}
+```{r, results="asis"}
+d %>%
+  pivot_longer(cols = c(gdp_millions), names_to = "Variable", values_to = "Value") %>%
+  group_by(Variable) %>%
+  summarize(
+    mean = round(mean(Value, na.rm = TRUE), 1),
+    sd = round(sd(Value, na.rm = TRUE), 1),
+    Minimum = round(min(Value, na.rm = TRUE), 1),
+    pct25 = as.numeric(round(quantile(Value, na.rm = TRUE, probs = .25)), 1),
+    median = round(median(Value, na.rm = TRUE), 1),
+    pct75 = as.numeric(round(quantile(Value, na.rm = TRUE, probs = .75), 1)),
+    Maximum = round(max(Value, na.rm = TRUE), 1)
+    #Range = Maximum - Minimum,
+    #IQR = pct75 - pct25
+  ) %>%
+    pivot_longer(cols = mean:Maximum, names_to = "Statistic", values_to = "GDP_millions") %>%
+    select(-Variable) %>%
+    stargazer(type = "latex", summary = FALSE, rownames = FALSE, float = FALSE, header = FALSE)
+```
+\end{center}
+\end{column}
+
+\begin{column}{.6\textwidth}
+```{r, fig.align = 'center', fig.asp=0.618, out.height = '45%', fig.width = 5}
+d %>%
+  ggplot(aes(y = gdp_millions)) +
+  geom_boxplot(fill = "peachpuff") +
+  theme_bw() +
+  labs(y = "GDP (millions USD)", x = "") +
+  coord_flip(ylim = c(0, 3.5e6), xlim = c(-1,1)) +
+  scale_x_continuous(breaks =  NULL) +
+    scale_y_continuous(breaks = seq(0,3e6,5e5))
+
+d %>%
+  ggplot(aes(x = gdp_millions)) +
+  geom_histogram(fill = "darkgrey", color = "white", bins = 15) +
+  theme_bw() +
+  labs(x = "GDP (millions USD)", y = "") +
+    scale_x_continuous(breaks = seq(0,3e6,5e5))
+```
+\end{column}
+\end{columns}
+
+
+
+
+# Univariate Visualizations of GDP Rate
+
+\begin{center}
+
+\textbf{Numerical / Continuous Data}
+
+\end{center}
+
+::: columns
+:::: column
+```{r, fig.align = 'center', out.width = '60%'}
+knitr::include_graphics("./Images/02_2-Histogram_type.png")
+```
+::::
+:::: column
+```{r, fig.align = 'center', out.width = '60%'}
+knitr::include_graphics("./Images/02_2-Box_type.png")
+```
+::::
+:::
+
+\vspace{.2in}
+
+\begin{center}
+
+\textbf{By hand}, draw a histogram of \textbf{GDP rate}
+
+\textit{Remember: Use the box plot to build your histogram}
+
+\end{center}
+
+
+
+# Univariate Visualizations of GDP Rate
+
+\begin{center}
+
+\textbf{Numerical / Continuous Data}
+
+\end{center}
+
+::: columns
+
+:::: column
+```{r, fig.align = 'center', out.width = '60%'}
+knitr::include_graphics("./Images/02_2-Histogram_type.png")
+```
+
+::::
+
+:::: column
+```{r, fig.align = 'center', out.width = '60%'}
+knitr::include_graphics("./Images/02_2-Box_type.png")
+```
+::::
+
+:::
+
+\vspace{.2in}
+
+\begin{center}
+
+Use \textbf{Excel} to check your histogram of \textbf{GDP rate}
+
+\textit{'Format Axis' and set the number of bins to 5}
+
+\end{center}
+
+
+
+# Univariate Visualizations of GDP Rate
+```{r, fig.align = 'center', fig.asp=0.618, out.height = '90%', fig.width = 5}
+## Excel creates bins between min and max value, not related to zero
+## Break the range into six bins
+diff1 <- (max(d$gdp_rate) - min(d$gdp_rate))/6
+
+## manually set the breaks in the histogram
+breaks1 <- c(min(d$gdp_rate),
+             min(d$gdp_rate) + diff1,
+             min(d$gdp_rate) + diff1*2,
+             min(d$gdp_rate) + diff1*3,
+             min(d$gdp_rate) + diff1*4,
+             min(d$gdp_rate) + diff1*5,
+             min(d$gdp_rate) + diff1*6)
+
+d %>%
+    ggplot(aes(x = gdp_rate)) +
+    geom_histogram(breaks = breaks1, fill = "darkblue", color = "white") +
+    theme_bw() +
+    labs(x = "", title = "GDP Rate (%)")
+```
+
+
+
+# 
+```{r, fig.align = 'center', fig.asp=0.618, out.height = '46%', fig.width = 5}
+## Illustrate number of bins choice, swap titles for x axis labels as needed
+d %>%
+  ggplot(aes(x = gdp_rate)) +
+  geom_histogram(fill = "darkblue", color = "white", bins = 5) +
+  theme_minimal() +
+    labs(x = "", y = "", title = "5 Bins")
+```
+::: columns
+
+:::: column
+```{r, fig.align = 'center', fig.asp=0.618, out.height = '50%', fig.width = 5}
+d %>%
+  ggplot(aes(x = gdp_rate)) +
+  geom_histogram(fill = "darkblue", color = "white", bins = 10) +
+  theme_minimal() +
+  labs(x = "", y = "", title = "10 Bins")
+```
+
+::::
+
+:::: column
+```{r, fig.align = 'center', fig.asp=0.618, out.height = '50%', fig.width = 5}
+d %>%
+  ggplot(aes(x = gdp_rate)) +
+  geom_histogram(fill = "darkblue", color = "white", bins = 30) +
+  theme_minimal() +
+  labs(x = "", y = "", title = "30 Bins")
+```
+::::
+
+:::
+
+
+
+# Univariate Viz of GDP Categories
+
+::: columns
+
+:::: column
+```{r, fig.align = 'center', out.width = '70%'}
+knitr::include_graphics("./Images/02_2-Bar_type.png")
+```
+
+::::
+
+:::: column
+
+\vspace{.3in}
+
+\begin{Large}
+
+\begin{center}
+\textbf{Categorical / Discrete Data}
+\end{center}
+
+\vspace{.3in}
+
+\textbf{By hand}, make a bar plot of \textbf{gdp category}
+
+\end{Large}
+
+::::
+
+:::
+
+
+
+# Univariate Viz of GDP Categories
+
+::: columns
+
+:::: column
+```{r, fig.align = 'center', out.width = '70%'}
+knitr::include_graphics("./Images/02_2-Bar_type.png")
+```
+
+::::
+
+:::: column
+
+\vspace{.3in}
+
+\begin{Large}
+
+\begin{center}
+\textbf{Categorical / Discrete Data}
+\end{center}
+
+\vspace{.3in}
+
+Use \textbf{Excel} to check your bar plot of \textbf{gdp category}
+
+\end{Large}
+
+::::
+
+:::
+
+
+
+# 
+```{r, fig.align = 'center', fig.asp=0.618, out.height = '90%', fig.width = 5}
+d %>%
+  ggplot(aes(x = gdp_category)) +
+  geom_bar(fill = "darkgrey", width = .5) +
+  theme_minimal() +
+  labs(x = "GDP Categories", y = "")
+```
+
+
+# 
+::: columns
+:::: column
+
+\vspace{.5in}
+
+\begin{center}
+
+\begin{Large}
+
+\textbf{Three ways to visualize GDP}
+
+\end{Large}
+
+\end{center}
+
+\vspace{.5in}
+
+```{r, fig.align = 'center', fig.asp=0.618, out.height = '48%', fig.width = 5}
+d %>%
+    ggplot(aes(x = gdp_rate)) +
+    geom_histogram(breaks = breaks1, fill = "darkgrey", color = "white") +
+    theme_bw() +
+    labs(x = "GDP Rate (%)", y = "")
+```
+
+::::
+
+:::: column
+```{r, fig.align = 'center', fig.asp=0.618, out.height = '48%', fig.width = 5}
+d %>%
+  ggplot(aes(x = gdp_category)) +
+  geom_bar(fill = "darkgrey", width = .5) +
+  theme_bw() +
+  labs(x = "GDP Categories", y = "")
+
+d %>%
+  ggplot(aes(x = gdp_millions)) +
+  geom_histogram(fill = "darkgrey", color = "white", bins = 10) +
+  theme_bw() +
+  labs(x = "GDP (millions USD)", y = "")
+```
+::::
+
+:::
+
+
+
+# 
+\begin{center}
+
+\begin{LARGE}
+
+Use Excel to make an appropriate univariate visualization for each of the remaining variables in the dataset.
+
+\end{LARGE}
+
+\end{center}
+
+
+
+# Developing a Model\: Univariate Analyses
+
+\begin{large}
+
+\begin{enumerate}[<+->]
+
+\item How effective are descriptive stats in helping us "see" the visualization without actually seeing it?
+
+\item Which is more useful the descriptive stats or the visualization? Why?
+
+\item Finally, in what specific ways does univariate analysis help us develop a model to answer our motivating question?
+
+\end{enumerate}
+
+\end{large}
