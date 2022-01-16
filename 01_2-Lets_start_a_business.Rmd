@@ -56,11 +56,15 @@ If you were starting a new business in the US **what** would it be, **where** sp
 
 Welcome back!
 
-DID EVERYBODY SUBMIT THEIR EVIDENCE?
+### Did everybody submit their evidence?
 
-WITH A COUPLE DAYS TO REFLECT, ANY QUESTIONS ON THE SYLLABUS?
+<br>
 
-EVERYBODY CLEAR ON HOW TO EARN THEIR PARTICIPATION POINT IN EVERY CLASS?
+### With a couple days to reflect, any questions on the syllabus?
+
+<br>
+
+### Everybody clear on how to earn their participation point in every class?
 
 
 
@@ -75,13 +79,23 @@ class: bottom, center
 
 ???
 
-My job in this class is to help you develop concrete, applied skills in data analytics that will help you make better management decisions.
+My job in this class is to help you develop concrete, applied skills in data analytics.
 
-At times this semester our work will feel very formulaic as we learn technical skills using Excel.
+Those skills are meant to help you make better management decisions.
 
-And at other times you are going to feel a bit lost at sea, because calculating an average is easy, but figuring out what that value means for who you should hire, where you should build a new factory or what kind of business you should start is WAY harder.
+<br>
 
-So, today we warm into our work with the assignment I set for you.
+This means we will need to spend time this semester building your skills in:
+
++ Using Excel,
+
++ Performing and interpreting statistical analyses, and
+
++ Evaluating the messiness that is real-world data.
+
+<br>
+
+Today we warm into our work with the assignment I set for you.
 
 
 
@@ -96,7 +110,41 @@ class: middle
 
 I asked each of you to come to class ready to make and support an argument with evidence.
 
---
+### How did that go?
+
+<br>
+
+Let's talk about the evidence BEFORE we get to the arguments themselves.
+
+Everybody open up the shared document and take a moment to look through the submissions.
+
+<br>
+
+### What kinds of evidence did we bring to class?
+
+#### - e.g. News stories about a place? Government data? Reports from a consultancy?
+
+<br>
+
+### How did you find your evidence?
+
+#### - Did you start with your argument (place to go) or the evidence (google search)?
+
+<br>
+
+### Which pieces of evidence on this list would you be willing to use as the basis of an investment decision using YOUR OWN MONEY?
+
+#### - How confident are you that the evidence you brought today is high quality?
+
+
+
+
+---
+
+background-image: url('libs/Images/01-2-how-to-start-a-business-featured-web-final.jpg')
+background-size: 100%
+background-position: center
+class: middle
 
 .right-column[
 .size50[
@@ -110,7 +158,9 @@ I asked each of you to come to class ready to make and support an argument with 
 
 ???
 
-QUESTIONS ON THE THREE PROMPTS?
+Ok, now let's talk about your actual arguments!
+
+### Questions on the three prompts?
 
 *Notes on Board*: 1) What? (Type of business), 2) Where? (Location), 3) Why? (Important criteria)
 
@@ -118,21 +168,21 @@ Let's hear your answers!
 
 <br>
 
-WHAT DO WE LEARN FROM COMPARING AND CONTRASTING THESE RESPONSES AND LISTS?
+### What do we learn from comparing and contrasting these responses and lists?
 
 <br>
 
-YOU ARE A BUNCH OF VALUABLE YOUNG MINDS, ISN'T IT USEFUL TO KNOW HOW YOU THINK ABOUT ENTREPRENEURSHIP? WHY OR WHY NOT?
+### You are a bunch of valuable young minds, isn't it useful to know how you think about entrepreneurship? Why or why not?
 
-- PERCEIVED GROWTH INDUSTRIES?
+#### - Perceived growth industries?
 
-- PERCEIVED GROWTH LOCATIONS?
+#### - Perceived growth locations?
 
 <br>
 
 Focus in especially on the criteria column and let's talk models of decision-making.
 
-WHEN WE LOOK ACROSS ALL OF THESE ANSWERS, IS THERE A MODEL HERE? OR EVIDENCE OF MULTIPLE MODELS BEING USED IN THE CLASS?
+### When we look across all of these answers, is there a model here? or evidence of multiple models being used in the class?
 
 + Some simplified way we can describe how you, as a group, think about starting a new business?
 
@@ -147,13 +197,24 @@ background-size: 80%
 background-position: top
 class: bottom, center, slideblue
 
+???
+
+[Girsch-Bock, Mary. (2021, Jan 19). "Top 10 Best States to Start Your Small Business in 2021." The Blueprint by The Motley Fool.](https://www.fool.com/the-blueprint/top-10-best-states-to-start-your-small-business/)
+
+<br>
+
+That was excellent work reviewing evidence and thinking through the possible models in our minds.
+
+Now let's dig into some data to see what we can learn.
+
+
+--
+
 .size45[Open the Week 1 data (on Moodle) and go to the web page.
 
 Is this a useful model of the business start-up decision?]
 
 ???
-
-[Girsch-Bock, Mary. (2021, Jan 19). "Top 10 Best States to Start Your Small Business in 2021." The Blueprint by The Motley Fool.](https://www.fool.com/the-blueprint/top-10-best-states-to-start-your-small-business/)
 
 <br>
 
@@ -167,19 +228,19 @@ Get ready to report back to me on the model created by Girsch-Bock.
 
 Let's start by evaluating the variables chosen.
 
-AT A CONCEPTUAL LEVEL, ARE THESE THE SEVEN MOST IMPORTANT FACTORS FOR ALL PROSPECTIVE NEW BUSINESSES? WHY OR WHY NOT?
+### At a conceptual level, are these the seven most important factors for all prospective new businesses? Why or why not?
 
 <br>
 
 Now let's evaluate the measurement of each.
 
-IS EACH PULLED FROM A HIGH QUALITY SOURCE? WHY OR WHY NOT?
+### Is each pulled from a high quality source? Why or why not?
 
 <br>
 
-WHAT ARE THE PROS AND CONS OF TRANSFORMING EACH MEASURE TO A 1-10 SCALE?
+### What are the pros and cons of transforming each measure to a 1-10 scale?
 
-+ ANY IDEA WHY THEY DO THIS?
+#### + Any idea why they do this?
 
 (Easier to combine, prevents weighting problems of scale)
 
@@ -198,7 +259,7 @@ class: slideblue
 
 ???
 
-IS EVERYBODY COMFORTABLE OPENING AND VIEWING DATA IN EXCEL?
+### Is everybody comfortable opening and viewing data in Excel?
 
 + (You can do this in any computer lab on campus) OR
 
@@ -208,13 +269,13 @@ IS EVERYBODY COMFORTABLE OPENING AND VIEWING DATA IN EXCEL?
 
 That last one should really just be for emergencies because there is a lot it cannot do.
 
-QUESTIONS ON HOW TO ACCESS THE SOFTWARE? ANY TROUBLES GETTING IT RUNNING?
+### Questions on how to access the software? Any troubles getting it running?
 
 <br>
 
-WHAT IS THE STRUCTURE OF THIS DATA? HOW HAS IT BEEN ORGANIZED?
+### What is the structure of this data? How has it been organized?
 
-TALK ME THROUGH WHAT YOU SEE HERE AND HOW IT FORCES YOU TO THINK ABOUT THE BUSINESS START-UP MODEL.
+### Talk me through what you see here and how it forces you to think about the business start-up model.
 
 + (Rows as observations, Columns as variables)
 + (Leads with "rank" and "total score")
@@ -222,25 +283,42 @@ TALK ME THROUGH WHAT YOU SEE HERE AND HOW IT FORCES YOU TO THINK ABOUT THE BUSIN
 
 <br>
 
-HOW DOES MISSOURI DO ON THESE VARIABLES?
+### How does Missouri do on these variables?
 
-DOES THIS TELL US ANYTHING USEFUL ABOUT MISSOURI'S COMPETITIVENESS WITH OTHER STATES? WHY OR WHY NOT?
+### Does this tell us anything useful about Missouri's competitiveness with other states? Why or why not?
 
-<br>
+
+
+
+---
+
+background-image: url('libs/Images/background-blue_cubes_lighter.png')
+background-size: 100%
+background-position: center
+class: center, bottom
+
+.size60[**Go through the data and find us interesting observations**
+
++ States that stand out?
+
++ Variables with the least and most variation?
+]
+
+???
 
 Take a couple of minutes to go through the data.
 
 Find us interesting observations!
 
-ANYTHING IN TERMS OF MEASURES OR THE CONDITION OF STATES STAND OUT FOR YOU? WHY?
+### Anything in terms of measures or the condition of states stand out for you? Why?
 
 <br>
 
-BOTTOM LINE, HOW USEFUL IS THIS AS A MODEL FOR STARTING A NEW BUSINESS IN THE US?
+### Bottom line, how useful is this as a model for starting a new business in the US?
 
-+ WHAT IS MISSING? 
+#### + What is missing? 
 
-+ ANY OF THESE VARIABLES YOU WOULD DELETE FOR YOUR SPECIFIC BUSINESS TYPE?
+#### + Any of these variables you would delete for your specific business type?
 
 <br>
 
@@ -281,14 +359,14 @@ However, let's never lose sight of the point of all this.
 
 We want to be data driven decision-makers and we never want other people to be able to take advantage of our ignorance about the data!
 
-QUESTIONS?
+### Questions?
 
 <br>
 
 Everybody open the syllabus and check out what you have to do for Tuesday.
 
-WHAT DO YOU HAVE TO DO?
+### What do you have to do?
 
-- ANY QUESTIONS ON THE ASSIGNMENT?
+#### - Any questions on the assignment?
 
 
