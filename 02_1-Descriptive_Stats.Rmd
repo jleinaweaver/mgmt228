@@ -118,7 +118,7 @@ What drives economic investment in US states?
 \begin{enumerate}
 \item A focus group of educated, engaged and dynamic undergraduates interested in business
 
-\item Girsch-Bock, Mary. (2021, Jan 19). Top 10 Best States to Start Your Small Business in 2021. *The Blueprint by The Motley Fool*.
+\item Girsch-Bock, Mary. (2021, Jan 19). Top 10 Best States to Start Your Small Business in 2021. \textit{The Blueprint by The Motley Fool}.
 \end{enumerate}
 
 
