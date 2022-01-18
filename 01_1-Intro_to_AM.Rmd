@@ -32,39 +32,11 @@ knitr::opts_chunk$set(echo = FALSE,
                       warning = FALSE,
                       comment = NA)
 
-#############################################################
-## Stargazer code
-
-## Regular Table
-##stargazer(summary = FALSE, type = "latex", header = FALSE, rownames = FALSE, float = FALSE)
-
-## Regression Results
-##stargazer(res1, type = "latex", digits = 2, omit.stat = "rsq", header = FALSE, font.size = "footnotesize", star.cutoffs = .05, notes = "*p < 0.05", notes.append = FALSE, dep.var.caption = "", float = FALSE)
-
-##covariate.labels = c("Mother's Education")
-##dep.var.labels = "Earnings (2021)"
-
-#############################################################
-## Figures
-
-## ```{r, fig.align = 'center', fig.asp=0.618, out.height = '90%', fig.width = 5}
-
-##knitr::include_graphics()
-
-#############################################################
-## Side-by-side columns
-
-## ::: columns
-## :::: column
-## Content in left column
-## ::::
-## :::: column
-## Content in right column
-## ::::
-## :::
-
 ## Build bullets one-by-one
 ##\begin{enumerate}[<+->]
+
+## Due to COVID this was done on Zoom so some tweaks needed for the following
+
 
 ```
 
@@ -148,7 +120,7 @@ knitr::include_graphics("./Images/01_1-scaffolding.png")
 
 By the end of the semester you will be able to:
 
-\begin{enumerate}
+\begin{enumerate}[<+->]
 \item Collect and critically evaluate data from a variety of sources (e.g. government sources, surveys, etc.)
 
 \item Use basic data analytics tools to support decision-making (e.g. univariate, bivariate and multivariate approaches including regression), and
@@ -234,15 +206,20 @@ knitr::include_graphics("./Images/01_1-the_office.jpg")
 #
 ::: columns
 :::: column
-\vspace{1in}
+\vspace{.25in}
+
 \begin{center}
 \begin{LARGE}
-\textbf{The Boston "T"}
+\textbf{Boston's Subway System}
+
+\vspace{.75in}
+
+\textbf{The "T"}
 \end{LARGE}
 \end{center}
 ::::
 :::: column
-```{r, fig.align = 'center', fig.asp=0.618, out.width = '90%', fig.width = 5}
+```{r, fig.align = 'center', fig.asp=0.618, out.width = '100%', fig.width = 5}
 knitr::include_graphics("./Images/01_1-mbta_map1.png")
 ```
 ::::
@@ -251,13 +228,13 @@ knitr::include_graphics("./Images/01_1-mbta_map1.png")
 
 
 # 
-```{r, fig.align = 'center', fig.asp=0.618, out.width = '90%', fig.width = 5}
+```{r, fig.align = 'center', fig.asp=0.618, out.width = '100%', fig.width = 5}
 knitr::include_graphics("./Images/01_1-MBTA_map2.png")
 ```
 
 
 # 
-```{r, fig.align = 'center', fig.asp=0.618, out.width = '95%', fig.width = 5}
+```{r, fig.align = 'center', fig.asp=0.618, out.width = '100%', fig.width = 5}
 knitr::include_graphics("./Images/01_1-MBTA_map3.png")
 ```
 
@@ -312,19 +289,49 @@ knitr::include_graphics("./Images/01_1-Drury.jpg")
 
 
 
-# Our Plan This Semester
+#
+```{r, fig.align = 'center', out.width = '90%'}
+knitr::include_graphics("./Images/01-1-states.jpeg")
+```
 
-\begin{Large}
-\textbf{Build models to answer questions with data}
+\center
+\large
+What drives economic investment in US states? 
 
-\begin{itemize}
-\item What drives economic investment in US states? 
 
-\item Why do some countries attract greater levels of international investment than others?
 
-\item What explains why some individuals make more money than others?
-\end{itemize}
-\end{Large}
+#
+```{r, fig.align = 'center', out.width = '60%'}
+knitr::include_graphics("./Images/01-1-countries.jpg")
+```
+
+\center
+\large
+Why do some countries attract greater levels of international investment than others?
+
+
+
+#
+```{r, fig.align = 'center', out.width = '70%'}
+knitr::include_graphics("./Images/01-1-money_magnet.jpg")
+```
+
+\center
+\large
+What explains why some individuals make more money than others?
+
+
+
+
+# For Thursday
+\center
+\Large
+
+Come to class ready to make an argument:
+
+\vspace{.25in}
+
+If you were starting a new business in the US **what** would it be, **where** specifically would you do it and what **criteria** did you use to decide?
 
 
 
