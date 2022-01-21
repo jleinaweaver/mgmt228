@@ -271,7 +271,7 @@ knitr::include_graphics("./Images/03_2-ross1990.png")
 ```
 
 
-# Inflation, consumer prices
+# Estimating Inflation (consumer prices)
 ```{r, out.width = '80%', fig.align = 'center'}
 ## Inflation, consumer prices for the United States (FPCPITOTLZGUSA)
 ## https://fred.stlouisfed.org/series/FPCPITOTLZGUSA
@@ -281,6 +281,17 @@ knitr::include_graphics("./Images/03_2-fred-inflation.png")
 ## 102.66% est
 ## earnk2021 = earnk * 2.0266
 ```
+\begin{itemize}
+\item Since 1990 $\approx +102.66\%$ 
+\end{itemize}
+
+
+
+# Adjusting for Inflation
+```{r, out.width = '80%', fig.align = 'center'}
+knitr::include_graphics("./Images/03-2-earnk2021.png")
+```
+
 \begin{itemize}
 \item Since 1990 $\approx +102.66\%$ 
 \item \textbf{New Variable}: earnk2021 = earnk x 2.0266
