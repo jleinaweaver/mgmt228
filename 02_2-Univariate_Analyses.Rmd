@@ -96,8 +96,8 @@ Predictors to Analyze (5): Min wage, unemployment, population, homeowner rate an
 |Standard deviation|= STDEV.S|
 |Minimum|= MIN|
 |Maximum|= MAX|
-|25th Percentile|= QUARTILE.EXC (quart = 1)|
-|75th Percentile|= QUARTILE.EXC (quart = 3)|
+|25th Percentile|= QUARTILE.EXC (*data*, 1)|
+|75th Percentile|= QUARTILE.EXC (*data*, 3)|
 
 
 
@@ -716,16 +716,16 @@ Use Excel to make an appropriate univariate visualization for each of the remain
 
 # Developing a Model\: Univariate Analyses
 
-\begin{large}
+\begin{Large}
 
 \begin{enumerate}[<+->]
 
-\item How effective are descriptive stats in helping us "see" the visualization without actually seeing it?
+\item Which is more useful the descriptive statistics or the visualization?
 
-\item Which is more useful the descriptive stats or the visualization? Why?
+\vspace{.25in}
 
-\item Finally, in what specific ways does univariate analysis help us develop a model to answer our motivating question?
+\item In what specific ways can we use univariate analyses to answer our motivating question?
 
 \end{enumerate}
 
-\end{large}
+\end{Large}

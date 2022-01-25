@@ -373,8 +373,8 @@ Predictors to Analyze (5): Min wage, unemployment, population, homeowner rate an
 |Standard deviation|= STDEV.S|
 |Minimum|= MIN|
 |Maximum|= MAX|
-|25th Percentile|= QUARTILE.EXC (quart = 1)|
-|75th Percentile|= QUARTILE.EXC (quart = 3)|
+|25th Percentile|= QUARTILE.EXC (*data*, 1)|
+|75th Percentile|= QUARTILE.EXC (*data*, 3)|
 
 
 
