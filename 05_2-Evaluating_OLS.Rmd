@@ -146,7 +146,7 @@ stargazer(res1, res2, res3, star.cutoffs = .05, notes = "*p < 0.05", notes.appen
 \end{column}
 
 \begin{column}{.5\textwidth}
-```{r, fig.align = 'center', out.width = '100%', fig.width = 4.5}
+```{r, fig.align = 'center', out.height = '98%', fig.width = 4.5}
 d %>%
   select(earnk2021, height, age, education) %>%
   pivot_longer(cols = height:education, names_to = "Predictor", values_to = "Values") %>%
@@ -184,26 +184,6 @@ For someone of average age in the sample?
 For someone of average education in the sample?
 \begin{itemize}
 \item Avg education of `r round(mean(d$education, na.rm = TRUE), 1)` = `r str_c('\\$', round(x3[1]+x3[2]*round(mean(d$education, na.rm = TRUE), 1), 1), 'k')`
-\end{itemize}
-\end{large}
-
-
-
-# What are the predicted earnings...
-\begin{large}
-Model 1: Height
-\begin{itemize}
-\item Avg = `r str_c('\\$', round(x1[1]+x1[2]*round(mean(d$height, na.rm = TRUE), 1), 1), 'k')` vs Maximum = ?
-\end{itemize}
-
-Model 2: Age
-\begin{itemize}
-\item Avg = `r str_c('\\$', round(x2[1]+x2[2]*round(mean(d$age, na.rm = TRUE), 1), 1), 'k')` vs Maximum = ?
-\end{itemize}
-
-Model 3: Education
-\begin{itemize}
-\item Avg = `r str_c('\\$', round(x3[1]+x3[2]*round(mean(d$education, na.rm = TRUE), 1), 1), 'k')` vs Maximum = ?
 \end{itemize}
 \end{large}
 
@@ -466,13 +446,13 @@ knitr::include_graphics("./Images/05_2-heteroskedasticity.png")
 
 
 #
-```{r, fig.align = 'center', out.width = '95%'}
+```{r, fig.align = 'center', out.width = '90%'}
 knitr::include_graphics("./Images/05_2-nonlinear.png")
 ```
 
 
 # 
-```{r, fig.align = 'center', fig.asp=0.618, out.width = '95%', fig.width = 5}
+```{r, fig.align = 'center', fig.asp=0.618, out.width = '90%', fig.width = 5}
 d %>%
   add_residuals(res1) %>%
   add_predictions(res1) %>%
@@ -486,7 +466,7 @@ d %>%
 
 
 # 
-```{r, fig.align = 'center', fig.asp=0.618, out.width = '95%', fig.width = 5}
+```{r, fig.align = 'center', fig.asp=0.618, out.width = '90%', fig.width = 5}
 d %>%
   add_residuals(res2) %>%
   add_predictions(res2) %>%
@@ -499,7 +479,7 @@ d %>%
 
 
 # 
-```{r, fig.align = 'center', fig.asp=0.618, out.width = '95%', fig.width = 5}
+```{r, fig.align = 'center', fig.asp=0.618, out.width = '90%', fig.width = 5}
 d %>%
   add_residuals(res3) %>%
   add_predictions(res3) %>%
