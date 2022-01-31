@@ -128,26 +128,42 @@ Subset the data and then make your bar plot or histogram
 
 
 
-# Bivariate Viz: Categorical x Categorical
-\begin{large}
-\begin{center}
-\textbf{1. Using Facets to Extend Univariate Visualizations}
-\end{center}
+# 
+```{r, fig.align = 'center', fig.asp=0.618, out.width = '60%', fig.width = 5}
+knitr::include_graphics("./Images/03-1-no_income_tax.png")
+```
 
-\vspace{.25in}
-
-Make two bar plots of manufacturing category
-\begin{enumerate}
-\item One for states with an income tax, and
-
-\item One for states without an income tax.
-\end{enumerate}
-\end{large}
+\Large
+\center
+manufacturing_thousands and income_tax
 
 
 
-# Bivariate Viz: Categorical x Categorical
-```{r, fig.align = 'center', fig.asp=0.4, out.height = '70%', fig.width = 6}
+# 1. Copy the data to a new sheet
+
+```{r, fig.align = 'center', fig.asp=0.618, out.width = '60%', fig.width = 5}
+knitr::include_graphics("./Images/03-1-facet_example1.png")
+```
+
+
+
+# 2. Sort the data by the categorical variable
+
+```{r, fig.align = 'center', fig.asp=0.618, out.width = '60%', fig.width = 5}
+knitr::include_graphics("./Images/03-1-facet_example2.png")
+```
+
+
+# 3. Split the data by subset
+
+```{r, fig.align = 'center', fig.asp=0.618, out.width = '95%', fig.width = 5}
+knitr::include_graphics("./Images/03-1-facet_example3.png")
+```
+
+
+# 4. Make a histogram for each subset
+
+```{r, fig.align = 'center', fig.asp=0.45, out.width = '95%', fig.width = 7}
 d <- read_excel("../../Data/Dataset-1/Dataset1-2020_Only.xlsx", na = "NA") %>%
   mutate(
     gdp_category = factor(gdp_category, levels = c("Under $100 billion", "Under $1 trillion", "Above $1 trillion")),
@@ -157,51 +173,28 @@ d <- read_excel("../../Data/Dataset-1/Dataset1-2020_Only.xlsx", na = "NA") %>%
   )
 
 d %>%
-  ggplot(aes(x = manufacturing_category)) +
-  geom_bar(fill = "darkblue", width = .5) +
-  geom_hline(yintercept = seq(5,15,5), color = "white") +
+  ggplot(aes(x = manufacturing_thousands)) +
+  geom_histogram(fill = "darkblue", color = "white", bins = 10) +
   theme_bw() +
-  labs(x = "Manufacturing Employment", y = "") +
+  labs(x = "Manufacturing Employment (thousands)", y = "") +
   facet_wrap(~ income_tax2)
+
 ```
 
 
-# Bivariate Viz: Categorical x Categorical
-\begin{large}
-\begin{center}
-\textbf{1. Using Facets to Extend Univariate Visualizations}
-\end{center}
 
-\vspace{.25in}
+#
+\Large
+\center
+Does population size predict the size of your manufacturing sector?
 
-Make three bar plots of GDP category
-\begin{enumerate}
-\item pop\_category = "Under 5 million"
-\item pop\_category = "Under 10 million"
-\item pop\_category = "Above 10 million"
-\end{enumerate}
-\end{large}
-
-
-
-# Bivariate Viz: Categorical x Categorical
-```{r, fig.align = 'center', fig.asp=0.4, out.height = '72%', fig.width = 8.5}
-d %>%
-  mutate(
-    pop_category = case_when(
-      pop_category == "Under 5 million" ~ "1. Population < 5 million",
-      pop_category == "Under 10 million" ~ "2. Population < 10 million",
-      pop_category == "Above 10 million" ~ "3. Population > 10 million"
-    )
-  ) %>%
-  ggplot(aes(x = gdp_category)) +
-  geom_bar(fill = "darkblue", width = .5) +
-  geom_hline(yintercept = seq(5,15,5), color = "white") +
-  theme_bw() +
-  labs(x = "Size of GDP", y = "") +
-  scale_x_discrete(limits = c("Under $100 billion", "Under $1 trillion", "Above $1 trillion"), labels = c("< $100 billion", "< $1 trillion", "> $1 trillion")) +  
-  facet_wrap(~ pop_category)
+```{r, fig.align = 'center', fig.asp=0.618, out.width = '60%', fig.width = 5}
+knitr::include_graphics("./Images/03-1-many_vs_few.jpg")
 ```
+
+manufacturing_thousands and pop_category
+
+
 
 
 # Bivariate Viz: Numerical x Categorical
@@ -306,6 +299,136 @@ d %>%
     labs(x = "Manufacturing Employment") +
     facet_wrap(~ pop_category, ncol = 1, scales = "free_y")
 ```
+
+
+
+# Bivariate Viz: Categorical x Categorical
+\begin{large}
+\begin{center}
+\textbf{1. Using Facets to Extend Univariate Visualizations}
+\end{center}
+
+\vspace{.25in}
+
+Make two bar plots of manufacturing category
+\begin{enumerate}
+\item One for states with an income tax, and
+
+\item One for states without an income tax.
+\end{enumerate}
+\end{large}
+
+
+
+# 1. Copy the data, insert a pivot table
+
+```{r, fig.align = 'center', out.width = '90%'}
+knitr::include_graphics("./Images/03-1-pivot1_v2.png")
+```
+
+
+# 2. Choose the variable to count
+
+```{r, fig.align = 'center', out.width = '96%'}
+knitr::include_graphics("./Images/03-1-pivot2_v2.png")
+```
+
+
+# 3. Count the levels separately
+
+```{r, fig.align = 'center', out.width = '100%'}
+knitr::include_graphics("./Images/03-1-pivot3_v2.png")
+```
+
+
+
+# 4. Add the second variable as columns
+
+```{r, fig.align = 'center', out.width = '100%'}
+knitr::include_graphics("./Images/03-1-pivot4_v2.png")
+```
+
+
+# 5. Clean up the row order and labels
+
+```{r, fig.align = 'center', out.width = '100%'}
+knitr::include_graphics("./Images/03-1-pivot5_v2.png")
+```
+
+
+
+# 6. Insert a bar plot
+
+```{r, fig.align = 'center', out.width = '100%'}
+knitr::include_graphics("./Images/03-1-pivot6.png")
+```
+
+
+
+# 7. Use the chart filter to separate plots
+
+```{r, fig.align = 'center', out.width = '100%'}
+knitr::include_graphics("./Images/03-1-pivot7_v2.png")
+```
+
+
+
+
+
+
+
+
+
+# Bivariate Viz: Categorical x Categorical
+```{r, fig.align = 'center', fig.asp=0.4, out.height = '70%', fig.width = 6}
+d %>%
+  ggplot(aes(x = manufacturing_category)) +
+  geom_bar(fill = "darkblue", width = .5) +
+  geom_hline(yintercept = seq(5,15,5), color = "white") +
+  theme_bw() +
+  labs(x = "Manufacturing Employment", y = "") +
+  facet_wrap(~ income_tax2)
+```
+
+
+# Bivariate Viz: Categorical x Categorical
+\begin{large}
+\begin{center}
+\textbf{1. Using Facets to Extend Univariate Visualizations}
+\end{center}
+
+\vspace{.25in}
+
+Make three bar plots of GDP category
+\begin{enumerate}
+\item pop\_category = "Under 5 million"
+\item pop\_category = "Under 10 million"
+\item pop\_category = "Above 10 million"
+\end{enumerate}
+\end{large}
+
+
+
+# Bivariate Viz: Categorical x Categorical
+```{r, fig.align = 'center', fig.asp=0.4, out.height = '72%', fig.width = 8.5}
+d %>%
+  mutate(
+    pop_category = case_when(
+      pop_category == "Under 5 million" ~ "1. Population < 5 million",
+      pop_category == "Under 10 million" ~ "2. Population < 10 million",
+      pop_category == "Above 10 million" ~ "3. Population > 10 million"
+    )
+  ) %>%
+  ggplot(aes(x = gdp_category)) +
+  geom_bar(fill = "darkblue", width = .5) +
+  geom_hline(yintercept = seq(5,15,5), color = "white") +
+  theme_bw() +
+  labs(x = "Size of GDP", y = "") +
+  scale_x_discrete(limits = c("Under $100 billion", "Under $1 trillion", "Above $1 trillion"), labels = c("< $100 billion", "< $1 trillion", "> $1 trillion")) +  
+  facet_wrap(~ pop_category)
+```
+
+
 
 
 #
