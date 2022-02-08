@@ -78,7 +78,7 @@ knitr::opts_chunk$set(echo = FALSE,
 
 \vspace{.15in}
 
-Multiple OLS Assignment Due Sunday
+Multiple OLS Assignment
 
 \end{Large}
 
@@ -112,7 +112,7 @@ Justin Leinaweaver (Spring 2022)
 
 
 
-# Assignment Due Sunday
+# Assignment
 
 \begin{center}
 \begin{huge}

@@ -78,7 +78,7 @@ knitr::opts_chunk$set(echo = FALSE,
 
 \vspace{.15in}
 
-Simple OLS Assignment Due Sunday
+Simple OLS Assignment
 
 \end{Large}
 
