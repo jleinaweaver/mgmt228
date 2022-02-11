@@ -43,7 +43,7 @@ Using OLS regressions to analyze the stock market
 
 \vspace{.25in}
 
-Download the stock market data from Moodle
+- Download the stock market data from Moodle
 
 \end{Large}
 
@@ -63,7 +63,7 @@ knitr::include_graphics("./Images/06_2-stock_market_image.jpg")
 
 # Analyzing the Stock Market with OLS
 ```{r, fig.align = 'center', fig.asp=0.618, out.width = '97%', fig.width = 7}
-knitr::include_graphics("./Images/06_2-correlations.png")
+knitr::include_graphics("./Images/06_2-correlations_v2.png")
 ```
 
 
@@ -107,6 +107,14 @@ knitr::include_graphics("./Images/06_2-alpha.png")
 ```
 
 
+
+# Let's Analyze the Market in 2021
+```{r, fig.align = 'center', out.width = '80%'}
+knitr::include_graphics("./Images/06-2-spreadsheet.png")
+```
+
+
+
 # 
 ```{r, fig.align = 'center', fig.asp=0.618, out.width = '92%', fig.width = 7}
 ## Input data
@@ -138,15 +146,32 @@ d2 %>%
 ```
 
 
-# Analyzing the Stock Market with OLS
 
-1. Calculate the rate of return for the stock you are analyzing (e.g. WMT) AND the market (e.g S&P 500)
+# Let's Analyze Four Stocks 
+```{r, fig.align = 'center', out.width = '80%'}
+knitr::include_graphics("./Images/06-2-spreadsheet.png")
+```
 
-     + = (Current / Last) - 1
-	 
-\vspace{.3in}
 
-2. Regress the returns of the stock (the outcome) on the returns of the market (the predictor)
+
+# Rate = (Current / Last) - 1
+```{r, fig.align = 'center', out.width = '70%'}
+knitr::include_graphics("./Images/06-2-calculate_rate.png")
+```
+
+
+# Rate = (Current / Last) - 1
+```{r, fig.align = 'center', out.width = '100%'}
+knitr::include_graphics("./Images/06-2-rates2.png")
+```
+
+
+
+# Rate = (Current / Last) - 1
+```{r, fig.align = 'center', out.width = '65%'}
+knitr::include_graphics("./Images/06-2-investment1.png")
+```
+
 
 
 
@@ -164,11 +189,12 @@ Analyze: Walmart, Zoom, Six Flags and Yeti
 
 ## For Each Stock:
 
-1. Fit regressions and format in a table
+1. Regression: Calculate the alpha and the beta
 
 2. Line plot: Market vs Stock Returns
 
-3. \$100 investment in 2020?
+3. Result of \$100 investment in 2021?
+
 
 
 
@@ -242,4 +268,35 @@ d3 %>%
 
 ```
 \end{center}
+
+
+
+# Yahoo Finance: Download Historical Data
+```{r, fig.align = 'center', out.width = '98%'}
+knitr::include_graphics("./Images/06-2-yahoo1.png")
+```
+
+
+# Yahoo Finance: Download Historical Data
+```{r, fig.align = 'center', out.width = '90%'}
+knitr::include_graphics("./Images/06-2-yahoo2.png")
+```
+
+
+# Prep the New Data
+```{r, fig.align = 'center', out.width = '90%'}
+knitr::include_graphics("./Images/06-2-yahoo3.png")
+```
+
+
+# Prep the New Data
+```{r, fig.align = 'center', out.width = '50%'}
+knitr::include_graphics("./Images/06-2-yahoo4.png")
+```
+
+
+# Prep the New Data
+```{r, fig.align = 'center', out.width = '50%'}
+knitr::include_graphics("./Images/06-2-yahoo5.png")
+```
 

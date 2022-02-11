@@ -221,9 +221,13 @@ p1 <- d %>%
   labs(x = "Mother's Education", title = "Why do we need a prediction interval?", y = "Yearly Income (2021)")
 
 ## Add predictions
+#predict.lm(res1, newdata = data.frame(mother_education = 12))
+
 p1 +
   scale_x_continuous(breaks = 1:18) +
-  annotate("point", x = 12, y = 16.7, color = "red", size = 4)
+  annotate("point", x = 12, 
+           y = predict.lm(res1, newdata = data.frame(mother_education = 12)), 
+           color = "red", size = 4)
 ```
 
 
@@ -233,7 +237,7 @@ p1 +
 
 p1 +
   scale_x_continuous(breaks = 1:18) +
-  annotate("point", x = 12, y = 16.7, color = "red", size = 4) +
+  annotate("point", x = 12, y = predict.lm(res1, newdata = data.frame(mother_education = 12)), color = "red", size = 4) +
   annotate("rect", xmin = 11.5, xmax = 12.5, ymin = 0, ymax = 150, fill = NA, color = "red", size = 3)
 ```
 
@@ -360,6 +364,23 @@ stargazer(res1a, res2a, res1, res2, type = "latex", digits = 2, omit.stat = "rsq
 \end{center}
 
 
+
+# 
+\begin{center}
+
+```{r, echo = FALSE, results = "asis"}
+##‘"tiny"’, ‘"scriptsize"’, ‘"footnotesize"’, ‘"small"’, ‘"normalsize"’, ‘"large"’, ‘"Large"’, ‘"LARGE"’, ‘"huge"’, ‘"Huge"’
+
+# Scale to billions
+res1 <- d %>% lm(data = ., gdp_billions ~ bachelors)
+res2 <- d %>% lm(data = ., gdp_billions ~ homeowner_rate)
+
+stargazer(res1, res2, type = "latex", digits = 2, omit.stat = "rsq", dep.var.caption = "", dep.var.labels = c("GDP (Billions USD)"), covariate.labels = c("Bachelors", "Homeownership"), star.cutoffs = .05, notes = "*p<0.05", notes.append = FALSE, header = FALSE, font.size = "footnotesize", float = FALSE)
+```
+\end{center}
+
+
+
 # Step 4: Check the Residuals
 
 ::: columns
@@ -398,21 +419,6 @@ d %>%
 :::
 
 
-# Making Predictions of GDP (Billions USD)
-
-\begin{center}
-```{r, echo=FALSE, warning = FALSE, results="asis"}
-tibble(
-    Prediction = c("Mean Bachelors' Degrees", "Mean Homeownership Rate"),
-    Low = c("", ""),
-    Estimates = c("", ""),
-    High = c("", "")
-) %>%
-    stargazer(summary = FALSE, type = "latex", header = FALSE, rownames = FALSE, float = FALSE)
-```
-\end{center}
-
-
 
 # Making Predictions of GDP (Billions USD)
 
@@ -442,7 +448,7 @@ high1 <- round(as.numeric(c((x1[1] + x1[2] * mean_bach) + 2 * round(summary(res1
 tab1 <- tibble(
     Prediction = c("Mean Bachelors' Degrees", "Mean Homeownership Rate"),
     Low = low1,
-    Estimate = str_c('$', round(estimates1, 1), 'k'),
+    Estimate = str_c('$', round(estimates1, 1)),
     High = high1
 )
 
@@ -452,44 +458,53 @@ tab1 %>%
 \end{center}
 
 
+
 # Making Predictions of GDP (Billions USD)
 
 \begin{center}
 ```{r, echo=FALSE, warning = FALSE, results="asis"}
+tab1 %>%
+    stargazer(summary = FALSE, type = "latex", header = FALSE, rownames = FALSE, float = FALSE)
+```
+\end{center}
+
+\vspace{.2in}
+
+\begin{itemize}
+\item What is effect of \textbf{increasing bachelors} from the mean by 10\%?
+
+\item What is effect of \textbf{decreasing homeownership} from the mean by 10\%?
+\end{itemize}
+
+
+
+
+
+# Making Predictions of GDP (Billions USD)
+
+\begin{center}
+```{r, echo=FALSE, warning = FALSE, results="asis"}
+#mean(d$bachelors)*1.1
 tab1[1,] %>%
-    add_row(Prediction = "Max Bachelors' Degrees",
-             Low = as.numeric((x1[1] + x1[2] * max(d$bachelors)) - 2*round(summary(res1)$sigma, 2)),
-             Estimate = str_c('$', as.numeric(round(x1[1] + x1[2] * max(d$bachelors)), 1), 'k'),
-             High = as.numeric((x1[1] + x1[2] * max(d$bachelors)) + 2*round(summary(res1)$sigma, 2))
+    add_row(Prediction = "Bachelors' Degrees + 10%",
+             Low = round(as.numeric((x1[1] + x1[2] * (mean(d$bachelors)*1.1)) - 2*round(summary(res1)$sigma, 2)), 1),
+             Estimate = str_c('$', as.numeric(round(x1[1] + x1[2] * (mean(d$bachelors)*1.1)), 1)),
+             High = round(as.numeric((x1[1] + x1[2] * (mean(d$bachelors)*1.1)) + 2*round(summary(res1)$sigma, 2)), 1)
              ) %>%
     stargazer(summary = FALSE, type = "latex", header = FALSE, rownames = FALSE, float = FALSE)
 ```
 
 ```{r, echo=FALSE, warning = FALSE, results="asis"}
+#coef(res2)[1] + (mean(d$homeowner_rate)*.9)*coef(res2)[2]
 tab1[2,] %>%
-    add_row(Prediction = "Min Homeownership",
-             Low = as.numeric((x2[1] + x2[2] * min(d$homeowner_rate)) - 2*round(summary(res2)$sigma, 2)),
-             Estimate = str_c('$', as.numeric(round(x2[1] + x2[2] * min(d$homeowner_rate)), 1), 'k'),
-             High = as.numeric((x2[1] + x2[2] * min(d$homeowner_rate)) + 2*round(summary(res2)$sigma, 2))
+    add_row(Prediction = "Homeownership - 10%",
+             Low = round(as.numeric((x2[1] + x2[2] * (mean(d$homeowner_rate)*.9)) - 2*round(summary(res2)$sigma, 2)), 1),
+             Estimate = str_c('$', as.numeric(round(x2[1] + x2[2] * (mean(d$homeowner_rate)*.9)), 1)),
+             High = round(as.numeric((x2[1] + x2[2] * (mean(d$homeowner_rate)*.9)) + 2*round(summary(res2)$sigma, 2)), 1)
              ) %>%
     stargazer(summary = FALSE, type = "latex", header = FALSE, rownames = FALSE, float = FALSE)
 ```
 \end{center}
 
-
-
-# 
-```{r, echo = FALSE, message = FALSE, warning = FALSE, fig.align = 'center', fig.asp=0.45, out.width = '100%', fig.width=7}
-# Visualize
-d %>%
-  select(gdp_billions, bachelors, homeowner_rate) %>%
-  pivot_longer(cols = bachelors:homeowner_rate, names_to = "Predictor", values_to = "Values") %>%
-  ggplot(aes(x = Values, y = gdp_billions)) +
-  geom_point() +
-  geom_smooth(method = "lm", se = FALSE) +
-  theme_bw() +
-  facet_wrap(~ Predictor, scales = "free") +
-  labs(x = "", y = "GDP (billions)")
-```
 
 
