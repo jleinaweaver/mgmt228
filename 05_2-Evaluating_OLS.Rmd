@@ -504,7 +504,7 @@ stargazer(res1, res2, res3, omit.stat = "rsq", star.cutoffs = .05, notes = "*p <
 #
 \begin{huge}
 \begin{center}
-Which is a better model of personal income (earnk):
+Which is a better model of personal income:
 
 \begin{enumerate}
 \item Mother's education level, or
@@ -519,7 +519,7 @@ Which is a better model of personal income (earnk):
 #
 \begin{Large}
 \begin{center}
-Which is a better model of personal income (earnk):
+Which is a better model of personal income:
 
 \begin{enumerate}
 \item Mother's education level, or
