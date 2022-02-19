@@ -35,13 +35,13 @@ knitr::opts_chunk$set(echo = FALSE,
 
 # Today's Agenda
 
-\begin{Large}
-1. Revise and resubmit our reports
+\begin{large}
+1. Practice fitting and evaluating simple OLS regressions
 
 \vspace{.25in}
 
-2. Practice simple OLS regressions (with prediction intervals)
-\end{Large}
+2. Make and interpret point estimates with prediction intervals
+\end{large}
 
 \vspace{.5in}
 
@@ -50,29 +50,25 @@ Justin Leinaweaver (Spring 2022)
 \end{center}
 
 
+# Let's check in on your new skills!
 
-# Report 1
-\center
-\huge
-**What did you do well?**
++ Bar plots (categorical variables)
 
++ Histograms (numerical variables)
 
++ Box plots (numerical x categorical)
 
-# Report 1
-\center
-\huge
-**What specific things do you wish your report did better?**
++ Scatterplots (numerical x numerical)
 
++ Descriptive statistics 
+  + mean, sd, median, min, max, range, IQR
 
-
-# Report 1
-\center
-\huge
-**25 minutes to revise and resubmit your reports!**
++ Simple OLS models
+  + Table, scatterplot with regression line and residual plot
 
 
 
-# Which is a better model of personal income?
+# Which is a better model of personal income (earnk2021)?
 
 \begin{huge}
 
@@ -84,9 +80,11 @@ Justin Leinaweaver (Spring 2022)
 
 
 
-#
+# Make Predictions with 95% CIs
+
 \begin{center}
-```{r, results = "asis"}
+
+```{r, echo = FALSE, results = "asis"}
 ## Reviewing work from last week
 d <- read_excel("../../Data/Dataset-3-Ross_1990/ICPSR_Ross_Survey_1990.xlsx", na = c("NA"), guess_max = 10000) %>%
     mutate(
@@ -97,86 +95,6 @@ d <- read_excel("../../Data/Dataset-3-Ross_1990/ICPSR_Ross_Survey_1990.xlsx", na
 res1 <- d %>% lm(data = ., earnk2021 ~ mother_education)
 res2 <- d %>% lm(data = ., earnk2021 ~ exercise)
 
-## Save coefs
-x1 <- round(coef(res1), 2)
-x2 <- round(coef(res2), 2)
-
-stargazer(res1, res2, omit.stat = c("rsq"), star.cutoffs = .05, notes = "*p < 0.05", notes.append = FALSE, digits = 2, covariate.labels = c("Mother's Education", "Exercise", "Constant"), dep.var.labels = "Earnings (2021)", dep.var.caption = "", float = FALSE, header = FALSE, font.size = "footnotesize")
-```
-\end{center}
-
-
-
-#
-\begin{columns}
-\begin{column}{0.5\textwidth}
-
-\vspace{.2in}
-
-```{r, fig.align = 'center', fig.asp=1.3, out.height = '100%', fig.width = 4}
-d %>%
-  select(earnk2021, mother_education, exercise) %>%
-  pivot_longer(cols = mother_education:exercise, names_to = "Predictor", values_to = "Values") %>%
-  mutate(
-    Predictor = if_else(Predictor == "mother_education", "Mother's Education", "Strenuous Exercise")
-  ) %>%
-  ggplot(aes(x = Values, y = earnk2021)) +
-  geom_point() +
-  geom_smooth(method = "lm", se = FALSE) +
-  facet_wrap(~ Predictor, scales = "free", ncol = 1) +
-  theme_bw() +
-  labs(x = "", y = "Earnings (2021)")
-```
-
-\end{column}
-\begin{column}{0.5\textwidth}
-
-```{r, results = "asis"}
-stargazer(res1, res2, omit.stat = c("rsq", "f", "ser"), star.cutoffs = .05, notes = "*p < 0.05", notes.append = FALSE, digits = 2, covariate.labels = c("Mother's Education", "Exercise", "Constant"), dep.var.labels = "Earnings (2021)", dep.var.caption = "", float = FALSE, header = FALSE, font.size = "footnotesize")
-```
-
-\end{column}
-\end{columns}
-
-
-
-# Step 4 - Check the Residuals
-\begin{columns}
-\begin{column}{0.5\textwidth}
-
-```{r, fig.align = 'center', fig.asp=.9, out.height = '80%', fig.width = 5}
-d %>%
-  add_residuals(res1) %>%
-  add_predictions(res1) %>%
-  ggplot(aes(x = pred, y = resid)) +
-  geom_point() +
-  geom_smooth(method = "lm", se = FALSE) +
-  theme_bw() +
-    labs(x = "Model Predictions", y = "Residuals",
-         title = "Mother's Education Model")
-```
-\end{column}
-\begin{column}{0.5\textwidth}
-```{r, fig.align = 'center', fig.asp=.9, out.height = '80%', fig.width = 5}
-d %>%
-  add_residuals(res2) %>%
-  add_predictions(res2) %>%
-  ggplot(aes(x = pred, y = resid)) +
-  geom_point() +
-  geom_smooth(method = "lm", se = FALSE) +
-  theme_bw() +
-    labs(x = "Model Predictions", y = "Residuals",
-         title = "Strenuous Exercise Model")
-```
-\end{column}
-\end{columns}
-
-
-# Make Predictions
-
-\begin{center}
-
-```{r, echo = FALSE, results = "asis"}
 ## Predictions table (manual to match students' results)
 x1 <- round(coef(res1), 2)
 x2 <- round(coef(res2), 2)
@@ -196,11 +114,99 @@ tab1 %>%
 
 
 
-# Make Predictions with 95% PIs
+# Make Predictions with 95% CIs
 
-![](Images/06_1-WilsonKeatingBeal_Hodges-PIs.png) 
+\begin{center}
 
-Source: Wilson, Keating, and Beal-Hodges (2012), p67
+```{r, echo = FALSE, results = "asis"}
+low1 <- round(as.numeric(c((x1[1] + x1[2] * 12) - 2 * round(summary(res1)$sigma, 2),
+(x1[1] + x1[2] * 16) - 2 * round(summary(res1)$sigma, 2),
+(x2[1] + x2[2] * 1) - 2 * round(summary(res2)$sigma, 2),
+(x2[1] + x2[2] * 7) - 2 * round(summary(res2)$sigma, 2))),1)
+
+high1 <- round(as.numeric(c((x1[1] + x1[2] * 12) + 2 * round(summary(res1)$sigma, 2),
+(x1[1] + x1[2] * 16) + 2 * round(summary(res1)$sigma, 2),
+(x2[1] + x2[2] * 1) + 2 * round(summary(res2)$sigma, 2),
+(x2[1] + x2[2] * 7) + 2 * round(summary(res2)$sigma, 2))), 1)
+
+tab1 %>%
+    mutate(
+        Low = low1,
+        High = high1
+    ) %>%
+    select(Prediction, Low, Estimates, High) %>%
+    stargazer(summary = FALSE, type = "latex", header = FALSE, rownames = FALSE, float = FALSE)
+```
+\end{center}
+
+
+# Confidence Intervals
+::: columns
+:::: column
+
+\vspace{.5in}
+
+How confident are you in the parameter estimates in your model?
+
+\vspace{.25in}
+
++ e.g. the regression coefficients
+
+\vspace{.25in}
+
+::::
+:::: column
+
+```{r, echo = FALSE, results = "asis", out.width = '50%'}
+##‘"tiny"’, ‘"scriptsize"’, ‘"footnotesize"’, ‘"small"’, ‘"normalsize"’, ‘"large"’, ‘"Large"’, ‘"LARGE"’, ‘"huge"’, ‘"Huge"’
+stargazer(res1, type = "latex", digits = 2, omit.stat = "rsq", header = FALSE, font.size = "footnotesize", star.cutoffs = .05, notes = "*p < 0.05", notes.append = FALSE, covariate.labels = c("Mother's Education"), dep.var.labels = "Earnings (2021)", dep.var.caption = "", float = FALSE)
+```
+::::
+:::
+
+
+# 95\% Confidence Intervals
+::: columns
+:::: column
+\vspace{.2in}
+\begin{Large}
+\begin{itemize}[<+->]
+\item $\beta \pm 2 * SE$
+\vspace{.25in}
+\item $`r as.numeric(x1[2])` \pm 2 * (`r round(coef(summary(res1))[2,2], 2)`)$
+\vspace{.25in}
+\item Low $\approx$ `r as.numeric(x1[2]) - 2 * round(coef(summary(res1))[2,2], 2)`
+\vspace{.25in}
+\item High $\approx$ `r as.numeric(x1[2]) + 2 * round(coef(summary(res1))[2,2], 2)`
+\end{itemize}
+\end{Large}
+
+::::
+:::: column
+
+```{r, echo = FALSE, results = "asis", out.width = '50%'}
+##‘"tiny"’, ‘"scriptsize"’, ‘"footnotesize"’, ‘"small"’, ‘"normalsize"’, ‘"large"’, ‘"Large"’, ‘"LARGE"’, ‘"huge"’, ‘"Huge"’
+
+stargazer(res1, type = "latex", digits = 2, omit.stat = "rsq", header = FALSE, font.size = "footnotesize", star.cutoffs = .05, notes = "*p < 0.05", notes.append = FALSE, covariate.labels = c("Mother's Education"), dep.var.labels = "Earnings (2021)", dep.var.caption = "", float = FALSE)
+```
+::::
+:::
+
+
+
+# Estimating Uncertainty 
+
+## Confidence intervals
+
++ How confident are you in the parameter estimates in your model?
+
++ e.g. the regression coefficients
+
+## Prediction intervals
+
++ How confident are you in the predictions made by your model?
+
++ e.g. point estimates
 
 
 
@@ -232,34 +238,29 @@ p1 +
 p1 +
   scale_x_continuous(breaks = 1:18) +
   annotate("point", x = 12, y = predict.lm(res1, newdata = data.frame(mother_education = 12)), color = "red", size = 4) +
-  annotate("rect", xmin = 11.5, xmax = 12.5, ymin = 0, ymax = 300, fill = NA, color = "red", size = 3)
+  annotate("rect", xmin = 11.5, xmax = 12.5, ymin = 0, ymax = 150, fill = NA, color = "red", size = 3)
 ```
 
 
+# Make Predictions with 95% PIs
 
-# Point Estimate + 2 * Model Std Error
+![](Images/06_1-WilsonKeatingBeal_Hodges-PIs.png) 
+
+Source: Wilson, Keating, and Beal-Hodges (2012), p67
+
+
+
+# Make Predictions with 95% PIs
 
 ![](Images/06_1_summary_output.png) 
 
 
 
-
-
-# Make Predictions with 95% CIs
+# What are the predicted earnings...
 
 \begin{center}
 
 ```{r, echo = FALSE, results = "asis"}
-low1 <- round(as.numeric(c((x1[1] + x1[2] * 12) - 2 * round(summary(res1)$sigma, 2),
-(x1[1] + x1[2] * 16) - 2 * round(summary(res1)$sigma, 2),
-(x2[1] + x2[2] * 1) - 2 * round(summary(res2)$sigma, 2),
-(x2[1] + x2[2] * 7) - 2 * round(summary(res2)$sigma, 2))),1)
-
-high1 <- round(as.numeric(c((x1[1] + x1[2] * 12) + 2 * round(summary(res1)$sigma, 2),
-(x1[1] + x1[2] * 16) + 2 * round(summary(res1)$sigma, 2),
-(x2[1] + x2[2] * 1) + 2 * round(summary(res2)$sigma, 2),
-(x2[1] + x2[2] * 7) + 2 * round(summary(res2)$sigma, 2))), 1)
-
 tab1 %>%
     mutate(
         Low = low1,
@@ -268,10 +269,8 @@ tab1 %>%
     select(Prediction, Low, Estimates, High) %>%
     stargazer(summary = FALSE, type = "latex", header = FALSE, rownames = FALSE, float = FALSE)
 ```
+
 \end{center}
-
-
-
 
 
 # Dataset 1\: The Motivating Problem
@@ -295,13 +294,46 @@ Based on the data for 2020 should states that want to grow the size of their eco
 
 
 # 
-```{r, echo = FALSE, message = FALSE, warning = FALSE, fig.align = 'center', fig.asp=0.5, out.width = '100%', fig.width = 7}
+Based on the data for 2020 should states that want to grow the size of their economies focus on increasing college completion (bachelors) or increasing homeownership (homeowner rate)?
+
+### Fit and evaluate the two models
+1. Model 1: Regress GDP on bachelors' degrees
+2. Model 2: Regress GDP on homeownership rates
+
+### Calculate PEs with 95\% CIs
+1. Set Model 1 to the mean rate of bachelors' degrees
+2. Set Model 2 to the mean rate of homeownership
+
+
+
+# 
+
+\begin{center}
+
+```{r, echo = FALSE, results = "asis"}
+##‘"tiny"’, ‘"scriptsize"’, ‘"footnotesize"’, ‘"small"’, ‘"normalsize"’, ‘"large"’, ‘"Large"’, ‘"LARGE"’, ‘"huge"’, ‘"Huge"’
+
 d <- read_excel("../../Data/Dataset-1/Dataset1-2020_Only.xlsx", na = "") %>%
   mutate(
     gdp_billions = gdp_millions / 1000,
     pop_millions = population_thousands / 1000
   )
 
+# Show unscaled first
+res1a <- d %>% lm(data = ., gdp_millions ~ bachelors)
+res2a <- d %>% lm(data = ., gdp_millions ~ homeowner_rate)
+
+stargazer(res1a, res2a, type = "latex", digits = 2, omit.stat = "rsq", dep.var.caption = "", dep.var.labels = "GDP (Millions USD)", covariate.labels = c("Bachelors", "Homeownership"), star.cutoffs = .05, notes = "*p<0.05", notes.append = FALSE, header = FALSE, font.size = "footnotesize", float = FALSE)
+
+##knitr::kable(res1a)
+```
+
+\end{center}
+
+
+
+# 
+```{r, echo = FALSE, message = FALSE, warning = FALSE, fig.align = 'center', fig.asp=0.5, out.width = '100%', fig.width = 7}
 # Visualize the scaling procedure
 d %>%
   pivot_longer(cols = c(gdp_millions, gdp_billions), names_to = "Predictor", values_to = "Values") %>%
@@ -317,17 +349,20 @@ d %>%
 ```
 
 
-
 # 
-Based on the data for 2020 should states that want to grow the size of their economies focus on increasing college completion (bachelors) or increasing homeownership (homeowner rate)?
+\begin{center}
 
-### Fit and evaluate the two models
-1. Model 1: Regress GDP (billions) on bachelors' degrees
-2. Model 2: Regress GDP (billions) on homeownership rates
+```{r, echo = FALSE, results = "asis"}
+##‘"tiny"’, ‘"scriptsize"’, ‘"footnotesize"’, ‘"small"’, ‘"normalsize"’, ‘"large"’, ‘"Large"’, ‘"LARGE"’, ‘"huge"’, ‘"Huge"’
 
-### Calculate PEs with 95\% CIs
-1. Set Model 1 to the mean rate of bachelors' degrees
-2. Set Model 2 to the mean rate of homeownership
+# Scale to billions
+res1 <- d %>% lm(data = ., gdp_billions ~ bachelors)
+res2 <- d %>% lm(data = ., gdp_billions ~ homeowner_rate)
+
+stargazer(res1a, res2a, res1, res2, type = "latex", digits = 2, omit.stat = "rsq", dep.var.caption = "", dep.var.labels = c("GDP (Millions USD)", "GDP (Billions USD)"), covariate.labels = c("Bachelors", "Homeownership"), star.cutoffs = .05, notes = "*p<0.05", notes.append = FALSE, header = FALSE, font.size = "footnotesize", float = FALSE)
+```
+\end{center}
+
 
 
 # 
