@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>06_1-Practicing_Simple_OLS_Regressions-vCURRENT.knit</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <script src="libs/kePrint-0.0.1/kePrint.js"></script>
+    <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+    <link rel="stylesheet" href="extra.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+class: slideblue
+
+.size70[**Today's Agenda**]
+
+&lt;br&gt;
+
+.center[.size60[
+Practice using OLS regressions to answer real world questions with data
+]]
+
+&lt;br&gt;
+
+.center[.size45[
+  Justin Leinaweaver (Spring 2022)
+]]
+
+???
+
+## Prep for Class
+1. ...
+
+&lt;br&gt;
+
+Welcome back!
+
+### Did everybody submit their report on Friday?
+
+&lt;br&gt;
+
+### With a couple days to reflect, how did it go?
+
+
+
+---
+
+background-image: url('libs/Images/background-blue_triangles2.png')
+background-size: 100%
+background-position: center
+class: middle
+
+# Our Work So Far
+
+.size40[
++ Descriptive statistics (mean, median, IQR, etc.)
+
++ Univariate Visualizations (Bar plots, Histograms)
+
++ Facets (any viz on subsets of data)
+
++ Biivariate Visualizations (Box plots, Scatterplots)
+
++ Fitting and evaluating simple OLS models
+]
+
+???
+
+This is a ton of stuff!
+
+### Which of these tools do you feel the most confident using?
+
+### Which are the most challenging to build?
+
+### Which are the most challenging to analyze?
+
+&lt;br&gt;
+
+Last week we started working with simple OLS regressions.
+
+This week I want us to keep practicing those skills.
+
+
+
+---
+
+background-image: url('libs/Images/background-blue_triangles2.png')
+background-size: 100%
+background-position: center
+class: middle
+
+.center[.size70[**Which is a better model of personal income?**]]
+
+.size60[
+1. Mother's education level, or
+
+2. Personal exercise
+]
+
+???
+
+We ended last week with this question and an assignment for you to complete.
+
+Your job was to fit these two regression models, evaluate them and then use them to make predictions.
+
+### How did that go?
+#### - Everybody complete the task?
+
+&lt;br&gt;
+
+Let's examine each one on its own in order to answer this question.
+
+
+
+
+---
+
+class: middle
+
+.pull-left[
+.size25[
+
+&lt;table style="text-align:center"&gt;&lt;tr&gt;&lt;td colspan="2" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;Earnings (2021)&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td colspan="2" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;Mother's Education&lt;/td&gt;&lt;td&gt;6.21&lt;sup&gt;*&lt;/sup&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;(0.43)&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;Constant&lt;/td&gt;&lt;td&gt;-40.64&lt;sup&gt;*&lt;/sup&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;(5.87)&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td colspan="2" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;Observations&lt;/td&gt;&lt;td&gt;1,570&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;Adjusted R&lt;sup&gt;2&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;0.12&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;Residual Std. Error&lt;/td&gt;&lt;td&gt;40.45 (df = 1568)&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td colspan="2" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;em&gt;Note:&lt;/em&gt;&lt;/td&gt;&lt;td style="text-align:right"&gt;*p &lt; 0.05&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+]]
+
+.pull-right[
+&lt;img src="06_1-Practicing_Simple_OLS_Regressions-vCURRENT_files/figure-html/unnamed-chunk-3-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="06_1-Practicing_Simple_OLS_Regressions-vCURRENT_files/figure-html/unnamed-chunk-3-2.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+???
+
+### Did everybody get these results?
+
+&lt;br&gt;
+
+Let's use the evaluation steps.
+
+### 1. Is the model logical? 
+#### - e.g. What story does it tell?
+
+### 2. Are the coefficients significant?
+#### - What does that mean?
+
+### 3. What does the coefficient of determination tell us about it?
+
+### 4. Any serious problems in the residuals?
+
+&lt;br&gt;
+
+SLIDE: Making predictions (point estimates)
+
+
+
+---
+
+background-image: url('libs/Images/background-blue_triangles2.png')
+background-size: 100%
+background-position: center
+class: middle
+
+.size55[
+**What is the predicted personal income if the...**
+
+1. mother completed high school (12)
+
+2. mother completed college (16)
+]
+
+???
+
+Our second step was to use the models to make predictions.
+
+### What did you get for these?
+
+(SLIDE)
+
+
+
+
+---
+
+background-image: url('libs/Images/background-blue_triangles2.png')
+background-size: 100%
+background-position: center
+class: middle
+
+.size55[
+**What is the predicted personal income if the...**]
+
+.size40[
+&lt;table class="table table-striped table-hover table-condensed" style="margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Prediction &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Estimates &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Mother completed high school (12) &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $33.9k &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Mother completed college (16) &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $58.7k &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+&lt;br&gt;
+
+.center[.size40[
+Earnings = -40.64 + 6.21 x (Mother's Education)
+]]
+
+???
+
+### Everybody get these point estimates?
+
+&lt;br&gt;
+
+### So, what do we learn from this model?
+
+#### - Is mother's education a good way to estimate yearly earnings? Why or why not?
+
+&lt;br&gt;
+
+Alright, let's do it again on the second model: Personal Exercise
+
+
+
+---
+
+class: middle
+
+.pull-left[
+.size25[
+
+&lt;table style="text-align:center"&gt;&lt;tr&gt;&lt;td colspan="2" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;Earnings (2021)&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td colspan="2" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;Strenuous Exercise&lt;/td&gt;&lt;td&gt;1.88&lt;sup&gt;*&lt;/sup&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;(0.42)&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;Constant&lt;/td&gt;&lt;td&gt;36.69&lt;sup&gt;*&lt;/sup&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;(1.62)&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td colspan="2" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;Observations&lt;/td&gt;&lt;td&gt;1,815&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;Adjusted R&lt;sup&gt;2&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;0.01&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;Residual Std. Error&lt;/td&gt;&lt;td&gt;41.75 (df = 1813)&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td colspan="2" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;em&gt;Note:&lt;/em&gt;&lt;/td&gt;&lt;td style="text-align:right"&gt;*p &lt; 0.05&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+]]
+
+.pull-right[
+&lt;img src="06_1-Practicing_Simple_OLS_Regressions-vCURRENT_files/figure-html/unnamed-chunk-6-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="06_1-Practicing_Simple_OLS_Regressions-vCURRENT_files/figure-html/unnamed-chunk-6-2.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+???
+
+### Did everybody get these results?
+
+&lt;br&gt;
+
+Let's use the evaluation steps.
+
+### 1. Is the model logical? e.g. What story does it tell?
+
+### 2. Are the coefficients significant?
+
+### 3. What does the coefficient of determination tell us about it?
+
+### 4. Any serious problems in the residuals?
+
+
+
+---
+
+background-image: url('libs/Images/background-blue_triangles2.png')
+background-size: 100%
+background-position: center
+class: middle
+
+.size50[
+**What is the predicted personal income if...**
+
+1. No strenuous exercise (1)
+
+2. Strenuous exercise &gt; 3x per week (7)
+]
+
+???
+
+Our second step was to use the models to make predictions.
+
+### What did you get for these?
+
+(SLIDE)
+
+
+
+---
+
+background-image: url('libs/Images/background-blue_triangles2.png')
+background-size: 100%
+background-position: center
+class: middle
+
+.size55[
+**What is the predicted personal income if the...**]
+
+.size40[
+&lt;table class="table table-striped table-hover table-condensed" style="margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Prediction &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Estimates &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Never does strenuous exercise (1) &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $38.6k &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Works out &amp;gt; 3 times per week (7) &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $49.8k &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+&lt;br&gt;
+
+.center[.size45[
+Earnings = 36.69 + 1.88 x (Exercise)
+]]
+
+???
+
+### Did everybody get these results?
+
+&lt;br&gt;
+
+### So, what do we learn from this model?
+
+#### - Are personal exercise habits a good way to estimate yearly earnings? Why or why not?
+
+&lt;br&gt;
+
+So, it seems pretty clear that parental education level seems a much stronger predictor of earnings than exercise.
+
+Our next question is, how confident can we be in these point estimates (e.g. predictions)?
+
+
+
+---
+
+class: middle, slideblue
+
+&lt;img src="libs/Images/06_1-WilsonKeatingBeal_Hodges-PIs.png" width="1303" /&gt;
+
+&lt;br&gt;
+
+&lt;br&gt;
+
+.size35[**Source:** Wilson, Keating, and Beal-Hodges (2012), p67]
+
+???
+
+For today I assigned you ch 5 of the textbook which gives you the steps needed to add 95% CIs to our predictions.
+
+First things first, we need to clean up some language from the book.
+
+The authors of the textbook use the word "confidence" when they mean "prediction" and I want to make sure that's clear to you.
+
+&lt;br&gt;
+
+Technically speaking, CIs refer to uncertainty in the parameters of the model
+- e.g. the regression coefficients (the slope of the line)
+
+&lt;br&gt;
+
+Prediction intervals represent uncertainty in our predictions using the model.
+- e.g. point estimates
+
+&lt;br&gt;
+
+Whereas CIs focus on just one parameter, PIs focus on all sources of error in the model.
+
+This makes them MUCH larger than CIs.
+
+Minor but super important point if you go deeper into stats.
+
+
+
+---
+
+class: middle
+
+&lt;img src="06_1-Practicing_Simple_OLS_Regressions-vCURRENT_files/figure-html/unnamed-chunk-9-1.png" width="97%" style="display: block; margin: auto;" /&gt;
+
+???
+
+So, why do we need PIs?
+
+Let's start by visualizing the data and thinking about making one prediction.
+
+Here is what our regression model predicts given a mother's education level of 12.
+
+Per your work this returns an estimate of $33.9k.
+
+
+
+---
+
+class: middle
+
+&lt;img src="06_1-Practicing_Simple_OLS_Regressions-vCURRENT_files/figure-html/unnamed-chunk-10-1.png" width="97%" style="display: block; margin: auto;" /&gt;
+
+???
+
+### The question for us is, how well does that $34k summarize the actual data?
+
+- Clearly the spread is the result of many different parts of the model: the slope, the intercept and the residual error.
+
+&lt;br&gt;
+
+PIs allow us to account for that in our predictions.
+
+
+
+---
+
+class: middle, slideblue
+
+.center[.size45[
+PI = Point Estimate &amp;#177; 2 x (Standard Error)
+]]
+
+&lt;br&gt;
+
+&lt;img src="libs/Images/06_1_summary_output.png" width="1280" /&gt;
+
+???
+
+The book process for calculating the PI is pretty simple.
+
+Calculate a point estimate using your model and then add or subtract 2 * the model's standard error.
+
+- Subtract to find the low end of the interval and add to find the upper end of the interval
+
+&lt;br&gt;
+
+### Questions on the process?
+
+&lt;br&gt;
+
+### Everybody test this out, calculate the PIs for the four predictions you made for class today.
+
+- Remember, each model has a different standard error!
+
+(SLIDE)
+
+
+
+---
+
+class: middle
+
+.center[.size55[**Predictions with 95% PIs**]]
+
+&lt;br&gt;
+
+.size33[
+&lt;table class="table table-striped table-hover table-condensed" style="margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Prediction &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Low &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Estimates &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; High &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Mother completed high school (12) &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -47.0 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $33.9k &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 114.8 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Mother completed college (16) &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -22.2 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $58.7k &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 139.6 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;br&gt;
+
+&lt;table class="table table-striped table-hover table-condensed" style="margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Prediction &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Low &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Estimates &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; High &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Never does strenuous exercise (1) &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -44.9 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $38.6k &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 122.1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Works out &amp;gt; 3 times per week (7) &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -33.7 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $49.8k &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 133.3 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+???
+
+### Everybody get these results?
+
+### How do these "confidence intervals" help us think about which model is more "useful"?
+
+- (Narrower CI is better than large CI)
+    - Clearly neither of these models is incredibly precise
+
+- Both models need to be improved!
+
+&lt;br&gt;
+
+### How are we doing?
+
+#### - Any questions on simple OLS regression models or making predictions with them?
+
+
+
+---
+
+background-image: url('libs/Images/background-blue_triangles2.png')
+background-size: 100%
+background-position: center
+class: middle
+
+.center[.size70[
+**Dataset 1**
+
+Why do some states attract greater investment by companies and individuals than others?
+]]
+
+???
+
+Let's keep practicing our simple OLS skills!
+
+Everybody shift to dataset 1 (2020 only).
+
+- Remember, dataset 1 is focused on explaining investment in the US states.
+
+
+
+---
+
+class: middle, slideblue
+
+&lt;img src="06_1-Practicing_Simple_OLS_Regressions-vCURRENT_files/figure-html/unnamed-chunk-14-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+???
+
+Before I put you to work, let's all agree on one important tweak!
+
+Here I have a histogram of GDP in millions and the same variable re-scaled into billions.
+
+### What do we learn from comparing and contrasting these two histograms? 
+#### - How are they different and how are the the same?
+
++ (They are identically distributed!)
+
+&lt;br&gt;
+
+SLIDE: Even more scales...
+
+
+
+---
+
+class: middle, slideblue
+
+&lt;img src="06_1-Practicing_Simple_OLS_Regressions-vCURRENT_files/figure-html/unnamed-chunk-15-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+???
+
+Here we see GDP in thousands, millions, billions and trillions.
+
+### So, what is the key lesson for us?
+
+- **The key lesson for us: scaling a variable by moving the decimal place doesn't change anything about the distribution.**
+
+- Convert to hundred, thousands, millions, billions, only changes the labels, NOT the data!
+
+- Just makes it easier to read the table and the plots!
+
+### Does this make sense?
+
+&lt;br&gt;
+
+For your purposes, choose the scale that makes it easiest to visualize your data or report it in tables.
+
+### Deal?
+
+
+
+---
+
+background-image: url('libs/Images/background-blue_triangles2.png')
+background-size: 100%
+background-position: center
+class: middle
+
+.center[.size55[
+**Dataset 1**
+
+Based on the data for 2020 should states that want to grow the size of their economies focus on increasing college completion (bachelors) or increasing homeownership (homeowner rate)?
+]]
+
+???
+
+Ok, our job today is to answer this question.
+
+### How do we phrase these as separate models? 
+#### - What do we need to regress here?
+
+(SLIDE)
+
+
+
+---
+
+background-image: url('libs/Images/background-blue_triangles2.png')
+background-size: 100%
+background-position: center
+class: middle
+
+.size35[
+Model 1: Regress GDP (billions) on bachelors' degrees
+
+Model 2: Regress GDP (billions) on homeownership rates
+]
+
+&lt;br&gt;
+
+.size40[
+1. Fit the models, check the scatter plots, and evaluate using our four steps
+
+2. Make predictions (with 95% PIs)
+    - Model 1: Mean bachelors' degrees
+    - Model 2: Mean homeownership rates
+]
+
+???
+
+Alright, here's our challenge. 
+
+Let's get to work!
+
+&lt;br&gt;
+
+** 15 minutes left **
+
+WHAT DID WE FIND?
+
+(SLIDE: Regression results and scatter plots)
+
+
+
+---
+
+class: middle
+
+.pull-left[
+.size23[
+
+&lt;table style="text-align:center"&gt;&lt;tr&gt;&lt;td colspan="3" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td colspan="2"&gt;GDP (Billions USD)&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;(1)&lt;/td&gt;&lt;td&gt;(2)&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td colspan="3" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;Bachelors&lt;/td&gt;&lt;td&gt;23.27&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;(14.12)&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;Homeownership&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;-56.30&lt;sup&gt;*&lt;/sup&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;(12.70)&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;Constant&lt;/td&gt;&lt;td&gt;-335.02&lt;/td&gt;&lt;td&gt;4,301.63&lt;sup&gt;*&lt;/sup&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;(460.39)&lt;/td&gt;&lt;td&gt;(879.84)&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td colspan="3" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;Observations&lt;/td&gt;&lt;td&gt;50&lt;/td&gt;&lt;td&gt;50&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;Adjusted R&lt;sup&gt;2&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;0.03&lt;/td&gt;&lt;td&gt;0.28&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;Residual Std. Error (df = 48)&lt;/td&gt;&lt;td&gt;528.11&lt;/td&gt;&lt;td&gt;457.31&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td colspan="3" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;&lt;em&gt;Note:&lt;/em&gt;&lt;/td&gt;&lt;td colspan="2" style="text-align:right"&gt;*p&lt;0.05&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+]]
+
+.pull-right[
+&lt;img src="06_1-Practicing_Simple_OLS_Regressions-vCURRENT_files/figure-html/unnamed-chunk-17-1.png" width="100%" style="display: block; margin: auto;" /&gt;&lt;img src="06_1-Practicing_Simple_OLS_Regressions-vCURRENT_files/figure-html/unnamed-chunk-17-2.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+???
+
+### Everybody get these results?
+
+&lt;br&gt;
+
+### So, based on the four evaluation steps which model is more useful? why?
+
+#### - In other words, are you more confident saying that increasing bachelors degrees or shrinking homeownership is the better bet for increasing the size of the economy?
+
+&lt;br&gt;
+
+### Logic Test: What is going on with homeownership??? Why is this negative?
+
+
+
+---
+
+class: middle, slideblue
+
+.center[.size55[**Step 4: Check the Residuals**]]
+
+.pull-left[
+&lt;img src="06_1-Practicing_Simple_OLS_Regressions-vCURRENT_files/figure-html/unnamed-chunk-18-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+&lt;img src="06_1-Practicing_Simple_OLS_Regressions-vCURRENT_files/figure-html/unnamed-chunk-19-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+???
+
+(Residual plots indicate our models don't fit well, need fancier tools. We'll get there this semester!)
+
+
+
+---
+
+class: middle
+
+.center[.size55[**Make Predictions (with 95%)**]]
+
+&lt;br&gt;
+
+.size35[
+&lt;table class="table table-striped table-hover table-condensed" style="margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Prediction &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Low &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Estimate &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; High &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Mean Bachelors' Degrees &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -642.9 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $413.3 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1469.6 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Mean Homeownership Rate &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -501.1 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $413.6 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1328.2 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+???
+
+Let's check your predictions.
+
+### Everybody get these results?
+
+
+
+---
+
+class: middle
+
+.center[.size55[**Make Predictions (with 95%)**]]
+
+.size35[
+&lt;table class="table table-striped table-hover table-condensed" style="margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Prediction &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Low &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Estimate &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; High &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Mean Bachelors' Degrees &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -642.9 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $413.3 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1469.6 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Mean Homeownership Rate &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -501.1 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $413.6 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1328.2 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+.size40[
+- What is the effect of **increasing bachelors** from the mean by 10%?
+
+- What is effect of **decreasing homeownership** from the mean by 10%?
+]
+
+???
+
+Let's use these now to game out a situation.
+
+What would be the effect of increasing bachelors' degree completion by 10%?
+
+- That is increasing bachelors from 32 to 35%
+
+And what would be the effect of reducing homeownership by 10%?
+
+- That is decreasing homeownership from 69% to 62%
+
+
+
+
+---
+
+class: middle
+
+.size35[
+&lt;table class="table table-striped table-hover table-condensed" style="margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Prediction &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Low &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Estimate &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; High &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Mean Bachelors' Degrees &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -642.9 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $413.3 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1469.6 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Bachelors' Degrees + 10% &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -567.9 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $488 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1544.5 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+&lt;br&gt;
+
+.size35[
+&lt;table class="table table-striped table-hover table-condensed" style="margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Prediction &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Low &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Estimate &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; High &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Mean Homeownership Rate &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -501.1 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $413.6 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1328.2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Homeownership - 10% &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -112.5 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; $802 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1716.8 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+???
+
+Holy cow, that housing effect appears to be massive!
+
+&lt;br&gt;
+
+### So, bottom line, which is the more useful model of GDP?
+
+#### - According to our models should states focus more on reducing  homeownership or increasing college education? Why?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

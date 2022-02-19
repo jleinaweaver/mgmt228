@@ -35,13 +35,9 @@ knitr::opts_chunk$set(echo = FALSE,
 
 # Today's Agenda
 
-\begin{Large}
-1. Adding prediction intervals to OLS regressions
-
-\vspace{.25in}
-
-2. Practice simple OLS regressions
-\end{Large}
+\center
+\Large
+Practice using OLS regressions to answer real world questions with data
 
 \vspace{.5in}
 
@@ -51,24 +47,21 @@ Justin Leinaweaver (Spring 2022)
 
 
 
-# Report 1
-\center
-\huge
-**What did you do well?**
+# Our Work So Far
 
++ Descriptive statistics (mean, median, IQR, etc.)
 
++ Bar plots (categorical variables)
 
-# Report 1
-\center
-\huge
-**What specific things do you wish your report did better?**
++ Histograms (numerical variables)
 
++ Facets (any viz on subsets of data)
 
++ Box plots (numerical x categorical)
 
-# Report 1
-\center
-\huge
-**25 minutes to revise and resubmit your reports!**
++ Scatterplots (numerical x numerical)
+
++ Fitting and evaluating simple OLS models
 
 
 
