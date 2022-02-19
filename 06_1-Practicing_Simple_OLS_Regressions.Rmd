@@ -36,11 +36,11 @@ knitr::opts_chunk$set(echo = FALSE,
 # Today's Agenda
 
 \begin{Large}
-1. Revise and resubmit our reports
+1. Adding prediction intervals to OLS regressions
 
 \vspace{.25in}
 
-2. Practice simple OLS regressions (with prediction intervals)
+2. Practice simple OLS regressions
 \end{Large}
 
 \vspace{.5in}
@@ -78,6 +78,8 @@ Justin Leinaweaver (Spring 2022)
 
 1. Mother's education level, or
 
+\vspace{.25in}
+
 2. Personal exercise
 
 \end{huge}
@@ -105,38 +107,6 @@ stargazer(res1, res2, omit.stat = c("rsq"), star.cutoffs = .05, notes = "*p < 0.
 ```
 \end{center}
 
-
-
-#
-\begin{columns}
-\begin{column}{0.5\textwidth}
-
-\vspace{.2in}
-
-```{r, fig.align = 'center', fig.asp=1.3, out.height = '100%', fig.width = 4}
-d %>%
-  select(earnk2021, mother_education, exercise) %>%
-  pivot_longer(cols = mother_education:exercise, names_to = "Predictor", values_to = "Values") %>%
-  mutate(
-    Predictor = if_else(Predictor == "mother_education", "Mother's Education", "Strenuous Exercise")
-  ) %>%
-  ggplot(aes(x = Values, y = earnk2021)) +
-  geom_point() +
-  geom_smooth(method = "lm", se = FALSE) +
-  facet_wrap(~ Predictor, scales = "free", ncol = 1) +
-  theme_bw() +
-  labs(x = "", y = "Earnings (2021)")
-```
-
-\end{column}
-\begin{column}{0.5\textwidth}
-
-```{r, results = "asis"}
-stargazer(res1, res2, omit.stat = c("rsq", "f", "ser"), star.cutoffs = .05, notes = "*p < 0.05", notes.append = FALSE, digits = 2, covariate.labels = c("Mother's Education", "Exercise", "Constant"), dep.var.labels = "Earnings (2021)", dep.var.caption = "", float = FALSE, header = FALSE, font.size = "footnotesize")
-```
-
-\end{column}
-\end{columns}
 
 
 
