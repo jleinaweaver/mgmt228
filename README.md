@@ -18,7 +18,7 @@ Data, slides and errata for my class at Drury University (MGMT 228: Analytical M
 
 05_2-Evaluating_OLS.pdf
 
-06_1-Practicing_Simple_OLS_Regressions.pdf
+06_1-Practicing_Simple_OLS_Regressions-vCURRENT.html
 
 06_2-Stock_Market_Regressions.pdf
 
