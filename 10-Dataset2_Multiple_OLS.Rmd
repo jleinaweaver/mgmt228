@@ -90,7 +90,7 @@ Justin Leinaweaver (Spring 2022)
 
 
 
-# Dataset 2: Visualization Assignment
+# Dataset 2: Multiple OLS Assignment
 
 \begin{large}
 

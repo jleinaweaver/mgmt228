@@ -112,7 +112,7 @@ Justin Leinaweaver (Spring 2022)
 
 
 
-# Assignment Due Sunday
+# Dataset 2: Simple OLS Assignment
 
 \begin{center}
 \begin{huge}
