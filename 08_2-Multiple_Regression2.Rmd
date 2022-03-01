@@ -80,7 +80,9 @@ knitr::opts_chunk$set(echo = FALSE,
 
 \vspace{.25in}
 
-Practice fitting, evaluating and making point estimates using multiple linear regression models (ch 6)
+Extending our Models: 
+
+Evaluating Multiple Linear Regressions (Wheelan ch12)
 
 \end{center}
 
@@ -359,7 +361,7 @@ stargazer(res1a, res1b, res1c, res1d, res1e, omit.stat = c("f", "rsq"), star.cut
 
 res1g <- d %>% lm(data = ., earnk2021 ~ age + education + exercise + height)
 
-stargazer(res1g, omit.stat = "rsq", star.cutoffs = .05, notes = "*p < 0.05", notes.append = FALSE, digits = 2, dep.var.labels = "Earnings (2021 USD)", dep.var.caption = "", covariate.labels = c("Age", "Education", "Exercise", "Height", "Mother's Education"), header = FALSE, float = FALSE, font.size = "scriptsize")
+stargazer(res1g, omit.stat = "rsq", star.cutoffs = .05, notes = "*p < 0.05", notes.append = FALSE, digits = 2, dep.var.labels = "Earnings (2021 USD)", dep.var.caption = "", covariate.labels = c("Age", "Education", "Exercise", "Height"), header = FALSE, float = FALSE, font.size = "scriptsize")
 ```
 
 
@@ -409,16 +411,16 @@ stargazer(res1a, res1b, res1c, res1d, res1g, omit.stat = c("f", "rsq"), star.cut
 
 # For Tuesday - Make Predictions (w/ 95% PIs)
 
-Establish a baseline prediction for a hypothetical person who is 25 (Age), Education 13, Exercise 1, Height 67
+FIRST, establish a baseline prediction for a hypothetical person who is 25 (Age), Education 13, Exercise 1, Height 67
 
 \vspace{.2in}
 
-Then calculate the predicted income if:
+SECOND, calculate the predicted income if that person:
 
 \begin{enumerate}
-\item Finish college? (16)
-\item Finish grad school? (18)
-\item Increase exercise to 1x / week? (4)
-\item Increase exercise to 3x / week? (7)
+\item Finishes college? (16)
+\item Finishes grad school? (18)
+\item Increases exercise to 1x / week? (4)
+\item Increases exercise to 3x / week? (7)
 \end{enumerate}
 

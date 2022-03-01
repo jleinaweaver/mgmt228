@@ -78,7 +78,9 @@ knitr::opts_chunk$set(echo = FALSE,
 
 \vspace{.25in}
 
-Practice fitting, evaluating and making point estimates using multiple linear regression models (ch 6)
+Extending our Models: 
+
+Multiple Linear Regressions (ch 6)
 
 \end{center}
 
@@ -378,12 +380,50 @@ high1 <- preds1 + 2*error1
 
 
 
+#
+\center
+\huge
+**Model 2**
+
+\vspace{.25in}
+
+Fit a regression model of weight on height and exercise
+
+
 # M2: Regress weight on height and exercise
+```{r, fig.align='center', out.width='40%'}
+knitr::include_graphics('Images/08-1-Excel1.png')
+```
+
+
+# M2: Regress weight on height and exercise
+```{r, fig.align='center', out.width='90%'}
+knitr::include_graphics('Images/08-1-Excel2a.png')
+```
+
+
+# M2: Regress weight on height and exercise
+```{r, fig.align='center', out.width='90%'}
+knitr::include_graphics('Images/08-1-Excel2b.png')
+```
+
+
+
+# M2: Regress weight on height and exercise
+```{r, fig.align='center', out.width='90%'}
+knitr::include_graphics('Images/08-1-Excel3.png')
+```
+
+
+
+
+# M2: Regress weight on height and exercise
+\Large
 
 1. Put the results into a regression table
 
 2. Evaluate the regression with all five steps 
-   + Logical
+   + \large Logical
    + Statistical Significance
    + Explanatory Power: R2 and F Statistic 
    + Check the Residuals
@@ -520,9 +560,25 @@ d %>%
 ```
 
 
-# 5. Check for multicollinearity
+# 5. Check for multicollinearity (predictors)
 
 \begin{center}
+
+```{r, fig.align='center', out.width='75%'}
+knitr::include_graphics('Images/08-1-Excel4.png')
+```
+
+\end{center}
+
+
+
+# 5. Check for multicollinearity (predictors)
+
+\begin{center}
+
+```{r, fig.align='center', out.width='40%'}
+knitr::include_graphics('Images/08-1-Excel4.png')
+```
 
 ```{r, results = "asis"}
 # Correlations
@@ -533,6 +589,7 @@ d %>%
 ```
 
 \end{center}
+
 
 
 # M2: Regress weight on height and exercise

@@ -90,7 +90,7 @@ Justin Leinaweaver (Spring 2022)
 
 
 
-# Dataset 2: Visualization Assignment
+# Dataset 2: Simple OLS Assignment
 
 \begin{large}
 
@@ -199,4 +199,23 @@ Details on Moodle under the "Assignments" tab
 
 
 
+# Dataset 2: Simple OLS Assignment
+
+\begin{large}
+
+\textbf{The Motivating Problem}
+
+\begin{itemize}
+\item Why do some countries attract greater levels of investment than others?
+\end{itemize}
+
+\vspace{.2in}
+
+\textbf{Operationalizing the Outcome}
+
+\begin{itemize}
+\item Foreign direct investment, net inflows (BoP, current US\$)
+\end{itemize}
+
+\end{large}
 
