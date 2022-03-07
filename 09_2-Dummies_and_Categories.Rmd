@@ -77,7 +77,7 @@ Extending the OLS Regression
 
 \begin{enumerate}
 
-\item Dummy predictors
+\item Dichotomous predictors (Dummies)
 \item Categorical predictors
 
 \end{enumerate}
@@ -156,6 +156,13 @@ d <- read_excel("../../Data/Dataset-3-Ross_1990/ICPSR_Ross_Survey_1990.xlsx", na
 
 
 
+#
+```{r, out.width='95%', fig.align='center'}
+knitr::include_graphics('Images/09-2-Excel1.png')
+```
+
+
+
 # Dichotomous Variables (e.g. Dummies)
 
 \vspace{.25in}
@@ -203,6 +210,59 @@ stargazer(res1, digits = 2, omit.stat = "rsq", star.cutoffs = .05, notes = "*p<0
 
 ::::
 :::
+
+
+
+# 
+::: columns
+:::: column
+
+\begin{Large}
+
+\vspace{.5in}
+
+\begin{itemize}
+
+\item Men = `r str_c('\\$', round(mean(d$earnk2021[d$male == 1]), 1), 'k')`
+
+\vspace{.25in}
+
+\item Women = `r str_c('\\$', round(mean(d$earnk2021[d$male == 0]), 1), 'k')`
+
+\end{itemize}
+
+\end{Large}
+
+::::
+:::: column
+
+```{r, results = "asis"}
+# Simple regression
+res1 <- d %>% lm(data = ., earnk2021 ~ male)
+
+## Save coefficients
+x1 <- round(coef(res1), 2)
+
+## Save predictions
+preds_male <- x1[1] + x1[2]*1
+preds_female <- x1[1] + x1[2]*0
+error1 <- round(summary(res1)$sigma, 2)
+## low1 <- preds1 - 2*error1
+## high1 <- preds1 + 2*error1
+
+
+stargazer(res1, digits = 2, omit.stat = "rsq", star.cutoffs = .05, notes = "*p<0.05", notes.append = FALSE, dep.var.caption = "", dep.var.labels = "Income (Thousands USD)", covariate.labels = "Male", header = FALSE, float = FALSE, font.size = "scriptsize")
+```
+
+::::
+:::
+
+\center
+\large
+
+\vspace{.25in}
+Income = `r x1[1]` + `r x1[2]` x (Male)
+
 
 
 
@@ -335,7 +395,6 @@ Regress earnings (2021) on education and gender
 
 
 
-
 # 
 \begin{center}
 ```{r, results = "asis"}
@@ -351,123 +410,48 @@ stargazer(res2, res3, digits = 2, omit.stat = "rsq", star.cutoffs = .05, notes =
 
 
 
-# Dummy Variables in OLS Regressions
-::: columns
-:::: column
-\vspace{.2in}
-
+# 
+\center
 ```{r, results = "asis"}
-stargazer(res3, digits = 2, omit.stat = "rsq", star.cutoffs = .05, notes = "*p<0.05", notes.append = FALSE, dep.var.caption = "", dep.var.labels = "Income (2021 USD)", covariate.labels = c("Education", "Male"), header = FALSE, float = FALSE, font.size = "scriptsize")
+stargazer(res3, digits = 2, omit.stat = "rsq", star.cutoffs = .05, notes = "*p<0.05", notes.append = FALSE, dep.var.caption = "", dep.var.labels = "Income (Thousands USD)", covariate.labels = c("Education", "Male"), header = FALSE, float = FALSE, font.size = "scriptsize")
 ```
-::::
 
-:::: column
+\large
+Make a marginal effects plot of education with separate lines for each gender
 
-\vspace{.15in}
 
-```{r, results = "asis"}
-education1 <- c(1, 5, 10, 15)
-male1 <- c("", "", "", "")
-female1 <- c("", "", "", "")
 
-tibble(
-    Education = education1,
-    Male = male1,
-    Female = female1
-) %>%
-    stargazer(summary = FALSE, rownames = FALSE, digits = 2, header = FALSE, float = FALSE, font.size = "large")
-```
-::::
-:::
+#
+\center
+\large
+**Make a marginal effects plot of education with separate lines for each gender**
+
+1. Add a sheet
+2. Column 1: The levels of education
+3. Column 2: Model point estimates for a male across the levels of education
+4. Column 3: Model point estimates for a female across the levels of education
+5. Highlight all three columns, insert a scatterplot and polish it
 
 
 
 # 
+
 ::: columns
 :::: column
-```{r, results = "asis"}
-stargazer(res3, digits = 2, omit.stat = "rsq", star.cutoffs = .05, notes = "*p<0.05", notes.append = FALSE, dep.var.caption = "", dep.var.labels = "Income (2021 USD)", covariate.labels = c("Education", "Male"), header = FALSE, float = FALSE, font.size = "scriptsize")
-```
-::::
-
-:::: column
-
-```{r, results = "asis"}
-education1 <- c(1, 5, 10, 15)
+```{r, results = "asis", fig.align='center'}
+education1 <- c(9:18)
 male1 <- c("", "", "", "")
 female1 <- c("", "", "", "")
 
 tibble(
     Education = education1,
-    Male = male1,
-    Female = female1
+    Male = round(as.numeric(x3[1] + x3[2]*Education + x3[3]*1), 1),
+    Female = round(as.numeric(x3[1] + x3[2]*Education + x3[3]*0), 1)
 ) %>%
-    stargazer(summary = FALSE, rownames = FALSE, digits = 2, header = FALSE, float = FALSE, font.size = "large")
+    stargazer(summary = FALSE, rownames = FALSE, digits = 2, header = FALSE, float = FALSE, font.size = "normalsize")
 ```
+
 ::::
-:::
-
-\begin{large}
-
-\begin{center}
-\vspace{.25in}
-
-Income = `r as.numeric(x3[1])` + `r as.numeric(x3[2])` x Education + `r as.numeric(x3[3])` x Male
-
-\end{center}
-
-\end{large}
-
-
-
-
-# 
-::: columns
-:::: column
-```{r, results = "asis"}
-stargazer(res3, digits = 2, omit.stat = "rsq", star.cutoffs = .05, notes = "*p<0.05", notes.append = FALSE, dep.var.caption = "", dep.var.labels = "Income (2021 USD)", covariate.labels = c("Education", "Male"), header = FALSE, float = FALSE, font.size = "scriptsize")
-```
-::::
-
-:::: column
-
-```{r, results = "asis"}
-education1 <- c(1, 5, 10, 15)
-male1 <- c("", "", "", "")
-female1 <- c("", "", "", "")
-
-tibble(
-    Education = education1,
-    Male = as.numeric(x3[1] + x3[2]*Education + x3[3]*1),
-    Female = as.numeric(x3[1] + x3[2]*Education + x3[3]*0)
-) %>%
-    stargazer(summary = FALSE, rownames = FALSE, digits = 2, header = FALSE, float = FALSE, font.size = "large")
-```
-::::
-:::
-
-\begin{large}
-
-\begin{center}
-\vspace{.25in}
-
-Income = `r as.numeric(x3[1])` + `r as.numeric(x3[2])` x Education + `r as.numeric(x3[3])` x Male
-
-\end{center}
-
-\end{large}
-
-
-
-# Dummy Variables in OLS Regressions
-
-::: columns
-:::: column
-```{r, results = "asis"}
-stargazer(res3, digits = 2, omit.stat = "rsq", star.cutoffs = .05, notes = "*p<0.05", notes.append = FALSE, dep.var.caption = "", dep.var.labels = "Income (2021 USD)", covariate.labels = c("Education", "Male"), header = FALSE, float = FALSE, font.size = "scriptsize")
-```
-::::
-
 :::: column
 
 ```{r, fig.align = 'center', fig.asp=.85, out.height = '75%', fig.width = 5}
@@ -486,7 +470,7 @@ d %>%
   labs(x = "Education", y = "Income (2021 USD)") +
   guides(color = FALSE) +
   scale_color_manual(values = c("red", "blue")) +
-  #coord_cartesian(ylim = c(0, 100), xlim = c(0, 20)) +
+  coord_cartesian(ylim = c(0, 200), xlim = c(9, 18)) +
   annotate("text", x = 2, y = 40, label = "Male", color = "darkblue", size = 4.5) +
   annotate("text", x = 5, y = -35, label = "Female", color = "darkred", size = 4.5)
 ```
@@ -518,7 +502,6 @@ knitr::include_graphics("./Images/09_2-Ross3.png")
 ```
 
 
-
 # Categorical Variables
 
 \begin{center}
@@ -535,6 +518,14 @@ d %>%
 ```
 
 \end{center}
+
+
+
+# 
+
+```{r, fig.align = 'center', fig.asp=0.618, out.width = '100%', fig.width = 7}
+knitr::include_graphics("./Images/09-1-Excel2.png")
+```
 
 
 
