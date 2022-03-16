@@ -334,6 +334,34 @@ d <- read_excel("../../Data/Dataset-3-Ross_1990/ICPSR_Ross_Survey_1990.xlsx", na
         earnk2021 = earnk * 2.0266
     )
 
+
+## YOU MADE HUGE CHANGES ON THE FLY, LET THE STUDENTS LEAD VARIABLE SELECTION
+res1a <- d %>% lm(data = ., earnk2021 ~ education)
+res1b <- d %>% lm(data = ., earnk2021 ~ angry)
+res1c <- d %>% lm(data = ., earnk2021 ~ age)
+res1d <- d %>% lm(data = ., earnk2021 ~ exercise)
+res2 <- d %>% lm(data = ., earnk2021 ~ education + age + exercise)
+
+summary(res2)
+
+# baseline
+predict.lm(res2, newdata = data.frame("education" = 13, "exercise" = 1, age = 20))
+
+predict.lm(res2, newdata = data.frame("education" = 13, "exercise" = 7, age = 20))
+
+predict.lm(res2, newdata = data.frame("education" = 16, "exercise" = 1, age = 22))
+
+predict.lm(res2, newdata = data.frame("education" = 18, "exercise" = 1, age = 24))
+
+
+stargazer(res1a, res1b, res1c, res1d, res1e, omit.stat = c("f", "rsq"), star.cutoffs = .05, notes = "*p < 0.05", notes.append = FALSE, digits = 2, dep.var.labels = "Earnings (2021)", dep.var.caption = "", header = FALSE, float = FALSE, font.size = "tiny")
+
+
+
+
+
+
+
 # 2. Fit a simple OLS regression for each predictor
 # YOU select a subset for them to check
 res1a <- d %>% lm(data = ., earnk2021 ~ age)

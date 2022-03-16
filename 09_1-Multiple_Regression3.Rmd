@@ -82,6 +82,8 @@ knitr::opts_chunk$set(echo = FALSE,
 
 Practicing Multiple Linear Regressions
 
+(Adding marginal effects plots)
+
 \end{center}
 
 \end{LARGE}
@@ -92,6 +94,93 @@ Practicing Multiple Linear Regressions
 Justin Leinaweaver (Spring 2022)
 \end{center}
 
+
+#
+```{r, fig.align='center', out.width='90%', fig.width=8, fig.height=5}
+# Input data
+grades <- tibble(
+  report1 = c(78, 73, 60, 60, 83, 100, 83, 65, 80, 90, 85, 80, 93, 93, 70, 85, 82, 100, 100, 70, 83, 65, 83, 50, 90),
+  report1_revised = c(90, 80, 60, 68, 83, 100, 92, 78, 90, 100, 95,
+95, 100, 96, 87, 100, 93, 100, 100, 82, 92, 75, 93, 50, 100),
+  report2 = c(70, 68, 65, 68, 68, 100, 82, 90, 93, 100, 100, 100, 95, 93, 88, 100, 95, 100, 100, 78, 78, 78, 97, 70, 100),
+  participation = c(1, 1, 2, 1, 4, 2, 1, 2, 0, 0, 0, 0, 1, 2, 1, 1, 3, 0, 0, 1, 0, 0, 1, 1, 2)
+) |>
+  mutate(
+    part_cat = case_when(
+      participation == 0 ~ "All Points\nEarned",
+      participation > 0 ~ "Any Points\nLost",
+    )
+  )
+
+# summary(grades$report1)
+# summary(grades$report1_revised)
+# summary(grades$report2)
+
+grades |>
+  pivot_longer(cols = report1:report2, names_to = "Report", values_to = "Scores") |>
+  ggplot(aes(x = Report, y = Scores)) +
+  geom_boxplot(fill = "steelblue2") +
+  scale_x_discrete(limits = c("report1", "report1_revised", "report2"), labels = c("Report 1", "Report 1\nRevisions", "Report 2")) +
+  labs(x = "", y = "Grades") + 
+       # title = "We're definitely on the right track!",
+       # subtitle = "Target: Report 3 IQR above 90") +
+  theme_bw()
+```
+
+
+
+#
+```{r, fig.align='center', out.width='90%', fig.width=7, fig.height=4.5}
+x10 <- grades |>
+  pivot_longer(cols = report1:report2, names_to = "Report", values_to = "Scores") |>
+  group_by(part_cat, Report) |>
+  summarize(
+    N = n(),
+    Mean = mean(Scores),
+    StdDev = sd(Scores),
+    pct_25 = quantile(Scores, prob = .25),
+    Median = median(Scores),
+    pct_75 = quantile(Scores, prob = .75)
+  ) |>
+  mutate(
+    nums = case_when(
+      Report == "report1" ~ 1,
+      Report == "report1_revised" ~ 2,
+      Report == "report2" ~ 3
+    )
+  ) 
+
+x10 |>
+  ggplot(aes(x = nums, y = Median)) +
+  #geom_ribbon(aes(ymin = pct_25, ymax = pct_75, fill = part_cat), alpha = .1) +
+  geom_point(aes(color = part_cat), size = 4) +
+  geom_line(aes(color = part_cat), size = 1.3) +
+  coord_cartesian(ylim = c(65,100), xlim = c(0.75,3.25)) +
+  theme_bw() +
+  scale_x_continuous(breaks = 1:3, labels = c("Report 1", "After\nRevisions", "Report 2")) +
+  labs(x = "", y = "Report Grades") +
+  scale_color_brewer(type = "qual", palette = 6, direction = -1)  +
+  guides(color = "none") +
+  annotate("text", x = 3, y = c(95, 83), label = c("All Participation\nPoints", "Missing Participation\nPoints"), color = c("steelblue4", "red3")) +
+  annotate("segment", x = 3.25, xend = 3.25, y = 89, yend = 100, linetype = "dashed")
+
+
+# grades |>
+#   pivot_longer(cols = report1:report2, names_to = "Report", values_to = "Scores") |>
+#   ggplot(aes(x = part_cat, y = Scores, fill = Report)) +
+#   geom_boxplot() +
+#   #scale_x_discrete(limits = c("report1", "report1_revised", "report2"), labels = c("Report 1", "After\nRevisions", "Report 2")) +
+#   labs(x = "", y = "Grades") +
+#   theme_bw()
+# 
+# grades |>
+#   pivot_longer(cols = report1:report2, names_to = "Report", values_to = "Scores") |>
+#   ggplot(aes(x = Report, y = Scores, fill = part_cat)) +
+#   geom_boxplot() +
+#   scale_x_discrete(limits = c("report1", "report1_revised", "report2"), labels = c("Report 1", "After\nRevisions", "Report 2")) +
+#   labs(x = "", y = "Grades") +
+#   theme_bw()
+```
 
 
 # 
@@ -144,23 +233,6 @@ knitr::include_graphics("./Images/08_2-correlations.png")
 
 
 
-# For Today - Make Predictions (w/ 95% PIs)
-
-Establish a baseline prediction for a hypothetical person who is 25 (Age), Education 13, Exercise 1, Height 67
-
-\vspace{.2in}
-
-Then calculate the predicted income if:
-
-\begin{enumerate}
-\item Finish college? (16)
-\item Finish grad school? (18)
-\item Increase exercise to 1x / week? (4)
-\item Increase exercise to 3x / week? (7)
-\end{enumerate}
-
-
-
 # 
 ::: columns
 :::: column
@@ -172,9 +244,11 @@ stargazer(res1g, omit.stat = "rsq", star.cutoffs = .05, notes = "*p < 0.05", not
 ::::
 :::: column
 
-\vspace{.5in}
-
 \begin{center}
+
+Baseline: Age 25, Education 13, Exercise 1, Height 67
+
+\vspace{.25in}
 
 ```{r, results = "asis"}
 #Use the model to make predictions
