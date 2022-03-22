@@ -127,6 +127,28 @@ grades |>
   theme_bw()
 ```
 
+```{r, fig.align='center', out.width='90%', fig.width=8, fig.height=5, eval=FALSE}
+# Identify only those who submitted revisions
+grades2 <- grades |>
+  mutate(
+    r_and_r = if_else(report1_revised > report1, "R&R", "No R&R")
+  )
+
+# Only 6 didn't submit revisions and 3 of those becaus ethey had a 100. Too few people to make this interpretable in the way you hoped
+grades2 |> count(r_and_r)
+
+grades2 |>
+  pivot_longer(cols = report1:report2, names_to = "Report", values_to = "Scores") |>
+  ggplot(aes(x = Report, y = Scores)) +
+  geom_boxplot(fill = "steelblue2") +
+  scale_x_discrete(limits = c("report1", "report1_revised", "report2"), labels = c("Report 1", "Report 1\nRevisions", "Report 2")) +
+  labs(x = "", y = "Grades") + 
+       # title = "We're definitely on the right track!",
+       # subtitle = "Target: Report 3 IQR above 90") +
+  theme_bw() +
+  facet_wrap(~ r_and_r)
+```
+
 
 
 #
@@ -161,8 +183,9 @@ x10 |>
   labs(x = "", y = "Report Grades") +
   scale_color_brewer(type = "qual", palette = 6, direction = -1)  +
   guides(color = "none") +
-  annotate("text", x = 3, y = c(95, 83), label = c("All Participation\nPoints", "Missing Participation\nPoints"), color = c("steelblue4", "red3")) +
-  annotate("segment", x = 3.25, xend = 3.25, y = 89, yend = 100, linetype = "dashed")
+  annotate("text", x = 3, y = c(95, 83), label = c("All Participation\nPoints", "Missing Participation\nPoints"), color = c("steelblue4", "red3")) #+
+  # annotate("segment", x = 3.25, xend = 3.25, y = 89, yend = 100, linetype = "dashed", color = "steelblue4") +
+  # annotate("segment", x = 3.3, xend = 3.3, y = 70, yend = 95, linetype = "dashed", color = "red3")
 
 
 # grades |>
@@ -196,9 +219,9 @@ d <- read_excel("../../Data/Dataset-3-Ross_1990/ICPSR_Ross_Survey_1990.xlsx", na
     )
 
 # Multiple OLS
-res1g <- d %>% lm(data = ., earnk2021 ~ age + education + exercise + height)
+res1g <- d %>% lm(data = ., earnk2021 ~ age + education + exercise)
 
-stargazer(res1g, omit.stat = "rsq", star.cutoffs = .05, notes = "*p < 0.05", notes.append = FALSE, digits = 2, dep.var.labels = "Earnings (2021 USD)", dep.var.caption = "", covariate.labels = c("Age", "Education", "Exercise", "Height"), header = FALSE, float = FALSE, font.size = "scriptsize")
+stargazer(res1g, omit.stat = "rsq", star.cutoffs = .05, notes = "*p < 0.05", notes.append = FALSE, digits = 2, dep.var.labels = "Earnings (2021 USD)", dep.var.caption = "", covariate.labels = c("Age", "Education", "Exercise"), header = FALSE, float = FALSE, font.size = "scriptsize")
 ```
 
 
@@ -220,11 +243,11 @@ d %>%
 
 \vspace{.2in}
 
-```{r, out.width='85%'}
-## Correlations table won't output
-##cor1 <- cor(d[, c("age", "education", "exercise", "height")], use = "pairwise")
-
-knitr::include_graphics("./Images/08_2-correlations.png")
+```{r, results='asis', warning=FALSE, message=FALSE}
+#library(kableExtra)
+cor(d[, c("age", "education", "exercise")], use = "pairwise") |>
+  xtable::xtable(digits = 2) |>
+  print(comment = FALSE, size="\\small")
 
 ```
 
@@ -238,7 +261,7 @@ knitr::include_graphics("./Images/08_2-correlations.png")
 :::: column
 
 ```{r, results = "asis"}
-stargazer(res1g, omit.stat = "rsq", star.cutoffs = .05, notes = "*p < 0.05", notes.append = FALSE, digits = 2, dep.var.labels = "Earnings (2021 USD)", dep.var.caption = "", covariate.labels = c("Age", "Education", "Exercise", "Height"), header = FALSE, float = FALSE, font.size = "scriptsize")
+stargazer(res1g, omit.stat = "rsq", star.cutoffs = .05, notes = "*p < 0.05", notes.append = FALSE, digits = 2, dep.var.labels = "Earnings (2021 USD)", dep.var.caption = "", covariate.labels = c("Age", "Education", "Exercise"), header = FALSE, float = FALSE, font.size = "scriptsize")
 ```
 
 ::::
@@ -246,7 +269,7 @@ stargazer(res1g, omit.stat = "rsq", star.cutoffs = .05, notes = "*p < 0.05", not
 
 \begin{center}
 
-Baseline: Age 25, Education 13, Exercise 1, Height 67
+Baseline: Age 20, Education 13, Exercise 1
 
 \vspace{.25in}
 
@@ -257,9 +280,9 @@ Baseline: Age 25, Education 13, Exercise 1, Height 67
 x1 <- round(coef(res1g), 1)
 sigma <- round(summary(res1g)$sigma, 1)
 
-estimates1 <- as.numeric(c(x1[1] + x1[2] * 25 + x1[3] * 13 + x1[4] * 1 + x1[5] * 67,
-                x1[1] + x1[2] * 25 + x1[3] * 16 + x1[4] * 1 + x1[5] * 67,
-                x1[1] + x1[2] * 25 + x1[3] * 18 + x1[4] * 1 + x1[5] * 67))
+estimates1 <- as.numeric(c(x1[1] + x1[2] * 20 + x1[3] * 13 + x1[4] * 1,
+                x1[1] + x1[2] * 20 + x1[3] * 16 + x1[4] * 1,
+                x1[1] + x1[2] * 20 + x1[3] * 18 + x1[4] * 1))
 
 low1 <- estimates1 - 2 * sigma
 high1 <- estimates1 + 2 * sigma
@@ -277,9 +300,9 @@ tibble(
 
 ```{r, results = "asis"}
 ## Exercise
-estimates2 <- as.numeric(c(x1[1] + x1[2] * 25 + x1[3] * 13 + x1[4] * 1 + x1[5] * 67,
-                x1[1] + x1[2] * 25 + x1[3] * 13 + x1[4] * 4 + x1[5] * 67,
-                x1[1] + x1[2] * 25 + x1[3] * 13 + x1[4] * 7 + x1[5] * 67))
+estimates2 <- as.numeric(c(x1[1] + x1[2] * 20 + x1[3] * 13 + x1[4] * 1,
+                x1[1] + x1[2] * 20 + x1[3] * 13 + x1[4] * 4,
+                x1[1] + x1[2] * 20 + x1[3] * 13 + x1[4] * 7))
 
 low2 <- estimates2 - 2 * sigma
 high2 <- estimates2 + 2 * sigma
@@ -343,7 +366,7 @@ d %>%
 :::: column
 
 ```{r, results = "asis"}
-stargazer(res1g, omit.stat = "rsq", star.cutoffs = .05, notes = "*p < 0.05", notes.append = FALSE, digits = 2, dep.var.labels = "Earnings (2021 USD)", dep.var.caption = "", covariate.labels = c("Age", "Education", "Exercise", "Height"), header = FALSE, float = FALSE, font.size = "scriptsize")
+stargazer(res1g, omit.stat = "rsq", star.cutoffs = .05, notes = "*p < 0.05", notes.append = FALSE, digits = 2, dep.var.labels = "Earnings (2021 USD)", dep.var.caption = "", covariate.labels = c("Age", "Education", "Exercise"), header = FALSE, float = FALSE, font.size = "scriptsize")
 ```
 
 ::::
@@ -366,7 +389,7 @@ stargazer(res1g, omit.stat = "rsq", star.cutoffs = .05, notes = "*p < 0.05", not
 :::: column
 
 ```{r, results = "asis"}
-stargazer(res1g, omit.stat = "rsq", star.cutoffs = .05, notes = "*p < 0.05", notes.append = FALSE, digits = 2, dep.var.labels = "Earnings (2021 USD)", dep.var.caption = "", covariate.labels = c("Age", "Education", "Exercise", "Height"), header = FALSE, float = FALSE, font.size = "scriptsize")
+stargazer(res1g, omit.stat = "rsq", star.cutoffs = .05, notes = "*p < 0.05", notes.append = FALSE, digits = 2, dep.var.labels = "Earnings (2021 USD)", dep.var.caption = "", covariate.labels = c("Age", "Education", "Exercise"), header = FALSE, float = FALSE, font.size = "scriptsize")
 ```
 
 ::::
@@ -383,18 +406,18 @@ stargazer(res1g, omit.stat = "rsq", star.cutoffs = .05, notes = "*p < 0.05", not
 x1 <- round(coef(res1g), 1)
 sigma <- round(summary(res1g)$sigma, 1)
 
-estimates1 <- as.numeric(c(x1[1] + x1[2] * 25 + x1[3] * 13 + x1[4] * 1 + x1[5] * 67,
-                x1[1] + x1[2] * 25 + x1[3] * 16 + x1[4] * 1 + x1[5] * 67,
-                x1[1] + x1[2] * 25 + x1[3] * 18 + x1[4] * 1 + x1[5] * 67))
+estimates1 <- as.numeric(c(x1[1] + x1[2] * 20 + x1[3] * 13 + x1[4] * 1,
+                x1[1] + x1[2] * 20 + x1[3] * 16 + x1[4] * 1,
+                x1[1] + x1[2] * 20 + x1[3] * 18 + x1[4] * 1))
 
 low1 <- estimates1 - 2 * sigma
 high1 <- estimates1 + 2 * sigma
 
 tibble(
     Prediction = c("Baseline", "Finish College", "Finish Grad School"),
-    Low = low1,
-    Estimate = estimates1,
-    High = high1
+    #Low = low1,
+    Estimate = str_c('$', estimates1, 'k')
+    #High = high1
 ) %>%
     stargazer(rownames = FALSE, summary = FALSE, header = FALSE, float = FALSE, font.size = "footnotesize")
 ```
@@ -403,18 +426,18 @@ tibble(
 
 ```{r, results = "asis"}
 ## Exercise
-estimates2 <- as.numeric(c(x1[1] + x1[2] * 25 + x1[3] * 13 + x1[4] * 1 + x1[5] * 67,
-                x1[1] + x1[2] * 25 + x1[3] * 13 + x1[4] * 4 + x1[5] * 67,
-                x1[1] + x1[2] * 25 + x1[3] * 13 + x1[4] * 7 + x1[5] * 67))
+estimates2 <- as.numeric(c(x1[1] + x1[2] * 20 + x1[3] * 13 + x1[4] * 1,
+                x1[1] + x1[2] * 20 + x1[3] * 13 + x1[4] * 4,
+                x1[1] + x1[2] * 20 + x1[3] * 13 + x1[4] * 7))
 
 low2 <- estimates2 - 2 * sigma
 high2 <- estimates2 + 2 * sigma
 
 tibble(
     Prediction = c("Baseline", "Exercise 1x / week", "Exercise > 3x"),
-    Low = low2,
-    Estimate = estimates2,
-    High = high2
+    #Low = low2,
+    Estimate = str_c('$', estimates2, 'k')
+    #High = high2
 ) %>%
     stargazer(rownames = FALSE, summary = FALSE, header = FALSE, float = FALSE, font.size = "footnotesize")
 
@@ -431,7 +454,7 @@ tibble(
 :::: column
 
 ```{r, results = "asis"}
-stargazer(res1g, omit.stat = "rsq", star.cutoffs = .05, notes = "*p < 0.05", notes.append = FALSE, digits = 2, dep.var.labels = "Earnings (2021 USD)", dep.var.caption = "", covariate.labels = c("Age", "Education", "Exercise", "Height"), header = FALSE, float = FALSE, font.size = "scriptsize")
+stargazer(res1g, omit.stat = "rsq", star.cutoffs = .05, notes = "*p < 0.05", notes.append = FALSE, digits = 2, dep.var.labels = "Earnings (2021 USD)", dep.var.caption = "", covariate.labels = c("Age", "Education", "Exercise"), header = FALSE, float = FALSE, font.size = "scriptsize")
 ```
 
 ::::
@@ -440,7 +463,7 @@ stargazer(res1g, omit.stat = "rsq", star.cutoffs = .05, notes = "*p < 0.05", not
 \begin{center}
 
 ```{r, results = "asis"}
-preds1 <- x1[1] + x1[2] * 25 + x1[3] * 12:18 + x1[4] * 1 + x1[5] * 67
+preds1 <- x1[1] + x1[2] * 20 + x1[3] * 12:18 + x1[4] * 1
 preds2 <- str_c('$', preds1, 'k')
 
 tibble(
@@ -463,7 +486,7 @@ tibble(
 :::: column
 
 ```{r, results = "asis"}
-stargazer(res1g, omit.stat = "rsq", star.cutoffs = .05, notes = "*p < 0.05", notes.append = FALSE, digits = 2, dep.var.labels = "Earnings (2021 USD)", dep.var.caption = "", covariate.labels = c("Age", "Education", "Exercise", "Height"), header = FALSE, float = FALSE, font.size = "scriptsize")
+stargazer(res1g, omit.stat = "rsq", star.cutoffs = .05, notes = "*p < 0.05", notes.append = FALSE, digits = 2, dep.var.labels = "Earnings (2021 USD)", dep.var.caption = "", covariate.labels = c("Age", "Education", "Exercise"), header = FALSE, float = FALSE, font.size = "scriptsize")
 ```
 
 ::::
@@ -473,7 +496,7 @@ stargazer(res1g, omit.stat = "rsq", star.cutoffs = .05, notes = "*p < 0.05", not
 \begin{center}
 
 ```{r, results = "asis"}
-preds1 <- x1[1] + x1[2] * 25 + x1[3] * 12:18 + x1[4] * 1 + x1[5] * 67
+preds1 <- x1[1] + x1[2] * 20 + x1[3] * 12:18 + x1[4] * 1
 preds2 <- str_c('$', preds1, 'k')
 
 tibble(
@@ -511,14 +534,14 @@ tibble(
 ## Expand to all education levels for visualizing scatter plot
 tibble(
   Education = 12:18,
-  Predicted = x1[1] + x1[2]*25 + x1[3]*Education + x1[4]*1 + x1[5]*67
+  Predicted = x1[1] + x1[2]*20 + x1[3]*Education + x1[4]*1
 ) %>%
   ggplot(aes(x = Education, y = Predicted)) +
   geom_line(size = 1.5) +
   theme_minimal() +
   labs(x = "Years of Education", y = "Predicted Earnings ($k)",
        title = "The Marginal Effect of Education on Earnings",
-       subtitle = "Assumes a 25 year old who is 5ft 7in and doesn't exercise") +
+       subtitle = "Assumes a 20 year old who doesn't exercise") +
   coord_cartesian(ylim = c(20, 60))
 ```
 ::::
@@ -531,7 +554,7 @@ tibble(
 :::: column
 
 ```{r, results = "asis"}
-stargazer(res1g, omit.stat = "rsq", star.cutoffs = .05, notes = "*p < 0.05", notes.append = FALSE, digits = 2, dep.var.labels = "Earnings (2021 USD)", dep.var.caption = "", covariate.labels = c("Age", "Education", "Exercise", "Height"), header = FALSE, float = FALSE, font.size = "scriptsize")
+stargazer(res1g, omit.stat = "rsq", star.cutoffs = .05, notes = "*p < 0.05", notes.append = FALSE, digits = 2, dep.var.labels = "Earnings (2021 USD)", dep.var.caption = "", covariate.labels = c("Age", "Education", "Exercise"), header = FALSE, float = FALSE, font.size = "scriptsize")
 ```
 
 ::::
@@ -543,14 +566,14 @@ stargazer(res1g, omit.stat = "rsq", star.cutoffs = .05, notes = "*p < 0.05", not
 ## Expand to all education levels for visualizing scatter plot
 tibble(
   Education = 12:18,
-  Predicted = x1[1] + x1[2]*25 + x1[3]*Education + x1[4]*1 + x1[5]*67
+  Predicted = x1[1] + x1[2]*20 + x1[3]*Education + x1[4]*1
 ) %>%
   ggplot(aes(x = Education, y = Predicted)) +
   geom_line(size = 1.5) +
   theme_minimal() +
   labs(x = "Years of Education", y = "Predicted Earnings ($k)",
        title = "The Marginal Effect of Education on Earnings",
-       subtitle = "Assumes a 25 year old who is 5ft 7in and doesn't exercise") +
+       subtitle = "Assumes a 20 year old who doesn't exercise") +
   coord_cartesian(ylim = c(20, 60))
 ```
 ::::
@@ -558,71 +581,122 @@ tibble(
 
 
 
+
 # 
+::: columns
+:::: column
+
+```{r, results = "asis"}
+stargazer(res1g, omit.stat = "rsq", star.cutoffs = .05, notes = "*p < 0.05", notes.append = FALSE, digits = 2, dep.var.labels = "Earnings (2021 USD)", dep.var.caption = "", covariate.labels = c("Age", "Education", "Exercise"), header = FALSE, float = FALSE, font.size = "scriptsize")
+```
+
+::::
+:::: column
+
 \large
-Create a marginal effects plot with THREE prediction lines
+\center
 
-1. Predict the effect of education (12-18) for a 25 year old who doesn't exercise and is the shortest person in the sample (4'9")
+**Practice**
 
-2. Repeat above but assume a person of average height (5'7")
+\vspace{.3in}
 
-3. Repeat above but assume the tallest person in the sample (6'10")
+Make a marginal effects plot of exercise for a 22 year old who has finished their undergraduate degree (education = 16)
+
+::::
+:::
+
+
+
+# 
+::: columns
+:::: column
+
+```{r, results = "asis"}
+stargazer(res1g, omit.stat = "rsq", star.cutoffs = .05, notes = "*p < 0.05", notes.append = FALSE, digits = 2, dep.var.labels = "Earnings (2021 USD)", dep.var.caption = "", covariate.labels = c("Age", "Education", "Exercise"), header = FALSE, float = FALSE, font.size = "scriptsize")
+```
+
+::::
+:::: column
+
+\begin{center}
+
+```{r, results = "asis"}
+preds1 <- x1[1] + x1[2] * 22 + x1[3] * 16 + x1[4] * 1:7
+preds2 <- str_c('$', preds1, 'k')
+
+tibble(
+    Exercise = 1:7,
+    Prediction = c("", "", "", "", "", "", "")
+) %>%
+    stargazer(rownames = FALSE, summary = FALSE, header = FALSE, float = FALSE, font.size = "large")
+
+```
+\end{center}
+
+::::
+:::
 
 
 
 # 
+::: columns
+:::: column
 
-```{r, fig.align = 'center', fig.asp=0.618, out.height = '95%', fig.width = 6}
-## Repeat with lines by shortest, avg and tallest
+```{r, results = "asis"}
+stargazer(res1g, omit.stat = "rsq", star.cutoffs = .05, notes = "*p < 0.05", notes.append = FALSE, digits = 2, dep.var.labels = "Earnings (2021 USD)", dep.var.caption = "", covariate.labels = c("Age", "Education", "Exercise"), header = FALSE, float = FALSE, font.size = "scriptsize")
+```
+
+::::
+:::: column
+
+\begin{center}
+
+```{r, results = "asis"}
+preds1 <- x1[1] + x1[2] * 22 + x1[3] * 16 + x1[4] * 1:7
+preds2 <- str_c('$', preds1, 'k')
+
 tibble(
-  Education = 12:18,
-  Shortest = x1[1] + x1[2]*25 + x1[3]*Education + x1[4]*1 + x1[5]*57,
-  Average = x1[1] + x1[2]*25 + x1[3]*Education + x1[4]*1 + x1[5]*67,
-  Tallest = x1[1] + x1[2]*25 + x1[3]*Education + x1[4]*1 + x1[5]*82
+    Exercise = 1:7,
+    Prediction = preds2
 ) %>%
-  pivot_longer(cols = Shortest:Tallest, names_to = "Height", values_to = "Values") %>%
-  ggplot(aes(x = Education, y = Values, color = Height)) +
-  geom_line(size = 2) +
-  scale_color_discrete(limits = c("Tallest", "Average", "Shortest")) +
-  theme_minimal() +
-  labs(x = "Years of Education", y = "Predicted Earnings ($k)",
-       title = "The Marginal Effect of Education on Earnings",
-       subtitle = "Assumes a 25 year old who doesn't exercise")
+    stargazer(rownames = FALSE, summary = FALSE, header = FALSE, float = FALSE, font.size = "large")
+
 ```
+\end{center}
 
-
-#
-```{r, fig.align='center', out.width='90%'}
-knitr::include_graphics('Images/09-1-marginal_effects.png')
-```
-
-
-#
-```{r, fig.align='center', out.width='100%'}
-knitr::include_graphics('Images/09-1-marginal_effects2.png')
-```
+::::
+:::
 
 
 # 
+::: columns
+:::: column
 
-```{r, fig.align = 'center', fig.asp=0.618, out.height = '95%', fig.width = 6}
-## Repeat with lines by shortest, avg and tallest
-tibble(
-  Education = 12:18,
-  Shortest = x1[1] + x1[2]*25 + x1[3]*Education + x1[4]*1 + x1[5]*57,
-  Average = x1[1] + x1[2]*25 + x1[3]*Education + x1[4]*1 + x1[5]*67,
-  Tallest = x1[1] + x1[2]*25 + x1[3]*Education + x1[4]*1 + x1[5]*82
-) %>%
-  pivot_longer(cols = Shortest:Tallest, names_to = "Height", values_to = "Values") %>%
-  ggplot(aes(x = Education, y = Values, color = Height)) +
-  geom_line(size = 2) +
-  scale_color_discrete(limits = c("Tallest", "Average", "Shortest")) +
-  theme_minimal() +
-  labs(x = "Years of Education", y = "Predicted Earnings ($k)",
-       title = "The Marginal Effect of Education on Earnings",
-       subtitle = "Assumes a 25 year old who doesn't exercise")
+```{r, results = "asis"}
+stargazer(res1g, omit.stat = "rsq", star.cutoffs = .05, notes = "*p < 0.05", notes.append = FALSE, digits = 2, dep.var.labels = "Earnings (2021 USD)", dep.var.caption = "", covariate.labels = c("Age", "Education", "Exercise"), header = FALSE, float = FALSE, font.size = "scriptsize")
 ```
 
+::::
+:::: column
+
+\vspace{.2in}
+
+```{r, fig.align = 'center', fig.asp=0.9, out.width = '100%', fig.width = 5}
+## Expand to all education levels for visualizing scatter plot
+tibble(
+  Exercise = 1:7,
+  Predicted = x1[1] + x1[2]*22 + x1[3]*16 + x1[4]*Exercise
+) %>%
+  ggplot(aes(x = Exercise, y = Predicted)) +
+  geom_line(size = 1.5) +
+  theme_minimal() +
+  labs(x = "Level of Strenuous Exercise", y = "Predicted Earnings ($k)",
+       title = "The Marginal Effect of Exercise on Earnings",
+       subtitle = "Assumes a 22 year old who finishes college") +
+  coord_cartesian(ylim = c(20, 60))
+```
+::::
+:::
 
 
 
