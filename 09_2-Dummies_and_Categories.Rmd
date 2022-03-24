@@ -171,7 +171,7 @@ knitr::include_graphics('Images/09-2-Excel1.png')
 
 \textbf{Is their evidence of a gender difference in earned income?}
 
-2. Fit an OLS regression of income on gender
+2. Fit an OLS regression of income on the male dummy
 
 \end{Large}
 
@@ -387,7 +387,7 @@ stargazer(res2, digits = 2, omit.stat = "rsq", star.cutoffs = .05, notes = "*p<0
 
 \begin{LARGE}
 
-Regress earnings (2021) on education and gender
+Regress earnings (2021) on education and the male dummy
 
 \end{LARGE}
 
@@ -404,7 +404,7 @@ res3 <- d %>% lm(data = ., earnk2021 ~ education + male)
 ## Save coef
 x3 <- round(coef(res3), 2)
 
-stargazer(res2, res3, digits = 2, omit.stat = "rsq", star.cutoffs = .05, notes = "*p<0.05", notes.append = FALSE, dep.var.caption = "", dep.var.labels = "Income (Thousands USD)", covariate.labels = c("Education", "Male"), header = FALSE, float = FALSE, font.size = "footnotesize")
+stargazer(res1, res2, res3, digits = 2, omit.stat = "rsq", star.cutoffs = .05, notes = "*p<0.05", notes.append = FALSE, dep.var.caption = "", dep.var.labels = "Income (Thousands USD)", header = FALSE, float = FALSE, font.size = "scriptsize")
 ```
 \end{center}
 
