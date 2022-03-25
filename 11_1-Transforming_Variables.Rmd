@@ -69,19 +69,16 @@ knitr::opts_chunk$set(echo = FALSE,
 ```
 
 
-# Today's Agenda
+# Today's Agenda: Dataset 1
 
 \begin{large}
 
-Extending the OLS Regression using Dataset 1
+Extending the OLS Regression
 
 \begin{enumerate}
-
-\item Dummy predictors
-\item Categorical predictors
-\item Transforming the variables
-\item Transforming the model
-
+\item Week 9: Dichotomous and categorical predictors
+\item Today: Transforming the variables
+\item Thursday: Transforming the model
 \end{enumerate}
 
 \end{large}
@@ -92,12 +89,13 @@ Extending the OLS Regression using Dataset 1
 Justin Leinaweaver (Spring 2022)
 \end{center}
 
-
-
 ```{r, include = FALSE}
 d <- read_excel("../../Data/Dataset-1/Dataset1-2020_Only.xlsx", na = "NA") %>%
   mutate(
     gdp_category = factor(gdp_category, levels = c("Under $100 billion", "Under $1 trillion", "Above $1 trillion")),
+    pop_under5 = if_else(pop_category == "Under 5 million", 1, 0),
+    pop_under10 = if_else(pop_category == "Under 10 million", 1, 0),
+    pop_above10 = if_else(pop_category == "Above 10 million", 1, 0),
     pop_category = factor(pop_category, levels = c("Under 5 million", "Under 10 million", "Above 10 million")),
     manufacturing_category = factor(manufacturing_category, levels = c("Under 100k", "Under 300k", "Above 300k")),
     income_tax2 = if_else(income_tax == 1, "Income Tax", "No Income Tax"),
@@ -110,61 +108,124 @@ d <- read_excel("../../Data/Dataset-1/Dataset1-2020_Only.xlsx", na = "NA") %>%
 
 
 
-# Transforming the Variables
+# Let's Practice with Categorical Predictors
+\center
+\LARGE
+
+Regress GDP (millions) on the three population level categories in pop_category
+
+
+
+# Let's Practice with Categorical Predictors
+\Large
+
+\begin{center}
+Regress GDP (millions) on the three population level categories in pop\_category
+\end{center}
+
+\vspace{.2in}
+
+Create Dummy Vars:
+
+1. Under 10 million
+
+2. Above 10 million
+
+
+
+# 
 ::: columns
 :::: column
-
+\vspace{.75in}
+\large
+\begin{center}
+Group Means
+\vspace{.1in}
+```{r, results = "asis"}
+# Group means
+d %>%
+  group_by(pop_category) %>%
+  summarize(
+    "GDP (millions)" = prettyNum(round(mean(gdp_millions), 0), big.mark = ",", scientific = FALSE)
+  ) %>%
+    rename(Population = pop_category) %>%
+  mutate(
+    Population = c("Under 5 million", "Under 10 million", "Above 10 million")
+  ) |>
+  stargazer(summary = FALSE, rownames = FALSE, header = FALSE, float = FALSE, font.size = "footnotesize", title = "Group Means")
+```
+\end{center}
+::::
+:::: column
 \begin{center}
 ```{r, results = "asis"}
 # Start by examining a bad model fit: GDP ~ bachelors
-res1 <- lm(data = d, gdp_millions ~ bachelors)
+res1 <- lm(data = d, gdp_millions ~ pop_under10 + pop_above10)
 
-stargazer(res1, digits = 2, dep.var.caption = "", star.cutoffs = .05, notes.append = FALSE, notes = "*p<0.05", omit.stat = "rsq", dep.var.labels = "GDP (millions)", covariate.labels = c("Bachelors (\\%)", "Intercept"), header = FALSE, float = FALSE, font.size = "footnotesize")
+stargazer(res1, digits = 2, dep.var.caption = "", star.cutoffs = .05, notes.append = FALSE, notes = "*p<0.05", omit.stat = "rsq", dep.var.labels = "GDP (millions)", covariate.labels = c("Pop (5-10million)", "Pop (Above 10million)"), header = FALSE, float = FALSE, font.size = "footnotesize")
 ```
 \end{center}
-
-::::
-:::: column
-```{r, fig.align = 'center', fig.asp=0.85, out.width = '100%', fig.width = 5}
-# Visualize the line fit plot (600x300)
-d %>%
-  ggplot(aes(x = bachelors, y = gdp_millions)) +
-  geom_point() +
-  geom_smooth(method = "lm", se = FALSE) +
-  theme_bw() +
-  labs(x = "Bachelors Degree (%)", y = "GDP (millions USD)")
-```
 ::::
 :::
 
 
 
-# Transforming the Variables
+# 
 ::: columns
 :::: column
+```{r, fig.asp=1.4, out.width='80%', fig.width=5}
+## Group means
+group_means1 <- d |>
+  group_by(pop_category) |>
+  summarize(
+    mean = mean(gdp_millions)
+  )
 
+d |>
+  ggplot(aes(x = gdp_millions)) +
+  geom_histogram(bins = 25, color = "white") +
+  geom_vline(data = group_means1, aes(xintercept = mean), color = "red", size = 1.4) +
+  facet_wrap(~ pop_category, ncol = 1, scales = "free_y") +
+  theme_bw() +
+  labs(x = "GDP (millions USD)", y = "")
+```
+::::
+:::: column
 \begin{center}
 ```{r, results = "asis"}
-# Start by examining a bad model fit: GDP ~ bachelors
+stargazer(res1, digits = 2, dep.var.caption = "", star.cutoffs = .05, notes.append = FALSE, notes = "*p<0.05", omit.stat = "rsq", dep.var.labels = "GDP (millions)", covariate.labels = c("Pop (5-10million)", "Pop (Above 10million)"), header = FALSE, float = FALSE, font.size = "footnotesize")
+```
+\end{center}
+::::
+:::
+
+
+
+# Improving Model Fit: Transforming Variables
+\Large
+
+\begin{center}
+Do states with more educated workforces have larger economies?
+\end{center}
+
+\vspace{.25in}
+
+Model 1: Regress GDP (**millions**) on bachelors
+
+Model 2: Regress GDP (**billions**) on bachelors
+
+
+
+# 
+\begin{center}
+```{r, results = "asis"}
+res1 <- lm(data = d, gdp_millions ~ bachelors)
 res2 <- lm(data = d, gdp_billions ~ bachelors)
 
-stargazer(res2, digits = 2, dep.var.caption = "", star.cutoffs = .05, notes.append = FALSE, notes = "*p<0.05", omit.stat = "rsq", dep.var.labels = "GDP (billions)", covariate.labels = c("Bachelors (\\%)", "Intercept"), header = FALSE, float = FALSE, font.size = "footnotesize")
+stargazer(res1, res2, digits = 2, dep.var.caption = "", star.cutoffs = .05, notes.append = FALSE, notes = "*p<0.05", omit.stat = "rsq", dep.var.labels = c("GDP (millions)", "GDP (billions)"), covariate.labels = c("Bachelors (\\%)", "Intercept"), header = FALSE, float = FALSE, font.size = "small")
 ```
 \end{center}
 
-::::
-:::: column
-```{r, fig.align = 'center', fig.asp=0.85, out.width = '100%', fig.width = 5}
-# Visualize the line fit plot (600x300)
-d %>%
-  ggplot(aes(x = bachelors, y = gdp_billions)) +
-  geom_point() +
-  geom_smooth(method = "lm", se = FALSE) +
-  theme_bw() +
-  labs(x = "Bachelors Degree (%)", y = "GDP (billions USD)")
-```
-::::
-:::
 
 
 
@@ -177,8 +238,8 @@ d2 <- d %>%
     gdp_100billion = gdp_billions/100
   )
 
-##res1
-##res2
+res1 <- lm(data = d, gdp_millions ~ bachelors)
+res2 <- lm(data = d, gdp_billions ~ bachelors)
 res3 <- lm(data = d2, gdp_10billion ~ bachelors)
 res4 <- lm(data = d2, gdp_100billion ~ bachelors)
 
@@ -186,14 +247,36 @@ stargazer(res1, res2, res3, res4, digits = 2, dep.var.caption = "", star.cutoffs
 ```
 
 
+
+
 # Transformation 1: Shift the Decimal Point
 ```{r, fig.align = 'center', fig.asp=0.618, out.height = '80%', fig.width = 5.5}
 # Visualize the residual plot (600x300)
-d %>%
-  add_residuals(res2) %>%
-  add_predictions(res2) %>%
+d10 <- d %>%
+  add_residuals(res2) %>% 
+  add_predictions(res2)
+
+d10 %>%
   ggplot(aes(x = pred, y = resid)) +
   geom_point() +
+  theme_bw() +
+  labs(x = "Predicted GDP (Billions USD)", y = "Residuals") +
+  coord_cartesian(ylim = c(-1000, 3000)) +
+  geom_hline(yintercept = 0, color = "red")
+```
+
+
+
+# Transformation 1: Shift the Decimal Point
+```{r, fig.align = 'center', fig.asp=0.618, out.height = '80%', fig.width = 5.5}
+# Visualize the residual plot (600x300)
+d_labels <- d10 |>
+  filter(resid > 1000)
+
+d10 %>%
+  ggplot(aes(x = pred, y = resid)) +
+  geom_point() +
+  ggrepel::geom_text_repel(data = d_labels, aes(label = State)) +
   theme_bw() +
   labs(x = "Predicted GDP (Billions USD)", y = "Residuals") +
   coord_cartesian(ylim = c(-1000, 3000)) +
@@ -207,13 +290,10 @@ d %>%
 :::: column
 ```{r, fig.align = 'center', fig.asp=0.85, out.height = '80%', fig.width = 5.5}
 # Visualize the residual plot (600x300)
-resid1 <- d %>%
-  add_residuals(res2) %>%
-    add_predictions(res2)
-
-resid1 %>%
+d10 %>%
   ggplot(aes(x = pred, y = resid)) +
   geom_point() +
+  ggrepel::geom_text_repel(data = d_labels, aes(label = State)) +
   theme_bw() +
   labs(x = "Predicted GDP (Billions USD)", y = "Residuals") +
   coord_cartesian(ylim = c(-1000, 3000)) +
@@ -227,7 +307,7 @@ resid1 %>%
 \begin{Large}
 \begin{center}
 
-`r sum(resid1$resid < 0)` / 50 (`r (sum(resid1$resid < 0)/50)*100` \%) are below the zero line.
+`r sum(d10$resid < 0)` / 50 (`r (sum(d10$resid < 0)/50)*100` \%) are below the zero line.
 
 \vspace{.2in}
 
@@ -242,37 +322,157 @@ Aim is 50\%-50\%
 
 # Transformation 2: Natural Logarithms
 
+```{r, fig.align = 'center', fig.asp=0.618, out.width = '75%', fig.width = 6}
+## Visualize the natural log scale
+tibble(
+  x = 1:20, #1e3,
+  log_x = log(x)
+) %>%
+  ggplot(aes(x = x, y = log_x)) +
+  geom_line() +
+  theme_bw() +
+  labs(x = "X", y = "Natural Log of X")
+```
+
+
+
+# Transformation 2: Natural Logarithms
+
+```{r, fig.align = 'center', fig.asp=0.618, out.width = '75%', fig.width = 6}
+## Visualize the natural log scale
+tibble(
+  x = 1:20, #1e3,
+  log_x = log(x)
+) %>%
+  ggplot(aes(x = x, y = log_x)) +
+  geom_line() +
+  annotate("segment", x = 1, xend = 5, y = 1.609, yend = 1.609, linetype = "dashed") +
+  annotate("segment", x = 5, xend = 5, y = 0, yend = 1.609, linetype = "dashed") +
+  annotate("point", x = 5, y = 1.609, color = "red", size = 6) +
+  theme_bw() +
+  labs(x = "X", y = "Natural Log of X",
+       title = "Excel Function: LN()")
+```
+
+
+
+# Transformation 2: Natural Logarithms
+
+```{r, fig.align = 'center', fig.asp=0.618, out.width = '75%', fig.width = 6}
+## Visualize the natural log scale
+tibble(
+  x = 1:20, #1e3,
+  log_x = log(x)
+) %>%
+  ggplot(aes(x = x, y = log_x)) +
+  geom_line() +
+  annotate("segment", x = 1, xend = 5, y = 1.609, yend = 1.609, linetype = "dashed") +
+  annotate("segment", x = 5, xend = 5, y = 0, yend = 1.609, linetype = "dashed") +
+  annotate("point", x = 5, y = 1.6, color = "red", size = 6) +
+  annotate("segment", x = 1, xend = 10, y = 2.3, yend = 2.3, linetype = "dashed") +
+  annotate("segment", x = 10, xend = 10, y = 0, yend = 2.3, linetype = "dashed") +
+  annotate("point", x = 10, y = 2.3, color = "red", size = 6) +
+  theme_bw() +
+  labs(x = "X", y = "Natural Log of X")
+```
+
+
+
+# Transformation 2: Natural Logarithms
+
+```{r, fig.align = 'center', fig.asp=0.5, out.width = '85%', fig.width = 6}
+## Visualize the natural log scale
+tibble(
+  x = 1:1e4,
+  log_x = log(x)
+) %>%
+  ggplot(aes(x = x, y = log_x)) +
+  geom_line() +
+  annotate("segment", x = 1, xend = 5000, y = 8.517, yend = 8.517, linetype = "dashed") +
+  annotate("segment", x = 5000, xend = 5000, y = 0, yend = 8.517, linetype = "dashed") +
+  annotate("point", x = 5000, y = 8.517, color = "red", size = 4) +
+  annotate("segment", x = 1, xend = 7500, y = 8.9226, yend = 8.9226, linetype = "dashed") +
+  annotate("segment", x = 7500, xend = 7500, y = 0, yend = 8.9226, linetype = "dashed") +
+  annotate("point", x = 7500, y = 8.9226, color = "red", size = 4) +
+  theme_bw() +
+  labs(x = "X", y = "Natural Log of X")
+```
+
+
+
+# Transformation 2: Natural Logarithms
+
 \begin{Large}
 
-\begin{enumerate}
-
-\item Create a new variable: "log GDP"
+The natural log scale = multiplying by e
 
 \begin{itemize}
 
-\begin{large}
+\item $e$ is Euler's Number (2.718282...)
 
-\item Excel function for the natural log is = LN()
-
-\item GDP in Dataset 1 is in millions so you have to convert it to dollars first!
-
-\item = LN( GDP * 1e6 )
-
-\end{large}
+\item Typically written as $log_e$ X or ln X
 
 \end{itemize}
 
-\item Practice: Regress log GDP on bachelors
+\vspace{.25in}
 
-\end{enumerate}
+Transform back to linear scale using $e^{X}$
 
 \end{Large}
 
 
 
+
+# Transformation 2: Natural Logarithms
+\begin{center}
+```{r, out.width='80%'}
+knitr::include_graphics('Images/11-1-Transform_GDP1.png')
+```
+\end{center}
+
+
+
+# Transformation 2: Natural Logarithms
+\begin{center}
+```{r, out.width='80%'}
+knitr::include_graphics('Images/11-1-transform_gdp_dollars.png')
+```
+\end{center}
+
+
+
+# Transformation 2: Natural Logarithms
+\begin{center}
+```{r, out.width='80%'}
+knitr::include_graphics('Images/11-1-transform_log_gdp.png')
+```
+\end{center}
+
+
+# Transformation 2: Natural Logarithms
+\begin{center}
+```{r, out.width='90%'}
+knitr::include_graphics('Images/11-1-transform_back_to_gdp.png')
+```
+\end{center}
+
+
+
+# Let's Practice with Log Transformations
+\Large
+
+\begin{center}
+Do states with more educated workforces have larger economies?
+\end{center}
+
+\vspace{.25in}
+
+Model 3: Regress GDP (**log**) on bachelors
+
+
+
 # 
-::: columns
-:::: column
+\begin{center}
 ```{r, results = "asis"}
 ##### Bachelors #####
 res1 <- d %>% lm(data = ., gdp_billions ~ bachelors)
@@ -282,7 +482,26 @@ res2 <- d %>% lm(data = ., log_gdp ~ bachelors)
 x1 <- round(coef(res1), 2)
 x2 <- round(coef(res2), 2)
 
-stargazer(res1, res2, digits = 2, dep.var.caption = "", star.cutoffs = .05, notes.append = FALSE, notes = "*p<0.05", omit.stat = "rsq", dep.var.labels = c("(billions)", "(log)"), covariate.labels = c("Bachelors (\\%)", "Intercept"), header = FALSE, float = FALSE, font.size = "footnotesize")
+stargazer(res1, res2, digits = 2, dep.var.caption = "", star.cutoffs = .056, notes.append = FALSE, notes = "*p<0.056", omit.stat = "rsq", dep.var.labels = c("GDP (billions)", "GDP (log)"), covariate.labels = c("Bachelors (\\%)", "Intercept"), header = FALSE, float = FALSE, font.size = "small")
+```
+\end{center}
+
+
+
+# 
+::: columns
+:::: column
+
+\vspace{.4in}
+
+```{r, fig.align = 'center', fig.asp=0.8, out.height = '65%', fig.width = 5}
+# Visualize the line fit plot (600x300)
+d %>%
+  ggplot(aes(x = bachelors, y = gdp_billions)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  theme_bw() +
+  labs(x = "Bachelors Degree (%)", y = "GDP (billions)")
 ```
 ::::
 :::: column
@@ -453,60 +672,6 @@ d %>%
 
 
 
-# Transformation 2: Natural Logarithms
-
-```{r, fig.align = 'center', fig.asp=0.5, out.width = '85%', fig.width = 6}
-## Visualize the natural log scale
-tibble(
-  x = 1:20, #1e3,
-  log_x = log(x)
-) %>%
-  ggplot(aes(x = x, y = log_x)) +
-  geom_line() +
-  theme_minimal() +
-  labs(x = "X", y = "Natural Log of X") #+
-  #scale_x_continuous(breaks = 1:20)
-```
-
-
-
-# Transformation 2: Natural Logarithms
-
-```{r, fig.align = 'center', fig.asp=0.5, out.width = '85%', fig.width = 6}
-## Visualize the natural log scale
-tibble(
-  x = 1:1e4,
-  log_x = log(x)
-) %>%
-  ggplot(aes(x = x, y = log_x)) +
-  geom_line() +
-  theme_minimal() +
-  labs(x = "X", y = "Natural Log of X")
-```
-
-
-
-# Transformation 2: Natural Logarithms
-
-\begin{LARGE}
-
-The natural log scale = multiplying by e
-
-\begin{itemize}
-
-\item $e$ is Euler's Number (2.718282...)
-
-\item Typically written as $log_e$ X or ln X
-
-\end{itemize}
-
-\vspace{.25in}
-
-Transform back to linear scale using eX
-
-\end{LARGE}
-
-
 
 # Transformation 2: Natural Logarithms
 
@@ -519,8 +684,6 @@ GDP for State X = \$5,000 or 8.5 (ln)
 \item $log_e$ 5,000 $\approx$ 8.5
 
 \item $e^{8.5} \approx$ 5,000 
-
-\item Excel function is = EXP()
 
 \end{itemize}
 
@@ -713,6 +876,61 @@ pred1 <- as.numeric(round(x2[1]+x2[2]*mean(d$bachelors), 2))
 
 
 
+# Practice with Dataset 2
+\Large
+
+**Do wealthier countries live longer?**
+
+Model 1: Regress life expectancy on GDP (billions)
+
+Model 2: Regress life expectancy on log(GDP)
+
+
+
+
+#
+::: columns
+:::: column
+
+\vspace{.2in}
+
+```{r, results = "asis"}
+d <- read_excel("../../Data/Dataset-2/Dataset2-2019_only.xlsx") %>%
+    mutate(
+        log_gdp = log(gdp_current),
+        gdp_billions = gdp_current/1e9
+    )
+
+res5 <- lm(data = d, life_expectancy ~ gdp_billions)
+res6 <- lm(data = d, life_expectancy ~ log_gdp)
+
+stargazer(res5, res6, digits = 2, dep.var.caption = "", star.cutoffs = .05, notes.append = FALSE, notes = "*p<0.05", omit.stat = "rsq", dep.var.labels = "Life Expectancy", covariate.labels = c("GDP", "log(GDP)"), header = FALSE, float = FALSE, font.size = "scriptsize")
+```
+::::
+:::: column
+```{r, fig.align = 'center', fig.asp=0.618, out.height = '45%', fig.width = 5}
+d %>%
+    ggplot(aes(x = gdp_billions, y = life_expectancy)) +
+    geom_point() +
+    geom_smooth(method = "lm", se = FALSE) +
+    theme_bw() +
+    labs(x = "GDP (billions)", y = "Life Expectancy")
+
+d %>%
+    ggplot(aes(x = log_gdp, y = life_expectancy)) +
+    geom_point() +
+    geom_smooth(method = "lm", se = FALSE) +
+    theme_bw() +
+    labs(x = "log (GDP)", y = "Life Expectancy")
+```
+::::
+:::
+
+
+
+# Old
+
+
 # Making Point Estimates
 
 \begin{center}
@@ -726,58 +944,3 @@ Outcome = $e^{Intercept + Coefficient * (Predictor)}$
 
 \end{Large}
 \end{center}
-
-
-
-# Practice
-
-\begin{Large}
-
-\textbf{Dataset 2: Do wealthier countries live longer?}
-
-\begin{itemize}
-\item Regress life expectancy on GDP
-\item Regress life expectancy on log(GDP)
-\end{itemize}
-
-\end{Large}
-
-
-#
-::: columns
-:::: column
-
-\vspace{.2in}
-
-```{r, results = "asis"}
-d <- read_excel("../../Data/Dataset-2/Dataset2-2019_only.xlsx") %>%
-    mutate(
-        log_gdp = log(gdp_current)
-    )
-
-res5 <- lm(data = d, life_expectancy ~ gdp_current)
-res6 <- lm(data = d, life_expectancy ~ log_gdp)
-
-stargazer(res5, res6, digits = 2, dep.var.caption = "", star.cutoffs = .05, notes.append = FALSE, notes = "*p<0.05", omit.stat = "rsq", dep.var.labels = "Life Expectancy", covariate.labels = c("GDP", "log(GDP)"), header = FALSE, float = FALSE, font.size = "scriptsize")
-```
-::::
-:::: column
-```{r, fig.align = 'center', fig.asp=0.618, out.height = '45%', fig.width = 5}
-d %>%
-    ggplot(aes(x = gdp_current, y = life_expectancy)) +
-    geom_point() +
-    geom_smooth(method = "lm", se = FALSE) +
-    theme_bw() +
-    labs(x = "GDP (current USD)", y = "Life Expectancy")
-
-d %>%
-    ggplot(aes(x = log_gdp, y = life_expectancy)) +
-    geom_point() +
-    geom_smooth(method = "lm", se = FALSE) +
-    theme_bw() +
-    labs(x = "log (GDP)", y = "Life Expectancy")
-```
-::::
-:::
-
-
