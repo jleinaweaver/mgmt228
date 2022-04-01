@@ -149,19 +149,23 @@ knitr::include_graphics("./Images/12_1-bechdel.jpg")
 \begin{center}
 \textbf{The Bechdel Test: Sexism at the Movies}
 
-\vspace{.5in}
+\vspace{.75in}
 
-Let's explore!
+What proportion of movies in this dataset pass the Bechdel test?
+
 \end{center}
 \end{Large}
 
-\vspace{.25in}
+```{r, eval=FALSE}
+d2 |>
+  arrange(desc(total_gross_2013)) |>
+  #slice(1:10) |>
+  count(bechdel, name = "count") |>
+  mutate(
+    prop = count/sum(count)
+  )
+```
 
-\begin{itemize}
-\item Top 10 movies pass the test?
-\item Top 20?
-\item Any surprises?
-\end{itemize}
 ::::
 :::: column
 ```{r, fig.align = 'center', out.height = '90%'}
@@ -169,6 +173,91 @@ knitr::include_graphics("./Images/12_1-bechdel.jpg")
 ```
 ::::
 :::
+
+
+
+# 
+::: columns
+:::: column
+\begin{Large}
+\begin{center}
+\textbf{The Bechdel Test: Sexism at the Movies}
+
+\vspace{.75in}
+
+What proportion of the top 10 movies pass the Bechdel test?
+
+\end{center}
+\end{Large}
+
+```{r, eval=FALSE}
+d2 |>
+  arrange(desc(total_gross_2013)) |>
+  slice(1:10) |>
+  count(bechdel, name = "count") |>
+  mutate(
+    prop = count/sum(count)
+  )
+```
+
+::::
+:::: column
+```{r, fig.align = 'center', out.height = '90%'}
+knitr::include_graphics("./Images/12_1-bechdel.jpg")
+```
+::::
+:::
+
+
+
+# 
+::: columns
+:::: column
+\begin{Large}
+\begin{center}
+\textbf{The Bechdel Test: Sexism at the Movies}
+
+\vspace{.75in}
+
+Any better in the top 20? 50? Or 100?
+
+\end{center}
+\end{Large}
+
+```{r, eval=FALSE}
+d2 |>
+  arrange(desc(total_gross_2013)) |>
+  slice(1:20) |>
+  count(bechdel, name = "count") |>
+  mutate(
+    prop = count/sum(count)
+  )
+
+d2 |>
+  arrange(desc(total_gross_2013)) |>
+  slice(1:50) |>
+  count(bechdel, name = "count") |>
+  mutate(
+    prop = count/sum(count)
+  )
+
+d2 |>
+  arrange(desc(total_gross_2013)) |>
+  slice(1:100) |>
+  count(bechdel, name = "count") |>
+  mutate(
+    prop = count/sum(count)
+  )
+```
+
+::::
+:::: column
+```{r, fig.align = 'center', out.height = '90%'}
+knitr::include_graphics("./Images/12_1-bechdel.jpg")
+```
+::::
+:::
+
 
 
 
@@ -185,6 +274,27 @@ knitr::include_graphics("./Images/12_1-bechdel.jpg")
 \end{itemize}
 
 \end{Large}
+
+
+
+# 
+\begin{Large}
+\begin{center}
+\textbf{Do sexist movies (Bechdel = Fail) make more money at the box office?}
+\end{center}
+
+\vspace{.5in}
+
+\begin{enumerate}
+\item Create a new dummy variable: bechdel\_pass
+
+\item Rescale box office into millions of USD
+
+\item Regress total\_gross\_2013 on bechdel\_pass
+\end{enumerate}
+
+\end{Large}
+
 
 
 # 
@@ -212,8 +322,8 @@ stargazer(res1, digits = 2, omit.stat = "rsq", star.cutoffs = .05, notes = "*p<0
 Fit and evaluate the following two models:
 
 \begin{itemize}
-\item Model 1: Regress domgross\_2013 on bechdel
-\item Model 2: Regress intgross\_2013 on bechdel
+\item Model 1: Regress domgross\_2013 on bechdel\_pass
+\item Model 2: Regress intgross\_2013 on bechdel\_pass
 \end{itemize}
 
 \end{large}
@@ -295,17 +405,18 @@ stargazer(res4, digits = 2, omit.stat = "rsq", star.cutoffs = .05, notes = "*p<0
 \end{center}
 \end{large}
 
-```{r, fig.align = 'center', fig.asp=0.618, out.height = '60%', fig.width = 5}
+```{r, fig.align = 'center', fig.asp=0.618, out.height = '55%', fig.width = 5}
 d2 %>%
     ggplot(aes(x = budget_2013_millions, y = total_gross_2013_millions)) +
     geom_point() +
-    geom_smooth(method = "lm", se = FALSE) +
+    #geom_smooth(method = "lm", se = FALSE) +
     theme_bw() +
     labs(x = "Budget (2013 millions)", y = "Total Box Office (2013 millions)")
 ```
-\begin{itemize}
-\item Regress total\_gross\_2013 on bechdel and budget\_2013\_millions
-\end{itemize}
+\begin{enumerate}
+\item Rescale budget into millions of USD
+\item Regress total\_gross\_2013 on bechdel\_pass and budget\_2013
+\end{enumerate}
 
 
 
@@ -324,12 +435,21 @@ stargazer(res1, res5, digits = 2, omit.stat = "rsq", star.cutoffs = .05, notes =
 
 #
 ```{r, fig.align = 'center', fig.asp=0.618, out.height = '95%', fig.width = 5}
-d2 %>%
-    ggplot(aes(x = budget_2013_millions, y = total_gross_2013_millions)) +
-    geom_point() +
-    geom_smooth(method = "lm", se = FALSE, aes(color = bechdel)) +
-    theme_bw() +
-    labs(x = "Budget (2013 millions)", y = "Total Box Office (2013 millions)")
+library(modelr)
+
+tibble(
+  budget_2013_millions = c(seq(0, 450, 10), seq(0, 450, 10)),
+  bechdel_pass = c(rep(1, 46), rep(0, 46)),
+  Bechdel = c(rep("Pass", 46), rep("Fail", 46))
+) |>
+  add_predictions(res5) |>
+  ggplot(aes(x = budget_2013_millions, y = pred, color = Bechdel)) +
+  #geom_point() +
+  geom_line() +
+  theme_bw() +
+  labs(x = "Budget (2013 millions)", y = "Total Box Office (2013 millions)", color = "") +
+  scale_color_manual(values = c("red", "blue")) +
+  theme(legend.position = c(.8, .2))
 ```
 
 

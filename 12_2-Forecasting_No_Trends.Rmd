@@ -117,7 +117,7 @@ knitr::include_graphics("./Images/12_2-Four_types_trend.png")
 library(lubridate)
 
 # Input data
-d <- read_excel("../../Data/Dataset-5-Advanced_Retail_Sales/Data5-Advanced_Retail_Sales_vSP22.xlsx") %>%
+d <- read_excel("../../Data/Dataset-5-Advanced_Retail_Sales/Data5-Advanced_Retail_Sales_v2.xlsx") %>%
   mutate(
     date = ymd(date)
   )
@@ -125,7 +125,7 @@ d <- read_excel("../../Data/Dataset-5-Advanced_Retail_Sales/Data5-Advanced_Retai
 d %>%
   ggplot(aes(x = date, y = advance_retail_sales)) +
   geom_line() +
-  theme_minimal() +
+  theme_bw() +
   labs(x = "", y = "Billions USD", title = "Advance Retail Sales",
        caption = "Source: U.S. Census Bureau")
 ```
@@ -136,6 +136,14 @@ d %>%
 library(forecast)
 x1 <- ts(d$advance_retail_sales, start = 2015, frequency = 12)
 plot(decompose(x1))
+
+# plot(decompose(x1)$random, xlab = "", ylab = "", main = "Random Variation")
+# 
+# plot(decompose(x1)$seasonal, xlab = "", ylab = "", main = "Random Variation")
+# 
+# plot(decompose(x1)$trend, xlab = "", ylab = "", main = "Random Variation")
+
+
 ```
 
 
@@ -148,19 +156,31 @@ plot(decompose(x1)$random, xlab = "", ylab = "", main = "Random Variation")
 ::::
 :::: column
 
-\vspace{1in}
+\vspace{.5in}
 
 \textbf{Random Variation Models}
-
+\vspace{.15in}
 \begin{enumerate}
 \item Na{\"i}ve Forecast
+\vspace{.15in}
 \item Moving Average
+\vspace{.15in}
 \item Weighted Moving Average
+\vspace{.15in}
 \item Exponential Smoothing
 \end{enumerate}
 
 ::::
 :::
+
+
+# Let's Build a Forecast
+\Large
+1. Grab Dataset1-All\_Years.xlsx from Moodle
+
+2. Copy gdp\_rate for Missouri to a new sheet
+
+3. Insert a line plot
 
 
 
@@ -178,7 +198,7 @@ d <- read_excel("../../Data/Dataset-1/Dataset1-All_Years.xlsx") %>%
 d %>%
   ggplot(aes(x = year, y = GDP_Rate)) +
   geom_line() +
-  theme_minimal() +
+  theme_bw() +
   labs(x = "", y = "", title = "Rate of Change in GDP (Missouri)") +
   scale_x_continuous(breaks = seq(1997, 2020, 3)) +
   scale_y_continuous(labels = scales::percent_format(accuracy = 1))
@@ -205,6 +225,29 @@ Set forecast to the last observation
 ```{r, fig.align = 'center', out.width = '80%'}
 knitr::include_graphics("./Images/12_2-naive_table.png")
 ```
+
+
+
+# Forecast 1: Naive Forecast
+```{r, fig.align = 'center', out.width = '80%'}
+knitr::include_graphics("./Images/12_2-naive_table.png")
+```
+
+\Large
+- Forecast up to 2021 and update the line plot
+
+
+# 
+```{r, fig.align = 'center', out.width = '60%'}
+knitr::include_graphics("./Images/12-2-naive_excel.png")
+```
+
+# 
+```{r, fig.align = 'center', out.width = '95%'}
+knitr::include_graphics("./Images/12-2-naive_excel2.png")
+```
+
+
 
 
 # 
@@ -236,7 +279,7 @@ d2 %>%
 ```
 
 
-# Forecast Accuracy: Mean Squared Error (MSE)
+# Accuracy: Mean Squared Error (MSE)
 \begin{enumerate}
 \item Calculate the forecast error
 
@@ -273,6 +316,19 @@ MSE = AVERAGE(D3:D4)
 \end{Large}
 
 
+
+# 
+```{r, fig.align = 'center', out.width = '95%'}
+knitr::include_graphics("./Images/12-2-naive_excel3.png")
+```
+
+
+# 
+```{r, fig.align = 'center', out.width = '95%'}
+knitr::include_graphics("./Images/12-2-naive_excel4.png")
+```
+
+
 # 
 ```{r, fig.align = 'center', fig.asp=0.55, out.width = '100%', fig.width = 6}
 # Calculate naive forecast and mse
@@ -301,6 +357,11 @@ knitr::include_graphics("./Images/12_2-MA_Formula.png")
 ```{r, fig.align = 'center', out.width = '90%'}
 knitr::include_graphics("./Images/12_2-MA_Table.png")
 ```
+
+\Large
+- Forecast up to 2021 and update the line plot
+
+
 
 
 # 
@@ -360,9 +421,14 @@ Forecast$_t$ = $\frac{(\text{Actual}_{t-1} \text{ x 3 + Actual}_{t-2} \text{ x 2
 
 
 #
-```{r, fig.align = 'center', out.width = '100%'}
+```{r, fig.align = 'center', out.width = '90%'}
 knitr::include_graphics("./Images/12_2-WMA3-table.png")
 ```
+
+\large
+- Forecast up to 2021 and update the line plot
+
+
 
 
 #
@@ -474,7 +540,7 @@ d10 %>%
   ggplot(aes(x = year)) +
   geom_line(aes(y = GDP_Rate)) +
   geom_line(aes(y = Values, color = Variables), size = 1.3) +
-  theme_bw() +
+  theme_minimal() +
   facet_wrap(~ Variables) +
   scale_y_continuous(labels = scales::percent_format(), limits = c(-.025,.07)) +
   labs(x = "", y = "GDP (Rate)") +
@@ -558,7 +624,7 @@ d <- read_excel("../../Data/Dataset-1/Dataset1-All_Years.xlsx") %>%
 d %>%
     ggplot(aes(x = year, y = homeowner_rate)) +
     geom_line() +
-    theme_bw() +
+    theme_minimal() +
     labs(x = "", y = "Homeownership Rate")
 ```
 ::::
