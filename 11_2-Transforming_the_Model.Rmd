@@ -32,39 +32,75 @@ knitr::opts_chunk$set(echo = FALSE,
                       warning = FALSE,
                       comment = NA)
 
-#############################################################
-## Stargazer code
+#################
+## Could you replicate the models from Tuesday but add non-linear extensions?
 
-## Regular Table
-##stargazer(summary = FALSE, type = "latex", header = FALSE, rownames = FALSE, float = FALSE)
+## Dataset 1
 
-## Regression Results
-##stargazer(res1, type = "latex", digits = 2, omit.stat = "rsq", header = FALSE, font.size = "footnotesize", star.cutoffs = .05, notes = "*p < 0.05", notes.append = FALSE, dep.var.caption = "", float = FALSE)
-
-##covariate.labels = c("Mother's Education")
-##dep.var.labels = "Earnings (2021)"
-
-#############################################################
-## Figures
-
-## ```{r, fig.align = 'center', fig.asp=0.618, out.width = '100%', fig.width = 7}
-
-##knitr::include_graphics()
-
-#############################################################
-## Side-by-side columns
-
-## ::: columns
-## :::: column
-## Content in left column
-## ::::
-## :::: column
-## Content in right column
-## ::::
-## :::
-
-## Build bullets one-by-one
-##\begin{enumerate}[<+->]
+## GDP on Bachelors
+# res1a <- lm(data = d, gdp_billions ~ bachelors)
+# res1b <- lm(data = d, gdp_billions ~ bachelors + I(bachelors^2))
+# res1c <- lm(data = d, gdp_billions ~ bachelors + I(bachelors^2) + I(bachelors^3))
+# stargazer(res1a, res1b, res1c, type = "text")
+# 
+# res2a <- lm(data = d, log_gdp ~ bachelors)
+# res2b <- lm(data = d, log_gdp ~ bachelors + I(bachelors^2))
+# res2c <- lm(data = d, log_gdp ~ bachelors + I(bachelors^2) + I(bachelors^3))
+# stargazer(res2a, res2b, res2c, type = "text")
+# 
+# ## Dataset 2
+# 
+# ## Life expectancy on GDP
+# d2 <- read_excel("../../Data/Dataset-2/Dataset2-2019_only.xlsx") %>%
+#     mutate(
+#         log_gdp = log(gdp_current),
+#         gdp_billions = gdp_current/1e9
+#     )
+# 
+# res5a <- lm(data = d2, life_expectancy ~ gdp_billions)
+# res5b <- lm(data = d2, life_expectancy ~ gdp_billions + I(gdp_billions^2))
+# res5c <- lm(data = d2, life_expectancy ~ gdp_billions + I(gdp_billions^2) + I(gdp_billions^3))
+# stargazer(res5a, res5b, res5c, type = "text")
+# 
+# res6a <- lm(data = d2, life_expectancy ~ log_gdp)
+# res6b <- lm(data = d2, life_expectancy ~ log_gdp + I(log_gdp^2))
+# res6c <- lm(data = d2, life_expectancy ~ log_gdp + I(log_gdp^2) + I(log_gdp^3))
+# stargazer(res6a, res6b, res6c, type = "text")
+# 
+# ## Visualize the log models
+# ggplot(data = d2, aes(x = log_gdp, y = life_expectancy)) + 
+#   geom_point() +
+#   geom_smooth(method = "lm", se = FALSE, size = 1) +
+#   theme_bw() +
+#   labs(x = "GDP (log)", y = "Life Expectancy (years)", title = "Linear Model")
+# 
+# # Visualize quadratic
+# quad1 <- data.frame(
+#   life_expectancy = predict(res6b, newdata = data.frame(log_gdp = seq(16,31,.25))),
+#   log_gdp = seq(16,31,.25)
+#   )
+# 
+# ggplot(data = d2, aes(x = log_gdp, y = life_expectancy)) + 
+#   geom_point() +
+#   geom_smooth(method = "lm", se = FALSE, size = 1) +
+#   theme_bw() +
+#   geom_line(data = quad1, color = "red", size = 1.3) +
+#   theme_bw() +
+#   labs(x = "GDP (log)", y = "Life Expectancy (years)", title = "Quadratic Model")
+# 
+# # Visualize cubic
+# cubic1 <- data.frame(
+#   life_expectancy = predict(res6c, newdata = data.frame(log_gdp = seq(16,31,.25))),
+#   log_gdp = seq(16,31,.25)
+#   )
+# 
+# ggplot(data = d2, aes(x = log_gdp, y = life_expectancy)) + 
+#   geom_point() +
+#   geom_smooth(method = "lm", se = FALSE, size = 1) +
+#   theme_bw() +
+#   geom_line(data = cubic1, color = "red", size = 1.3) +
+#   theme_bw() +
+#   labs(x = "GDP (log)", y = "Life Expectancy (years)", title = "Cubic Model")
 
 ```
 
@@ -374,10 +410,10 @@ ggplot(data = d, aes(x = homeowner_rate, y = gdp_billions)) +
 
 
 
-# Does unemployment explain the size of the economy?
+# Put it All Together! Does unemployment explain the size of the economy?
 
 \begin{Large}
-\textbf{Regress GDP (billions) on Unemployment as:}
+\textbf{Regress GDP (log) on Unemployment as:}
 
 \begin{enumerate}
 \item A standard, simple OLS model
@@ -393,49 +429,50 @@ ggplot(data = d, aes(x = homeowner_rate, y = gdp_billions)) +
 #
 \begin{center}
 ```{r, results = "asis"}
-res2a <- lm(data = d, gdp_billions ~ unemployment)
-res2b <- lm(data = d, gdp_billions ~ unemployment + I(unemployment^2))
-res2c <- lm(data = d, gdp_billions ~ unemployment + I(unemployment^2) + I(unemployment^3))
+## Check a log transformation
+res2a <- lm(data = d, log_gdp ~ unemployment)
+res2b <- lm(data = d, log_gdp ~ unemployment + I(unemployment^2))
+res2c <- lm(data = d, log_gdp ~ unemployment + I(unemployment^2) + I(unemployment^3))
 
-stargazer(res2a, res2b, res2c, digits = 2, dep.var.caption = "", star.cutoffs = .05, notes.append = FALSE, notes = "*p<0.05", omit.stat = "rsq", dep.var.labels = "GDP (billions)", covariate.labels = c("Unemployment", "Squared", "Cubed"), header = FALSE, float = FALSE, font.size = "scriptsize")
+stargazer(res2a, res2b, res2c, digits = 2, dep.var.caption = "", star.cutoffs = .05, notes.append = FALSE, notes = "*p<0.05", omit.stat = "rsq", dep.var.labels = "GDP (log)", covariate.labels = c("Unemployment", "Squared", "Cubed"), header = FALSE, float = FALSE, font.size = "scriptsize")
 ```
 \end{center}
 
 #
 ```{r, fig.align = 'center', fig.asp=0.618, out.height = '90%', fig.width = 5}
 # Visualize linear
-ggplot(data = d, aes(x = unemployment, y = gdp_billions)) + 
+ggplot(data = d, aes(x = unemployment, y = log_gdp)) + 
   geom_point() +
   geom_smooth(method = "lm", se = FALSE, size = 1) +
   theme_bw() +
-    labs(x = "Unemployment Rate", y = "GDP (Billions USD)", title = "Linear Model")
+    labs(x = "Unemployment Rate", y = "GDP (log)", title = "Linear Model")
 ```
 
 #
 ```{r, fig.align = 'center', fig.asp=0.618, out.width = '90%', fig.width = 5}
 # Visualize quadratic
-quad1 <- data.frame(gdp_billions = predict(res2b, newdata = data.frame(unemployment = seq(4,14,1))), unemployment = seq(4,14,1))
+quad1 <- data.frame(log_gdp = predict(res2b, newdata = data.frame(unemployment = seq(4,14,1))), unemployment = seq(4,14,1))
 
-ggplot(data = d, aes(x = unemployment, y = gdp_billions)) + 
+ggplot(data = d, aes(x = unemployment, y = log_gdp)) + 
   geom_point() +
   geom_smooth(method = "lm", se = FALSE, size = .2) +
   geom_line(data = quad1, color = "red", size = 1.3) +
   theme_bw() +
-  labs(x = "Unemployment Rate", y = "GDP (Billions USD)", title = "Quadratic Model")
+  labs(x = "Unemployment Rate", y = "GDP (log)", title = "Quadratic Model")
 ```
 
 #
 ```{r, fig.align = 'center', fig.asp=0.618, out.width = '90%', fig.width = 5}
 # Visualize cubic
-cubic1 <- data.frame(gdp_billions = predict(res2c, newdata = data.frame(unemployment = seq(4,14,1))), unemployment = seq(4,14,1))
+cubic1 <- data.frame(log_gdp = predict(res2c, newdata = data.frame(unemployment = seq(4,14,1))), unemployment = seq(4,14,1))
 
-ggplot(data = d, aes(x = unemployment, y = gdp_billions)) + 
+ggplot(data = d, aes(x = unemployment, y = log_gdp)) + 
   geom_point() +
   geom_smooth(method = "lm", se = FALSE, size = .2) +
   geom_line(data = quad1, color = "red", size = .5) +
   geom_line(data = cubic1, color = "green", size = 1) +
   theme_bw() +
-  labs(x = "Unemployment Rate", y = "GDP (Billions USD)", title = "Cubic Model")
+  labs(x = "Unemployment Rate", y = "GDP (log)", title = "Cubic Model")
 ```
 
 
