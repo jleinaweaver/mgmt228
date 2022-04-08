@@ -336,6 +336,7 @@ res3b <- lm(data = d, gdp_billions ~ homeowner_rate + I(homeowner_rate^2))
 res3c <- lm(data = d, gdp_billions ~ homeowner_rate + I(homeowner_rate^2) + I(homeowner_rate^3))
 
 stargazer(res3a, res3b, res3c, digits = 2, dep.var.caption = "", star.cutoffs = .05, notes.append = FALSE, notes = "*p<0.05", omit.stat = "rsq", dep.var.labels = "GDP (billions)", covariate.labels = c("Homeownership", "Squared", "Cubed"), header = FALSE, float = FALSE, font.size = "scriptsize")
+
 ```
 \end{center}
 
@@ -365,6 +366,12 @@ tibble(
   Predicted = ""
 ) |>
   stargazer(summary = FALSE, type = "latex", header = FALSE, font.size = "normalsize", rownames = FALSE, float = FALSE)
+
+## in class calcs
+#coef(res3c)
+
+
+
 ```
 
 
