@@ -11,6 +11,8 @@ header-includes:
 - \captionsetup[figure]{labelformat=empty}
 - \captionsetup[table]{labelformat=empty}
 - \setbeamertemplate{page number in head/foot}[]{}
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
@@ -305,6 +307,8 @@ knitr::include_graphics("./Images/12_1-bechdel.jpg")
 res1 <- d2 %>% lm(data = ., total_gross_2013_millions ~ bechdel_pass)
 
 stargazer(res1, digits = 2, omit.stat = "rsq", star.cutoffs = .05, notes = "*p<0.05", notes.append = FALSE, dep.var.caption = "", dep.var.labels = c("Box Office (millions)"), header = FALSE, float = FALSE, font.size = "small")
+
+#summary(res1)
 ```
 \end{center}
 
@@ -392,6 +396,8 @@ stargazer(res1, res2, res3, digits = 2, omit.stat = "rsq", star.cutoffs = .05, n
 res4 <- d2 %>% lm(data = ., total_gross_2013_millions ~ nowomen + notalk + men)
 
 stargazer(res4, digits = 2, omit.stat = "rsq", star.cutoffs = .05, notes = "*p<0.05", notes.append = FALSE, dep.var.caption = "", dep.var.labels = c("Box Office (millions)"), header = FALSE, float = FALSE, font.size = "footnotesize")
+
+#summary(res4)
 ```
 \end{center}
 
@@ -428,6 +434,8 @@ d2 %>%
 res5 <- d2 %>% lm(data = ., total_gross_2013_millions ~ bechdel_pass + budget_2013_millions)
 
 stargazer(res1, res5, digits = 2, omit.stat = "rsq", star.cutoffs = .05, notes = "*p<0.05", notes.append = FALSE, dep.var.caption = "", dep.var.labels = c("Box Office (millions)"), header = FALSE, float = FALSE, font.size = "footnotesize")
+
+#summary(res5)
 ```
 \end{center}
 

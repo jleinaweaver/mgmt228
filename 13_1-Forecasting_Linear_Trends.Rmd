@@ -11,6 +11,8 @@ header-includes:
 - \captionsetup[figure]{labelformat=empty}
 - \captionsetup[table]{labelformat=empty}
 - \setbeamertemplate{page number in head/foot}[]{}
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
@@ -32,51 +34,6 @@ knitr::opts_chunk$set(echo = FALSE,
                       warning = FALSE,
                       comment = NA)
 
-#############################################################
-## Stargazer code
-
-## Regular Table
-##stargazer(summary = FALSE, type = "latex", header = FALSE, rownames = FALSE, float = FALSE)
-
-## Regression Results
-##stargazer(res1, type = "latex", digits = 2, omit.stat = "rsq", header = FALSE, font.size = "footnotesize", star.cutoffs = .05, notes = "*p < 0.05", notes.append = FALSE, dep.var.caption = "", float = FALSE)
-
-##covariate.labels = c("Mother's Education")
-##dep.var.labels = "Earnings (2021)"
-
-#############################################################
-## Figures
-
-## ```{r, fig.align = 'center', fig.asp=0.618, out.height = '90%', fig.width = 5}
-
-##knitr::include_graphics()
-
-#############################################################
-## Side-by-side columns
-
-## ::: columns
-## :::: column
-## Content in left column
-## ::::
-## :::: column
-## Content in right column
-## ::::
-## :::
-
-##\begin{columns}
-##\begin{column}{0.3\textwidth}
-##
-##
-##\end{column}
-##\begin{column}{0.7\textwidth}
-##
-##
-##\end{column}
-##\end{columns}
-
-## Build bullets one-by-one
-##\begin{enumerate}[<+->]
-
 ```
 
 
@@ -93,6 +50,127 @@ Comparing random variation models to linear trend models of time series data
 \begin{center}
 Justin Leinaweaver (Spring 2022)
 \end{center}
+
+
+
+```{r, fig.align='center', out.width='90%', fig.width=8, fig.height=5, eval=FALSE}
+# Input data
+grades <- tibble(
+  report1 = c(78, 73, 60, 60, 83, 100, 83, 65, 80, 90, 85, 80, 93, 93, 70, 85, 82, 100, 100, 70, 83, 65, 83, 50, 90),
+  report1_revised = c(90, 80, 60, 68, 83, 100, 92, 78, 90, 100, 95,
+95, 100, 96, 87, 100, 93, 100, 100, 82, 92, 75, 93, 50, 100),
+  report2 = c(70, 68, 65, 68, 68, 100, 82, 90, 93, 100, 100, 100, 95, 93, 88, 100, 95, 100, 100, 78, 78, 78, 97, 70, 100),
+  report3 = c(80, 75, 50, 50, 70, 82, 70, 75, 95, 95, 80, 93, 100, 100, 78, 93, 88, 100, 100, 75, 100, 85, 92, 70, 100),
+  participation = c(3, 2, 3, 2, 6, 5, 2, 6, 1, 0, 0, 0, 1, 2, 3, 1, 5, 0, 1, 1, 1, 3, 1, 4, 4),
+  absences = c(3, 0, 0, 0, 3, 5, 2, 6, 0, 0, 0, 0, 1, 1, 2, 1, 3, 0, 0, 1, 1, 2, 1, 4, 1)
+)|>
+  mutate(
+    part_cat = case_when(
+      participation == 0 ~ "All Participation",
+      participation < 3 ~ "Missing a Few",
+      TRUE ~ "Missing Many"
+    ),
+    absences_grps = case_when(
+      absences == 0 ~ "Perfect Attendance",
+      absences == 1 ~ "1 Absence",
+      absences > 1 ~ "More than 1 Absence",
+    ),
+    absences_grps2 = case_when(
+      absences <= 1 ~ "Less than 1 Absence",
+      absences > 1 ~ "More than 1 Absence",
+    )
+  )
+
+# summary(grades$report1)
+# summary(grades$report1_revised)
+# summary(grades$report2)
+# summary(grades$report3)
+# summary(grades$participation)
+
+grades |>
+  pivot_longer(cols = report1:report3, names_to = "Report", values_to = "Scores") |>
+  ggplot(aes(x = Report, y = Scores)) +
+  geom_boxplot(fill = "steelblue2") +
+  scale_x_discrete(limits = c("report1", "report1_revised", "report2", "report3"), labels = c("Report 1", "Report 1\nRevisions", "Report 2", "Report 3")) +
+  labs(x = "", y = "Grades") + 
+  theme_bw()
+
+# grades |>
+#   pivot_longer(cols = report1:report3, names_to = "Report", values_to = "Scores") |>
+#   ggplot(aes(x = Report, y = Scores)) +
+#   geom_boxplot(fill = "steelblue2") +
+#   scale_x_discrete(limits = c("report1", "report1_revised", "report2", "report3"), labels = c("Report 1", "Report 1\nRevisions", "Report 2", "Report 3")) +
+#   labs(x = "", y = "Grades") + 
+#   theme_bw() +
+#   facet_wrap(~ absences_grps)
+
+## Boxes with participation numeric
+# grades |>
+#   pivot_longer(cols = report1:report3, names_to = "Report", values_to = "Scores") |>
+#   ggplot(aes(x = factor(participation), y = Scores)) +
+#   geom_boxplot(fill = "steelblue2")
+```
+
+
+
+
+```{r, fig.align='center', out.width='90%', fig.width=8, fig.height=5, eval=FALSE}
+
+## Boxes with participation categorical
+grades |>
+  pivot_longer(cols = report1:report3, names_to = "Report", values_to = "Scores") |>
+  #filter(Report != "report1_revised") |>
+  ggplot(aes(x = part_cat, y = Scores)) +
+  geom_boxplot(fill = "steelblue2") +
+  labs(x = "", y = "Report Grades",
+       title = "There is a strong correlation between participation in class and report grades",
+       subtitle = "(e.g. come to class, be on time, don't leave early)") +
+  theme_bw() +
+  scale_x_discrete(limits = c("Missing Many", "Missing a Few", "All Participation"))
+
+
+# ## Boxes absences categories
+# grades |>
+#   pivot_longer(cols = report1:report3, names_to = "Report", values_to = "Scores") |>
+#   ggplot(aes(x = absences_grps, y = Scores)) +
+#   geom_boxplot(fill = "steelblue2")
+# 
+# 
+# ## Omit revised report 1
+# grades |>
+#   mutate(
+#     Student = 1:25
+#   ) |>
+#   pivot_longer(cols = report1:report3, names_to = "Report", values_to = "Scores") |>
+#   filter(Report != "report1_revised") |>
+#   mutate(
+#     Report_order = case_when(
+#       Report == "report1" ~ 1,
+#       Report == "report2" ~ 2,
+#       Report == "report3" ~ 3
+#     )
+#   ) |>
+#   group_by(Report_order, absences_grps2) |>
+#   summarize(
+#     Mean = mean(Scores),
+#     StdDev = sd(Scores)
+#   ) |>
+#   ggplot(aes(x = Report_order, y = Mean, color = absences_grps2)) +
+#   geom_point() +
+#   geom_line() +
+#   coord_cartesian(ylim = c(60, 100))
+#   
+#   
+#   #guides(color = "none")
+
+
+
+```
+
+
+
+
+
 
 
 # 
