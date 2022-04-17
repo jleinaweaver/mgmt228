@@ -11,6 +11,8 @@ header-includes:
 - \captionsetup[figure]{labelformat=empty}
 - \captionsetup[table]{labelformat=empty}
 - \setbeamertemplate{page number in head/foot}[]{}
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
@@ -106,7 +108,7 @@ d <- read_excel("../../Data/00-Final_Project/Final_Project_Data_SP22.xlsx") %>%
 
 d %>%
     select(Salesperson:Gender) %>%
-    filter(Year == 2016, Time == 1) %>%
+    filter(Year == 2017, Time == 1) %>%
     slice(c(seq(1,20,3))) %>%
     mutate_if(is.numeric, round, 2) %>%
     arrange(Year, Time) %>%
@@ -150,7 +152,7 @@ Each salesperson has 20 observations
 \begin{center}
 ```{r, results = "asis"}
 d %>%
-    select(Salesperson, Gender:Age) %>%
+    select(Salesperson, Year, Gender:Age) %>%
     distinct %>%
     slice(1:7) %>%
     mutate_if(is.numeric, round, 2) %>%
@@ -163,26 +165,50 @@ Dataset provides basic demographic info for each salesperson
 \end{center}
 
 
+
 # The Final Report: Three Sections
+\Large
 
-\begin{LARGE}
+1. Each section requires a complete argument
+    - \large Introduction, body and conclusion
+    - Every claim requires statistical evidence
 
-\begin{itemize}
+2. Assignment details on Moodle
 
-\item Each section requires an argument
-\begin{itemize}
-\begin{large}
-\item Introduction, Body and Conclusion
-\end{large}
-\end{itemize}
+3. Almost 6 hours of in-class time to work
+    - \large Wk 14, 15 and the final exam period
 
-\item Every claim requires evidence
-\begin{itemize}
-\begin{large}
-\item Descriptive statistics, visualizations, tables, etc.
-\end{large}
-\end{itemize}
 
-\item Assignment details on Moodle
-\end{itemize}
-\end{LARGE}
+
+# Final Report: Section 1
+\large
+
+**1. How has our sales staff performed over the last year (2021)? Who are our strongest salespeople? Who are our weakest?**
+
+- Consider performance **both** in terms of **total sales** and in terms of **year-to-year growth**.
+
+- Make an argument and support it with visualizations and descriptive statistics.
+
+
+
+
+# Final Report: Section 2
+
+**What is the profile of our most successful salespeople? Build a multiple OLS regression in order to identify the strongest predictors that explain quarterly sales.**
+
+- Consider each of the following predictors for your "best" model: Age, education, gender, region of the country, time and the quarter of the year.
+
+- Be sure to include a properly formatted regression table, evaluate your model with all five textbook steps (including a residual plot) and make a marginal effects plot to visualize the strongest predictor of sales.
+
+
+
+
+# Final Report: Section 3
+
+**3. What is your best forecast of our company-wide sales for the next quarter (Winter 2022)? How confident are you in this projection?**
+
+- You will need to combine the quarterly sales figures for all of our salespeople to calculate a quarterly total for the business as a whole.
+
+- You must consider the following methods: 1. naive, 2. MA-3, and 3. a linear prediction model
+
+- Be sure to provide your forecast results in both a table and a visualization.
