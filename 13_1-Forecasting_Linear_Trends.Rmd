@@ -632,7 +632,7 @@ tab1 %>%
 # Predict the Future!
 \LARGE
 
-1. Use the quadratic model fit to predict the next three years (2021, 2022, 2023), and
+1. Use the cubic model fit to predict the next three years (2021, 2022, 2023), and
 
 2. Visualize the actual data and your model fit.
 

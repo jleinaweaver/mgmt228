@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>14_15-Analyzing_Sales_Data_v2.knit</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.13/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link rel="stylesheet" href="extra.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+class: slideblue
+
+.size80[**Today's Agenda**]
+
+.size50[
+Weeks 14 and 15: The Final Project
+
+- Assignment (w/ the data) is now available on Moodle
+]
+
+&lt;br&gt;
+
+.center[.size40[
+  Justin Leinaweaver (Spring 2022)
+]]
+
+???
+
+## Prep for Class
+1. Assigment and data on Moodle
+
+2. Unhide it!
+
+
+
+
+---
+
+background-image: url('libs/Images/background-slate_v2.png')
+background-size: 100%
+background-position: center
+class: middle
+
+.center[
+# Final Report: The Data
+
+.size45[Quarterly sales data for 16 salespeople at our hypothetical company]]
+
+&lt;br&gt;
+
+.size30[
+**Sales Team:** Amy, Beth, Bob, Chris, Dominic, Earl, Herman, Jessica, Lucy, Luke, Olivia, Ruth, Sarah, Seth, Suzanne, Tony
+
+**Time Period:** Quarterly data from 2017 to 2021 (Winter, Spring, Summer and Fall)
+]
+
+
+
+
+---
+
+background-image: url('libs/Images/background-slate_v2.png')
+background-size: 100%
+background-position: center
+class: middle, center
+
+# Final Report: The Data
+
+
+&lt;table style="text-align:center"&gt;&lt;tr&gt;&lt;td colspan="5" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;Salesperson&lt;/td&gt;&lt;td&gt;Year&lt;/td&gt;&lt;td&gt;Time&lt;/td&gt;&lt;td&gt;Quarter&lt;/td&gt;&lt;td&gt;Sales&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td colspan="5" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;Bob&lt;/td&gt;&lt;td&gt;2017&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;Winter&lt;/td&gt;&lt;td&gt;150.3&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;Bob&lt;/td&gt;&lt;td&gt;2017&lt;/td&gt;&lt;td&gt;2&lt;/td&gt;&lt;td&gt;Spring&lt;/td&gt;&lt;td&gt;129.41&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;Bob&lt;/td&gt;&lt;td&gt;2017&lt;/td&gt;&lt;td&gt;3&lt;/td&gt;&lt;td&gt;Summer&lt;/td&gt;&lt;td&gt;158.53&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;Bob&lt;/td&gt;&lt;td&gt;2017&lt;/td&gt;&lt;td&gt;4&lt;/td&gt;&lt;td&gt;Fall&lt;/td&gt;&lt;td&gt;196.4&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;Bob&lt;/td&gt;&lt;td&gt;2018&lt;/td&gt;&lt;td&gt;5&lt;/td&gt;&lt;td&gt;Winter&lt;/td&gt;&lt;td&gt;168.82&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;Bob&lt;/td&gt;&lt;td&gt;2018&lt;/td&gt;&lt;td&gt;6&lt;/td&gt;&lt;td&gt;Spring&lt;/td&gt;&lt;td&gt;169.37&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;Bob&lt;/td&gt;&lt;td&gt;2018&lt;/td&gt;&lt;td&gt;7&lt;/td&gt;&lt;td&gt;Summer&lt;/td&gt;&lt;td&gt;188.39&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td colspan="5" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+
+.size35[
+Each salesperson has 20 observations
+- (Sales across 4 quarters x 5 years)
+]
+
+
+
+
+---
+
+background-image: url('libs/Images/background-slate_v2.png')
+background-size: 100%
+background-position: center
+class: middle, center
+
+# Final Report: The Data
+
+
+&lt;table style="text-align:center"&gt;&lt;tr&gt;&lt;td colspan="5" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;Salesperson&lt;/td&gt;&lt;td&gt;Gender&lt;/td&gt;&lt;td&gt;Region&lt;/td&gt;&lt;td&gt;Education&lt;/td&gt;&lt;td&gt;Age&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td colspan="5" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;Amy&lt;/td&gt;&lt;td&gt;Female&lt;/td&gt;&lt;td&gt;West&lt;/td&gt;&lt;td&gt;14&lt;/td&gt;&lt;td&gt;36&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;Beth&lt;/td&gt;&lt;td&gt;Female&lt;/td&gt;&lt;td&gt;North&lt;/td&gt;&lt;td&gt;12&lt;/td&gt;&lt;td&gt;47&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;Bob&lt;/td&gt;&lt;td&gt;Male&lt;/td&gt;&lt;td&gt;North&lt;/td&gt;&lt;td&gt;9&lt;/td&gt;&lt;td&gt;45&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;Chris&lt;/td&gt;&lt;td&gt;Male&lt;/td&gt;&lt;td&gt;South&lt;/td&gt;&lt;td&gt;12&lt;/td&gt;&lt;td&gt;40&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;Dominic&lt;/td&gt;&lt;td&gt;Male&lt;/td&gt;&lt;td&gt;East&lt;/td&gt;&lt;td&gt;18&lt;/td&gt;&lt;td&gt;49&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;Earl&lt;/td&gt;&lt;td&gt;Male&lt;/td&gt;&lt;td&gt;South&lt;/td&gt;&lt;td&gt;12&lt;/td&gt;&lt;td&gt;34&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;Herman&lt;/td&gt;&lt;td&gt;Male&lt;/td&gt;&lt;td&gt;West&lt;/td&gt;&lt;td&gt;18&lt;/td&gt;&lt;td&gt;60&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td colspan="5" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+
+.size40[
+Dataset provides basic demographic info for each salesperson
+]
+
+
+
+---
+
+background-image: url('libs/Images/background-slate_v2.png')
+background-size: 100%
+background-position: center
+class: middle, center
+
+# Final Report: The Data
+
+
+&lt;table style="text-align:center"&gt;&lt;tr&gt;&lt;td colspan="6" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;Salesperson&lt;/td&gt;&lt;td&gt;Year&lt;/td&gt;&lt;td&gt;Gender&lt;/td&gt;&lt;td&gt;Region&lt;/td&gt;&lt;td&gt;Education&lt;/td&gt;&lt;td&gt;Age&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td colspan="6" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;Bob&lt;/td&gt;&lt;td&gt;2017&lt;/td&gt;&lt;td&gt;Male&lt;/td&gt;&lt;td&gt;North&lt;/td&gt;&lt;td&gt;9&lt;/td&gt;&lt;td&gt;45&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;Bob&lt;/td&gt;&lt;td&gt;2018&lt;/td&gt;&lt;td&gt;Male&lt;/td&gt;&lt;td&gt;North&lt;/td&gt;&lt;td&gt;9&lt;/td&gt;&lt;td&gt;46&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;Bob&lt;/td&gt;&lt;td&gt;2019&lt;/td&gt;&lt;td&gt;Male&lt;/td&gt;&lt;td&gt;North&lt;/td&gt;&lt;td&gt;9&lt;/td&gt;&lt;td&gt;47&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;Bob&lt;/td&gt;&lt;td&gt;2020&lt;/td&gt;&lt;td&gt;Male&lt;/td&gt;&lt;td&gt;North&lt;/td&gt;&lt;td&gt;9&lt;/td&gt;&lt;td&gt;48&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;Bob&lt;/td&gt;&lt;td&gt;2021&lt;/td&gt;&lt;td&gt;Male&lt;/td&gt;&lt;td&gt;North&lt;/td&gt;&lt;td&gt;9&lt;/td&gt;&lt;td&gt;49&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td colspan="6" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+
+.size40[
+Note that age increases across time!
+]
+
+
+---
+
+background-image: url('libs/Images/background-slate_v2.png')
+background-size: 100%
+background-position: center
+class: middle
+
+.center[
+# Final Report: Three Sections
+]
+
+&lt;br&gt;
+
+.size45[
+.center[**Each section requires a complete argument**]
+
+- Introduction, body and conclusion
+- Every claim requires statistical evidence
+]
+
+???
+
+Same format as the expectations for the other reports this semester.
+
+- Support all claims with data, visualizations, descriptive statistics or model results
+
+&lt;br&gt;
+
+I will give you all of our class sessions in weeks 14, 15 and during the final exam window.
+- Almost 6 hours of in-class time to work on this
+
+
+
+
+
+---
+
+background-image: url('libs/Images/background-slate_v2.png')
+background-size: 100%
+background-position: center
+class: middle
+
+.center[
+# Final Report: Section 1
+
+&lt;br&gt;
+
+.size45[
+**How has our sales staff performed over the last year (2021)?**
+
+Who are our strongest and weakest salespeople?
+]]
+
+???
+
+Details:
+
+- Consider performance **both** in terms of **total sales** and in terms of **year-to-year growth**.
+
+- Make an argument and support it with visualizations and descriptive statistics.
+
+
+
+
+---
+
+background-image: url('libs/Images/background-slate_v2.png')
+background-size: 100%
+background-position: center
+class: middle, center
+
+# Final Report: Section 2
+
+&lt;br&gt;
+
+.size45[
+**What is the profile of our most successful salespeople?** 
+
+Build a multiple OLS regression in order to identify the most useful predictors of quarterly sales.
+]
+
+???
+
+Predictors: Age, education, gender, region of the country, time and the quarter of the year.
+
+&lt;br&gt;
+
+Be sure to include:
+- a properly formatted regression table, 
+
+- evaluate your model with all five textbook steps (including a residual plot), and 
+
+- make a marginal effects plot to visualize the strongest predictor of sales.
+
+
+
+
+---
+
+background-image: url('libs/Images/background-slate_v2.png')
+background-size: 100%
+background-position: center
+class: middle, center
+
+# Final Report: Section 3
+
+&lt;br&gt;
+
+.size45[
+**What is your best forecast of our company-wide sales for the next quarter (Winter 2022)?**
+
+How confident are you in this projection?
+]
+
+???
+
+Key notes:
+
+- You will need to combine the sales figures for all of our salespeople in each quarter to calculate a quarterly total for the business as a whole.
+
+- The strength of your argument, e.g. your level of confidence, increases with the number of forecasting methods you apply and evaluate.  
+
+- **Be sure to provide your forecast results in both a table and a visualization.**
+
+&lt;br&gt;
+
+Forecasting Methods we explored in class: 
+- Naive, 
+- Moving Average (MA), 
+- Weighted Moving Average (WMA), 
+- Exponential Smoothing, and 
+- Linear Prediction Models (options including: quadratic forms, cubic forms, and dummies for seasons or months)
+
+
+
+---
+
+background-image: url('libs/Images/background-slate_v2.png')
+background-size: 100%
+background-position: center
+class: middle
+
+.center[
+# Final Report
+]
+
+.size45[
+1. How has our sales staff performed over the last year (2021)?
+
+2. What is the profile of our most successful salespeople?
+
+3. What is your best forecast of our company-wide sales for the next quarter (Winter 2022)?
+]
+
+???
+
+### Questions on the assignment?
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

@@ -73,14 +73,14 @@ knitr::opts_chunk$set(echo = FALSE,
 
 # Today's Agenda
 
-\begin{LARGE}
+\begin{Large}
 
 Weeks 14 and 15: The Final Project
 
 \begin{itemize}
-\item Data is now available on Moodle
+\item Assignment (w/ data) available on Moodle
 \end{itemize}
-\end{LARGE}
+\end{Large}
 
 \vspace{.5in}
 
@@ -90,9 +90,14 @@ Justin Leinaweaver (Spring 2022)
 
 
 
-# The Final Report
+# Final Report: The Data
 \begin{center}
-```{r, results = "asis"}
+\begin{Large}
+Quarterly sales data for 16 salespeople at our hypothetical company
+\end{Large}
+\end{center}
+
+```{r}
 d <- read_excel("../../Data/00-Final_Project/Final_Project_Data_SP22.xlsx") %>%
     mutate(
         Male = if_else(Gender == "Male", 1, 0),
@@ -105,32 +110,25 @@ d <- read_excel("../../Data/00-Final_Project/Final_Project_Data_SP22.xlsx") %>%
         East = if_else(Region == "East", 1, 0),
         West = if_else(Region == "West", 1, 0)
     )
-
-d %>%
-    select(Salesperson:Gender) %>%
-    filter(Year == 2017, Time == 1) %>%
-    slice(c(seq(1,20,3))) %>%
-    mutate_if(is.numeric, round, 2) %>%
-    arrange(Year, Time) %>%
-    stargazer(summary = FALSE, header = FALSE, float = FALSE, rownames = FALSE, font.size = "small")    
 ```
-\end{center}
 
 \vspace{.2in}
 
-\begin{center}
-\begin{Large}
-Quarterly sales data for 16 salespeople at our hypothetical company
-\end{Large}
-\end{center}
+**Sales Team:** `r sort(unique(d$Salesperson))`
+
+\vspace{.2in}
+
+**Time Period:** Quarterly data from `r head(unique(d$Year), n = 1)` to `r tail(unique(d$Year), n = 1)` (Winter, Spring, Summer and Fall)
 
 
 
-# The Final Report
+
+
+# Final Report: The Data
 \begin{center}
 ```{r, results = "asis"}
 d %>%
-    select(Salesperson:Region) %>%
+    select(Salesperson:Sales) %>%
     slice(1:7) %>%
     mutate_if(is.numeric, round, 2) %>%
     arrange(Year, Time) %>%
@@ -148,7 +146,26 @@ Each salesperson has 20 observations
 
 
 
-# The Final Report
+# Final Report: The Data
+\begin{center}
+```{r, results = "asis"}
+d |>
+  select(Salesperson, Gender:Age) |>
+  slice(seq(1, 320, 21)) |>
+  arrange(Salesperson) |>
+  slice(1:7) |>
+  stargazer(summary = FALSE, header = FALSE, float = FALSE, rownames = FALSE, font.size = "small")
+```
+
+\begin{Large}
+Dataset provides basic demographic info for each salesperson
+\end{Large}
+\end{center}
+
+
+
+
+# Final Report: The Data
 \begin{center}
 ```{r, results = "asis"}
 d %>%
@@ -160,13 +177,13 @@ d %>%
 ```
 
 \begin{Large}
-Dataset provides basic demographic info for each salesperson
+Note that age increases across time!
 \end{Large}
 \end{center}
 
 
 
-# The Final Report: Three Sections
+# Final Report: Three Sections
 \Large
 
 1. Each section requires a complete argument
@@ -209,6 +226,6 @@ Dataset provides basic demographic info for each salesperson
 
 - You will need to combine the quarterly sales figures for all of our salespeople to calculate a quarterly total for the business as a whole.
 
-- You must consider the following methods: 1. naive, 2. MA-3, and 3. a linear prediction model
+- You must consider the following methods: 1. naive, 2. MA-3, and 3. a linear prediction model (e.g. quadratic, cubic and season dummies)
 
 - Be sure to provide your forecast results in both a table and a visualization.

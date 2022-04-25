@@ -1,0 +1,327 @@
+---
+output:
+  xaringan::moon_reader:
+    css: ["default", "extra.css"]
+    lib_dir: libs
+    seal: false
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9'
+---
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+##xaringan::inf_mr()
+## For offline work: https://bookdown.org/yihui/rmarkdown/some-tips.html#working-offline
+## Images not appearing? Put images folder inside the libs folder as that is the main data directory
+
+library(tidyverse)
+library(readxl)
+library(stargazer)
+##library(kableExtra)
+##library(modelr)
+
+knitr::opts_chunk$set(echo = FALSE,
+                      eval = TRUE,
+                      error = FALSE,
+                      message = FALSE,
+                      warning = FALSE,
+                      comment = NA)
+
+# Input the Data
+d <- read_excel("../../Data/00-Final_Project/Final_Project_Data_SP22.xlsx") %>%
+    mutate(
+        Male = if_else(Gender == "Male", 1, 0),
+        Spring = if_else(Quarter == "Spring", 1, 0),
+        Summer = if_else(Quarter == "Summer", 1, 0),
+        Fall = if_else(Quarter == "Fall", 1, 0),
+        Winter = if_else(Quarter == "Winter", 1, 0),
+        North = if_else(Region == "North", 1, 0),
+        South = if_else(Region == "South", 1, 0),
+        East = if_else(Region == "East", 1, 0),
+        West = if_else(Region == "West", 1, 0)
+    )
+```
+
+class: slideblue
+
+.size80[**Today's Agenda**]
+
+.size50[
+Weeks 14 and 15: The Final Project
+
+- Assignment (w/ the data) is now available on Moodle
+]
+
+<br>
+
+.center[.size40[
+  Justin Leinaweaver (Spring 2022)
+]]
+
+???
+
+## Prep for Class
+1. Assigment and data on Moodle
+
+2. Unhide it!
+
+
+
+
+---
+
+background-image: url('libs/Images/background-slate_v2.png')
+background-size: 100%
+background-position: center
+class: middle
+
+.center[
+# Final Report: The Data
+
+.size45[Quarterly sales data for 16 salespeople at our hypothetical company]]
+
+<br>
+
+.size30[
+**Sales Team:** `r sort(unique(d$Salesperson))`
+
+**Time Period:** Quarterly data from `r head(unique(d$Year), n = 1)` to `r tail(unique(d$Year), n = 1)` (Winter, Spring, Summer and Fall)
+]
+
+
+
+
+---
+
+background-image: url('libs/Images/background-slate_v2.png')
+background-size: 100%
+background-position: center
+class: middle, center
+
+# Final Report: The Data
+
+```{r, results = "asis"}
+d %>%
+    select(Salesperson:Sales) %>%
+    slice(1:7) %>%
+    mutate_if(is.numeric, round, 2) %>%
+    arrange(Year, Time) %>%
+    stargazer(summary = FALSE, header = FALSE, rownames = FALSE, type = "html")
+```
+
+.size35[
+Each salesperson has 20 observations
+- (Sales across 4 quarters x 5 years)
+]
+
+
+
+
+---
+
+background-image: url('libs/Images/background-slate_v2.png')
+background-size: 100%
+background-position: center
+class: middle, center
+
+# Final Report: The Data
+
+```{r, results = "asis"}
+d |>
+  select(Salesperson, Gender:Age) |>
+  slice(seq(1, 320, 21)) |>
+  arrange(Salesperson) |>
+  slice(1:7) |>
+  stargazer(summary = FALSE, header = FALSE, rownames = FALSE, type = "html")
+```
+
+.size40[
+Dataset provides basic demographic info for each salesperson
+]
+
+
+
+---
+
+background-image: url('libs/Images/background-slate_v2.png')
+background-size: 100%
+background-position: center
+class: middle, center
+
+# Final Report: The Data
+
+```{r, results = "asis"}
+d %>%
+    select(Salesperson, Year, Gender:Age) %>%
+    distinct %>%
+    slice(1:5) %>%
+    mutate_if(is.numeric, round, 2) %>%
+    stargazer(summary = FALSE, header = FALSE, rownames = FALSE, type = "html")
+```
+
+.size40[
+Note that age increases across time!
+]
+
+
+---
+
+background-image: url('libs/Images/background-slate_v2.png')
+background-size: 100%
+background-position: center
+class: middle
+
+.center[
+# Final Report: Three Sections
+]
+
+<br>
+
+.size45[
+.center[**Each section requires a complete argument**]
+
+- Introduction, body and conclusion
+- Every claim requires statistical evidence
+]
+
+???
+
+Same format as the expectations for the other reports this semester.
+
+- Support all claims with data, visualizations, descriptive statistics or model results
+
+<br>
+
+I will give you all of our class sessions in weeks 14, 15 and during the final exam window.
+- Almost 6 hours of in-class time to work on this
+
+
+
+
+
+---
+
+background-image: url('libs/Images/background-slate_v2.png')
+background-size: 100%
+background-position: center
+class: middle
+
+.center[
+# Final Report: Section 1
+
+<br>
+
+.size45[
+**How has our sales staff performed over the last year (2021)?**
+
+Who are our strongest and weakest salespeople?
+]]
+
+???
+
+Details:
+
+- Consider performance **both** in terms of **total sales** and in terms of **year-to-year growth**.
+
+- Make an argument and support it with visualizations and descriptive statistics.
+
+
+
+
+---
+
+background-image: url('libs/Images/background-slate_v2.png')
+background-size: 100%
+background-position: center
+class: middle, center
+
+# Final Report: Section 2
+
+<br>
+
+.size45[
+**What is the profile of our most successful salespeople?** 
+
+Build a multiple OLS regression in order to identify the most useful predictors of quarterly sales.
+]
+
+???
+
+Predictors: Age, education, gender, region of the country, time and the quarter of the year.
+
+<br>
+
+Be sure to include:
+- a properly formatted regression table, 
+
+- evaluate your model with all five textbook steps (including a residual plot), and 
+
+- make a marginal effects plot to visualize the strongest predictor of sales.
+
+
+
+
+---
+
+background-image: url('libs/Images/background-slate_v2.png')
+background-size: 100%
+background-position: center
+class: middle, center
+
+# Final Report: Section 3
+
+<br>
+
+.size45[
+**What is your best forecast of our company-wide sales for the next quarter (Winter 2022)?**
+
+How confident are you in this projection?
+]
+
+???
+
+Key notes:
+
+- You will need to combine the sales figures for all of our salespeople in each quarter to calculate a quarterly total for the business as a whole.
+
+- The strength of your argument, e.g. your level of confidence, increases with the number of forecasting methods you apply and evaluate.  
+
+- **Be sure to provide your forecast results in both a table and a visualization.**
+
+<br>
+
+Forecasting Methods we explored in class: 
+- Naive, 
+- Moving Average (MA), 
+- Weighted Moving Average (WMA), 
+- Exponential Smoothing, and 
+- Linear Prediction Models (options including: quadratic forms, cubic forms, and dummies for seasons or months)
+
+
+
+---
+
+background-image: url('libs/Images/background-slate_v2.png')
+background-size: 100%
+background-position: center
+class: middle
+
+.center[
+# Final Report
+]
+
+.size45[
+1. How has our sales staff performed over the last year (2021)?
+
+2. What is the profile of our most successful salespeople?
+
+3. What is your best forecast of our company-wide sales for the next quarter (Winter 2022)?
+]
+
+???
+
+### Questions on the assignment?
+
+
