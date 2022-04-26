@@ -17,10 +17,12 @@ class: slideblue
 
 .size80[**Today's Agenda**]
 
+&lt;br&gt;
+
 .size50[
 Weeks 14 and 15: The Final Project
 
-- Assignment (w/ the data) is now available on Moodle
+- Open the assignment and start reviewing the data
 ]
 
 &lt;br&gt;
@@ -36,6 +38,35 @@ Weeks 14 and 15: The Final Project
 
 2. Unhide it!
 
+&lt;br&gt;
+
+As you come in, please log onto Moodle, open the final project assignment and download the data.
+
+
+
+
+
+---
+
+background-image: url('libs/Images/14-1-sales_team_clipart_v2.png')
+background-size: 100%
+background-position: center
+class: middle
+
+???
+
+For the final project you have been hired by a company to help them analyze their sales performance.
+
+&lt;br&gt;
+
+You have been given data on the performance of their sales team and will be asked to do three things.
+
+1. Identify the best and worst members of their sales team,
+
+2. Build a recruitment model that predicts individual sales, and 
+
+3. Create a forecast for company wide sales in the next quarter.
+
 
 
 
@@ -47,17 +78,30 @@ background-position: center
 class: middle
 
 .center[
-# Final Report: The Data
-
-.size45[Quarterly sales data for 16 salespeople at our hypothetical company]]
+.size55[Quarterly sales data for 16 members of the sales team]]
 
 &lt;br&gt;
 
-.size30[
+.size40[
 **Sales Team:** Amy, Beth, Bob, Chris, Dominic, Earl, Herman, Jessica, Lucy, Luke, Olivia, Ruth, Sarah, Seth, Suzanne, Tony
 
 **Time Period:** Quarterly data from 2017 to 2021 (Winter, Spring, Summer and Fall)
+
+**Sales:** Thousands of USD
 ]
+
+???
+
+I am giving you quarterly sales data for the 16 members of the sales team.
+
+&lt;br&gt;
+
+### Everybody have the data open?
+### - Can they see the structure here?
+
+&lt;br&gt;
+
+SLIDE: Let's start by looking at the sales piece of the data.
 
 
 
@@ -69,8 +113,7 @@ background-size: 100%
 background-position: center
 class: middle, center
 
-# Final Report: The Data
-
+.size30[
 
 &lt;table style="text-align:center"&gt;&lt;tr&gt;&lt;td colspan="5" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;Salesperson&lt;/td&gt;&lt;td&gt;Year&lt;/td&gt;&lt;td&gt;Time&lt;/td&gt;&lt;td&gt;Quarter&lt;/td&gt;&lt;td&gt;Sales&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td colspan="5" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;Bob&lt;/td&gt;&lt;td&gt;2017&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;Winter&lt;/td&gt;&lt;td&gt;150.3&lt;/td&gt;&lt;/tr&gt;
@@ -80,12 +123,26 @@ class: middle, center
 &lt;tr&gt;&lt;td style="text-align:left"&gt;Bob&lt;/td&gt;&lt;td&gt;2018&lt;/td&gt;&lt;td&gt;5&lt;/td&gt;&lt;td&gt;Winter&lt;/td&gt;&lt;td&gt;168.82&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td style="text-align:left"&gt;Bob&lt;/td&gt;&lt;td&gt;2018&lt;/td&gt;&lt;td&gt;6&lt;/td&gt;&lt;td&gt;Spring&lt;/td&gt;&lt;td&gt;169.37&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td style="text-align:left"&gt;Bob&lt;/td&gt;&lt;td&gt;2018&lt;/td&gt;&lt;td&gt;7&lt;/td&gt;&lt;td&gt;Summer&lt;/td&gt;&lt;td&gt;188.39&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td style="text-align:left"&gt;Bob&lt;/td&gt;&lt;td&gt;2018&lt;/td&gt;&lt;td&gt;8&lt;/td&gt;&lt;td&gt;Fall&lt;/td&gt;&lt;td&gt;195.52&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td colspan="5" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+]
 
 .size35[
 Each salesperson has 20 observations
 - (Sales across 4 quarters x 5 years)
 ]
+
+???
+
+Here are the records of Bob's first two years of sales history (2017 and 2018 by quarter).
+
+- Keep in mind, sales here is in thousands of dollars.
+
+&lt;br&gt;
+
+*Walk them through Bob's first 8 quarters*
+
+### Questions on the sales piece of the data?
 
 
 
@@ -97,8 +154,7 @@ background-size: 100%
 background-position: center
 class: middle, center
 
-# Final Report: The Data
-
+.size40[
 
 &lt;table style="text-align:center"&gt;&lt;tr&gt;&lt;td colspan="5" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;Salesperson&lt;/td&gt;&lt;td&gt;Gender&lt;/td&gt;&lt;td&gt;Region&lt;/td&gt;&lt;td&gt;Education&lt;/td&gt;&lt;td&gt;Age&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td colspan="5" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;Amy&lt;/td&gt;&lt;td&gt;Female&lt;/td&gt;&lt;td&gt;West&lt;/td&gt;&lt;td&gt;14&lt;/td&gt;&lt;td&gt;36&lt;/td&gt;&lt;/tr&gt;
@@ -109,10 +165,18 @@ class: middle, center
 &lt;tr&gt;&lt;td style="text-align:left"&gt;Earl&lt;/td&gt;&lt;td&gt;Male&lt;/td&gt;&lt;td&gt;South&lt;/td&gt;&lt;td&gt;12&lt;/td&gt;&lt;td&gt;34&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td style="text-align:left"&gt;Herman&lt;/td&gt;&lt;td&gt;Male&lt;/td&gt;&lt;td&gt;West&lt;/td&gt;&lt;td&gt;18&lt;/td&gt;&lt;td&gt;60&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td colspan="5" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-
-.size40[
-Dataset provides basic demographic info for each salesperson
 ]
+
+???
+
+The company is also providing you with Dataset basic demographic information for each salesperson
+
+- Here I'm showing you 7 of the 16 team members.
+
+&lt;br&gt;
+
+### Questions on the demographics piece of the data?
+
 
 
 
@@ -123,8 +187,7 @@ background-size: 100%
 background-position: center
 class: middle, center
 
-# Final Report: The Data
-
+.size35[
 
 &lt;table style="text-align:center"&gt;&lt;tr&gt;&lt;td colspan="6" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;Salesperson&lt;/td&gt;&lt;td&gt;Year&lt;/td&gt;&lt;td&gt;Gender&lt;/td&gt;&lt;td&gt;Region&lt;/td&gt;&lt;td&gt;Education&lt;/td&gt;&lt;td&gt;Age&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td colspan="6" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style="text-align:left"&gt;Bob&lt;/td&gt;&lt;td&gt;2017&lt;/td&gt;&lt;td&gt;Male&lt;/td&gt;&lt;td&gt;North&lt;/td&gt;&lt;td&gt;9&lt;/td&gt;&lt;td&gt;45&lt;/td&gt;&lt;/tr&gt;
@@ -133,10 +196,25 @@ class: middle, center
 &lt;tr&gt;&lt;td style="text-align:left"&gt;Bob&lt;/td&gt;&lt;td&gt;2020&lt;/td&gt;&lt;td&gt;Male&lt;/td&gt;&lt;td&gt;North&lt;/td&gt;&lt;td&gt;9&lt;/td&gt;&lt;td&gt;48&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td style="text-align:left"&gt;Bob&lt;/td&gt;&lt;td&gt;2021&lt;/td&gt;&lt;td&gt;Male&lt;/td&gt;&lt;td&gt;North&lt;/td&gt;&lt;td&gt;9&lt;/td&gt;&lt;td&gt;49&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td colspan="6" style="border-bottom: 1px solid black"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-
-.size40[
-Note that age increases across time!
 ]
+
+???
+
+Important to note, this is across time data!
+
+- While most demographics do not change across time, age certainly does!
+
+&lt;br&gt;
+
+Here we see a yearly snapshot of Bob's data across time.
+
+- I'm trying to make this as concrete and realistic for you as I can.
+
+&lt;br&gt;
+
+### Questions on the data itself?
+
+
 
 
 ---
@@ -161,15 +239,33 @@ class: middle
 
 ???
 
-Same format as the expectations for the other reports this semester.
+As I noted at the start, you are being asked to answer three SEPARATE questions by this company.
 
-- Support all claims with data, visualizations, descriptive statistics or model results
+1. Identify the best and worst members of their sales team,
+
+2. Build a recruitment model that predicts individual sales, and 
+
+3. Create a forecast for company wide sales in the next quarter.
 
 &lt;br&gt;
 
-I will give you all of our class sessions in weeks 14, 15 and during the final exam window.
+Each section requires a short BUT complete argument from you:
+
+- Introduction, body and conclusion
+
+- Support all claims with data, visualizations, descriptive statistics or model results
+
+### Questions on this?
+
+&lt;br&gt;
+
+I will give you all of our class session today, both classes next week and the full final exam period to work on this in class.
+
 - Almost 6 hours of in-class time to work on this
 
+&lt;br&gt;
+
+SLIDE: Let's talk through the three sections.
 
 
 
@@ -179,26 +275,28 @@ I will give you all of our class sessions in weeks 14, 15 and during the final e
 background-image: url('libs/Images/background-slate_v2.png')
 background-size: 100%
 background-position: center
-class: middle
+class: middle, center
 
-.center[
 # Final Report: Section 1
 
 &lt;br&gt;
 
-.size45[
-**How has our sales staff performed over the last year (2021)?**
-
-Who are our strongest and weakest salespeople?
-]]
+.size50[
+**Who are the three best performing and the three worst performing members of our sales team?**
+]
 
 ???
 
-Details:
+### Take a look at the description of Section 1 on Moodle and tell me if you have any questions.
 
-- Consider performance **both** in terms of **total sales** and in terms of **year-to-year growth**.
+&lt;br&gt;
+
+Key Details:
+
+- You should consider performance **both** in terms of **total sales** and in terms of **year-to-year growth**.
 
 - Make an argument and support it with visualizations and descriptive statistics.
+
 
 
 
@@ -217,10 +315,16 @@ class: middle, center
 .size45[
 **What is the profile of our most successful salespeople?** 
 
-Build a multiple OLS regression in order to identify the most useful predictors of quarterly sales.
+**Build a multiple OLS regression in order to identify the most useful predictors of quarterly sales.**
 ]
 
 ???
+
+Section 2 represents the company thinking about future recruiting.
+
+### Take a look at the description of Section 2 on Moodle and tell me if you have any questions.
+
+&lt;br&gt;
 
 Predictors: Age, education, gender, region of the country, time and the quarter of the year.
 
@@ -250,10 +354,14 @@ class: middle, center
 .size45[
 **What is your best forecast of our company-wide sales for the next quarter (Winter 2022)?**
 
-How confident are you in this projection?
+**How confident are you in this projection?**
 ]
 
 ???
+
+### Take a look at the description of Section 3 on Moodle and tell me if you have any questions.
+
+&lt;br&gt;
 
 Key notes:
 
@@ -282,15 +390,15 @@ background-position: center
 class: middle
 
 .center[
-# Final Report
+# Final Report: Three Arguments
 ]
 
 .size45[
-1. How has our sales staff performed over the last year (2021)?
+1. Identify the best and worst members of the sales team,
 
-2. What is the profile of our most successful salespeople?
+2. Build a recruitment model that predicts individual sales, and 
 
-3. What is your best forecast of our company-wide sales for the next quarter (Winter 2022)?
+3. Create a forecast for company wide sales in the next quarter (Winter 2022).
 ]
 
 ???
